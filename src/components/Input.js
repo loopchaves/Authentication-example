@@ -1,6 +1,6 @@
 import { useField } from 'formik';
 
-import styles from './Input.module.sass';
+import styles from './styles/Input.module.sass';
 
 export function Select({ label, ...props }) {
   const [field, meta] = useField(props);
@@ -23,7 +23,7 @@ export function Input({ label, ...props }) {
       <input
         className={styles.input}
         autoComplete='off'
-        maxLength='20'
+        maxLength='35'
         {...field}
         {...props}
       />

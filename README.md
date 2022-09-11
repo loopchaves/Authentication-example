@@ -5,7 +5,7 @@
 - Login
 - Sign up
 
-## Tools to build project
+## Tools used
 
 - ReactJS
 - Firebase
