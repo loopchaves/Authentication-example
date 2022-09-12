@@ -69,7 +69,10 @@ export default function Signin() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
-      const url = { url: 'https://authentication-example-loopchaves.vercel.app/' }
+      const url = { 
+        url: 'https://authentication-example-loopchaves.vercel.app/',
+        handleCodeInApp: true
+      }
       await sendEmailVerification(userCredential.user, url);
       navigate('/');
     } catch (error) {
@@ -90,11 +93,11 @@ export default function Signin() {
       >
         {loading
           ? <Loading />
-          : (
+          : (<>
             <Form>
               <div className={styles.signin}>
                 <Input type='text' label='Name' name='name' />
-                <Select type='text' label='Function' name='function'>
+                <Select label='Function' name='function'>
                   <option value=''>Select a function</option>
                   <option value='admin'>Admin</option>
                   <option value='editor'>Editor</option>
@@ -109,9 +112,9 @@ export default function Signin() {
                 </div>
               </div>
             </Form>
-          )}
+            {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
+          </>)}
       </Formik>
-      {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
     </>
   );
 }

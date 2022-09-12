@@ -12,7 +12,8 @@ export default function ErrorMsg({ errorType, handlerError }) {
     'auth/invalid-email': 'Invalid email',
     'auth/wrong-password': 'Wrong password',
     'auth/email-already-in-use': 'Email already in use',
-    'auth/network-request-failed': 'Network request failed'
+    'auth/network-request-failed': 'Network request failed',
+    'auth/user-not-found': 'User not found'
   }
 
   return errorMsg[errorType] ? (

@@ -31,7 +31,7 @@ export function Input({ label, ...props }) {
         onClick={() => setError(undefined)}
         className={styles.input}
         autoComplete='off'
-        maxLength='35'
+        maxLength='40'
         {...field}
         {...props}
       />

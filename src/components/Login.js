@@ -10,6 +10,7 @@ import Loading from './Loading';
 import ErrorMsg from './ErrorMsg';
 
 import styles from './styles/Login.module.sass';
+import PasswordReset from './PasswordReset';
 
 
 const initialValues = {
@@ -25,14 +26,17 @@ const validationSchema = Yup.object({
 
 export default function Login({ handlerUser }) {
   const [loading, setLoading] = useState(false);
+  const [passwordReset, setPasswordReset] = useState(false);
+  const handlerPasswordReset = () => setPasswordReset(!passwordReset);
   const [errorType, setErrorType] = useState(undefined);
   const handlerError = () => setErrorType(undefined);
 
+  // Colocar isso dentro de login()
   function submit(values, setSubmitting) {
     setLoading(true);
+    setSubmitting(false);
     setErrorType(undefined);
     login(values.email, values.password);
-    setSubmitting(false);
   }
 
   async function login(email, password) {
@@ -47,29 +51,36 @@ export default function Login({ handlerUser }) {
 
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => submit(values, setSubmitting)}
-        validateOnBlur={false}
-        validateOnChange={false}
-      >
-        {loading
-          ? <Loading />
-          : (
-            <Form>
-              <div className={styles.login}>
-                <Input type='text' label='Email' name='email' />
-                <Input type='password' label='Password' name='password' />
-                <div className={styles.buttons}>
-                  <button id='login' type='submit'>Login</button>
-                  <Link to='signup'><button>Sign up</button></Link>
-                </div>
-              </div>
-            </Form>
-          )}
-      </Formik>
-      {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
+      {passwordReset
+        ? <PasswordReset handlerPasswordReset={handlerPasswordReset} />
+        : (
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting }) => submit(values, setSubmitting)}
+            validateOnBlur={false}
+            validateOnChange={false}
+          >
+            {loading
+              ? <Loading />
+              : (<>
+                <Form>
+                  <div className={styles.login}>
+                    <Input type='text' label='Email' name='email' />
+                    <Input type='password' label='Password' name='password' />
+                    <div className={styles.buttons}>
+                      <button type='submit'>Login</button>
+                      <Link to='signup'><button>Sign up</button></Link>
+                    </div>
+                  </div>
+                </Form>
+                <button onClick={() => handlerPasswordReset()} className={styles.forgotPassword}>
+                  Forgot your password?
+                </button>
+                {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
+              </>)}
+          </Formik>
+        )}
     </>
   );
 }
