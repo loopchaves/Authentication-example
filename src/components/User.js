@@ -15,6 +15,11 @@ export default function User({ user, handlerUser }) {
 
   return (
     <>
+      {!user.emailVerified && (
+        <div className={styles.emailVerified}>
+          <p>Verify your email</p>
+        </div>
+      )}
       <div className={styles.userInfo}>
         <p>Name: {user.displayName}</p>
         <p>Email: {user.email}</p>
