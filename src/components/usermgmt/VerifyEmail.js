@@ -8,6 +8,12 @@ import ErrorMsg from '../layout/ErrorMsg';
 
 import styles from './styles/VerifyEmail.module.sass';
 
+
+function sleep(ms) {
+  return new Promise(res => setTimeout(res, ms));
+}
+
+
 export default function VerifyEmail({ actionCode }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -19,12 +25,9 @@ export default function VerifyEmail({ actionCode }) {
   useEffect(() => {
     applyActionCode(auth, actionCode)
       .then(() => {
-        while (!auth.currentUser.emailVerified);
+        while (!auth.currentUser.emailVerified) sleep(1000);
         setLoading(false);
-        const timer = setTimeout(() => {
-          clearTimeout(timer);
-          navigate('/');
-        }, 3000);
+        sleep(3000).then(() => navigate('/'));
       })
       .catch((error) => {
         setErrorType(error.code);
