@@ -18,16 +18,11 @@ export default function VerifyEmail({ actionCode }) {
   const handlerError = () => setErrorType(undefined);
 
   useEffect(() => {
-    console.log(actionCode);
     applyActionCode(auth, actionCode)
       .then(() => {
-        const interval = setInterval(() => {
-          if (auth.currentUser.emailVerified) {
-            clearInterval(interval);
-            setLoading(false);
-            setTimeout(() => navigate('/'), 3000);
-          }
-        }, 1000);
+        auth.currentUser.reload();
+        setLoading(false);
+        setTimeout(() => navigate('/'), 3000);
       })
       .catch((error) => {
         setErrorType(error.code);
@@ -42,7 +37,7 @@ export default function VerifyEmail({ actionCode }) {
         ? <Loading />
         : (
           <div className={styles.container}>
-            {onError 
+            {onError
               ? (<>
                 <h2 className={styles.error}>Fail verify!</h2>
                 <button onClick={() => navigate('/')}>Home</button>
