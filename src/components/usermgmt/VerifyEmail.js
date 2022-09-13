@@ -9,11 +9,6 @@ import ErrorMsg from '../layout/ErrorMsg';
 import styles from './styles/VerifyEmail.module.sass';
 
 
-function sleep(ms) {
-  return new Promise(res => setTimeout(res, ms));
-}
-
-
 export default function VerifyEmail({ actionCode }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -23,11 +18,16 @@ export default function VerifyEmail({ actionCode }) {
   const handlerError = () => setErrorType(undefined);
 
   useEffect(() => {
+    console.log(actionCode);
     applyActionCode(auth, actionCode)
       .then(() => {
-        while (!auth.currentUser.emailVerified) sleep(1000);
-        setLoading(false);
-        sleep(3000).then(() => navigate('/'));
+        const interval = setInterval(() => {
+          if (auth.currentUser.emailVerified) {
+            clearInterval(interval);
+            setLoading(false);
+            setTimeout(() => navigate('/'), 3000);
+          }
+        }, 1000);
       })
       .catch((error) => {
         setErrorType(error.code);
