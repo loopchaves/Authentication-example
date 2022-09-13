@@ -19,6 +19,7 @@ export default function VerifyEmail({ actionCode }) {
   useEffect(() => {
     applyActionCode(auth, actionCode)
       .then(() => {
+        while (!auth.currentUser.emailVerified);
         setLoading(false);
         const timer = setTimeout(() => {
           clearTimeout(timer);
