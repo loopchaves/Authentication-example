@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { auth } from '../firebaseCfg';
+import { auth } from '../../firebaseCfg';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
-import { Input } from './Input';
-import ErrorMsg from './ErrorMsg';
+import { Input } from '../layout/Input';
+import ErrorMsg from '../layout/ErrorMsg';
+import Loading from '../layout/Loading';
 
-import styles from './styles/PasswordReset.module.sass';
-import Loading from './Loading';
+import styles from './styles/ForgotPassword.module.sass';
 
-export default function PasswordReset({ handlerPasswordReset }) {
+
+export default function ForgotPassword({ handlerForgotPassword }) {
   const [loading, setLoading] = useState(false);
   const [emailSend, setEmailSend] = useState(false);
   const [errorType, setErrorType] = useState(undefined);
@@ -21,8 +22,7 @@ export default function PasswordReset({ handlerPasswordReset }) {
     setSubmitting(false);
     setErrorType(undefined);
     try {
-      const url = { url: 'https://authentication-example-loopchaves.vercel.app/' }
-      await sendPasswordResetEmail(auth, email, url);
+      await sendPasswordResetEmail(auth, email);
       setEmailSend(true);
       setLoading(false);
     } catch (error) {
@@ -36,8 +36,8 @@ export default function PasswordReset({ handlerPasswordReset }) {
       {emailSend
         ? (
           <div className={styles.container}>
-            <p>Verify your email!</p>
-            <button onClick={() => handlerPasswordReset()}>Continue</button>
+            <h2>Verify your email!</h2>
+            <button onClick={() => handlerForgotPassword()}>Continue</button>
           </div>
         ) : (
           <Formik
@@ -52,9 +52,12 @@ export default function PasswordReset({ handlerPasswordReset }) {
               : (
                 <Form>
                   <div className={styles.container}>
-                    <p>Reset your password</p>
+                    <h2>Reset your password</h2>
                     <Input type='text' label='Email' name='email' />
-                    <button type='submit'>Send email</button>
+                    <div className={styles.buttons}>
+                      <button type='submit'>Send email</button>
+                      <button onClick={() => handlerForgotPassword()}>Cancel</button>
+                    </div>
                   </div>
                 </Form>
               )}

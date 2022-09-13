@@ -1,0 +1,16 @@
+@use '../../../styles/shared'
+    
+.inputContainer,
+.label,
+.input,
+.errorInput
+    width: 100%
+
+.label
+    @include shared.text()
+
+.input
+    @include shared.input()
+
+.errorInput
+    @include shared.errorInput()

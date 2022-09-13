@@ -6,7 +6,7 @@ export function Select({ label, ...props }) {
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
-    <div className={styles.container}>
+    <div className={styles.inputContainer}>
       <label htmlFor={props.name} className={styles.label}>{label}</label>
       <select
         onClick={() => setError(undefined)}
@@ -15,7 +15,7 @@ export function Select({ label, ...props }) {
         {...props}
       />
       {meta.touched && meta.error ? (
-        <div className={styles.errorMsg}>{meta.error}</div>
+        <div className={styles.errorInput}>{meta.error}</div>
       ) : null}
     </div>
   );
@@ -25,7 +25,7 @@ export function Input({ label, ...props }) {
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
-    <div className={styles.container}>
+    <div className={styles.inputContainer}>
       <label htmlFor={props.name} className={styles.label}>{label}</label>
       <input
         onClick={() => setError(undefined)}
@@ -36,7 +36,7 @@ export function Input({ label, ...props }) {
         {...props}
       />
       {meta.touched && meta.error ? (
-        <div className={styles.errorMsg}>{meta.error}</div>
+        <div className={styles.errorInput}>{meta.error}</div>
       ) : null}
     </div>
   );

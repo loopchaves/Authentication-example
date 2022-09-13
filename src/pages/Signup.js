@@ -5,11 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseCfg';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 
-import { Input, Select } from '../components/Input';
-import Loading from '../components/Loading';
-import ErrorMsg from '../components/ErrorMsg';
+import { Input, Select } from '../components/layout/Input';
+import Loading from '../components/layout/Loading';
+import ErrorMsg from '../components/layout/ErrorMsg';
 
-import styles from './styles/Signin.module.sass';
+import styles from './styles/Signup.module.sass';
 
 
 const initialValues = {
@@ -58,22 +58,14 @@ export default function Signin() {
   const [errorType, setErrorType] = useState(undefined);
   const handlerError = () => setErrorType(undefined);
 
-  function submit(values, setSubmitting) {
+  async function submit(email, password, name, setSubmitting) {
     setLoading(true);
-    setErrorType(undefined);
-    signUp(values.email, values.password, values.name);
     setSubmitting(false);
-  }
-
-  async function signUp(email, password, name) {
+    setErrorType(undefined);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
-      const url = { 
-        url: 'https://authentication-example-loopchaves.vercel.app/',
-        handleCodeInApp: true
-      }
-      await sendEmailVerification(userCredential.user, url);
+      await sendEmailVerification(userCredential.user);
       navigate('/');
     } catch (error) {
       setLoading(false);
@@ -87,7 +79,8 @@ export default function Signin() {
         initialValues={initialValues}
         validate={validatePassword}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => submit(values, setSubmitting)}
+        onSubmit={(values, { setSubmitting }) =>
+          submit(values.email, values.password, values.name, setSubmitting)}
         validateOnBlur={false}
         validateOnChange={false}
       >
@@ -95,7 +88,7 @@ export default function Signin() {
           ? <Loading />
           : (<>
             <Form>
-              <div className={styles.signin}>
+              <div className={styles.container}>
                 <Input type='text' label='Name' name='name' />
                 <Select label='Function' name='function'>
                   <option value=''>Select a function</option>

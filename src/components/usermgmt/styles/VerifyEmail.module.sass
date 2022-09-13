@@ -1,0 +1,14 @@
+@use '../../../styles/shared'
+    
+.container
+    @include shared.container()
+    padding: 2rem
+
+    h2
+        @include shared.title()
+
+        &.error
+            color: #f11
+
+    button
+        @include shared.button()

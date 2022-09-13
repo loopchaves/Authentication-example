@@ -1,0 +1,114 @@
+$width-desktop: 350px
+$width-mobile: 90%
+
+$text-color: #ccc
+
+@mixin container()
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    gap: 1.5rem
+
+@mixin input()
+    border: 1px solid #000
+    border-radius: 5px
+    padding: 0.5rem
+    margin: 0.3rem 0
+    outline: none
+
+@mixin errorInput()
+    text-align: center
+    font-size: 0.8rem
+    font-weight: 600
+    font-style: italic
+    color: #f11
+    margin-top: 0.3rem
+    animation: showErrorInput 0.3s
+
+    @keyframes showErrorInput
+        0%
+            opacity: 0
+            transform: translateY(-1.5rem)
+        100%
+            opacity: 1
+            transform: translateY(0)
+
+@mixin loading()
+    background: url('../img/loading.svg') no-repeat
+    background-position: center
+    background-size: 50px 50px
+    width: 100%
+    height: 150px
+
+@mixin buttons()
+    width: 100%
+    margin: 1rem 0
+    display: flex
+    justify-content: center
+    align-items: center
+    gap: 1rem
+
+@mixin button($width: 90px)
+    width: $width
+    padding: 0.3rem
+    cursor: pointer
+
+@mixin title()
+    width: 100%
+    text-align: center
+    font-size: 1.4rem
+    font-weight: 600
+    color: $text-color
+
+@mixin text()
+    font-size: 1rem
+    font-weight: 600
+    color: $text-color
+    width: 100%
+
+@mixin forgotPasswordLink()
+    background-color: transparent
+    border: none
+    color: #3ff
+    font-size: 0.9rem
+    font-weight: 500
+    margin-bottom: 1rem
+    cursor: pointer
+    transition: 0.2s
+
+    &:hover
+        color: #3aa
+
+@mixin alert()
+    width: 100%
+    background-color: #faa
+    border: 1px solid #f11
+    border-radius: 10px
+    padding: 1rem
+    position: absolute
+    font-weight: 700
+
+    .info
+        width: 100%
+        font-size: 1rem
+        color: #000
+        text-align: center
+
+@mixin emailVerified()
+    @include alert()
+    top: -5rem
+
+@mixin error()
+    @include alert()
+    bottom: -5rem
+    animation: showError 0.5s
+
+    @keyframes showError
+        0%
+            opacity: 0
+            transform: translateY(-30px)
+        100%
+            opacity: 1
+            transform: translateY(0)

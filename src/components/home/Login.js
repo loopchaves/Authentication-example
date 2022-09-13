@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
-import { auth } from '../firebaseCfg';
+import { auth } from '../../firebaseCfg';
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import { Input } from './Input';
-import Loading from './Loading';
-import ErrorMsg from './ErrorMsg';
+import { Input } from '../layout/Input';
+import Loading from '../layout/Loading';
+import ErrorMsg from '../layout/ErrorMsg';
+import ForgotPassword from '../home/ForgotPassword';
 
 import styles from './styles/Login.module.sass';
-import PasswordReset from './PasswordReset';
 
 
 const initialValues = {
@@ -26,23 +26,19 @@ const validationSchema = Yup.object({
 
 export default function Login({ handlerUser }) {
   const [loading, setLoading] = useState(false);
-  const [passwordReset, setPasswordReset] = useState(false);
-  const handlerPasswordReset = () => setPasswordReset(!passwordReset);
+  const [forgotPassword, setForgotPassword] = useState(false);
   const [errorType, setErrorType] = useState(undefined);
+  
+  const handlerForgotPassword = () => setForgotPassword(!forgotPassword);
   const handlerError = () => setErrorType(undefined);
 
-  // Colocar isso dentro de login()
-  function submit(values, setSubmitting) {
+  async function submit(email, password, setSubmitting) {
     setLoading(true);
     setSubmitting(false);
     setErrorType(undefined);
-    login(values.email, values.password);
-  }
-
-  async function login(email, password) {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      handlerUser(userCredential.user);
+      await signInWithEmailAndPassword(auth, email, password);
+      handlerUser(true);
     } catch (error) {
       setLoading(false);
       setErrorType(error.code);
@@ -51,13 +47,13 @@ export default function Login({ handlerUser }) {
 
   return (
     <>
-      {passwordReset
-        ? <PasswordReset handlerPasswordReset={handlerPasswordReset} />
+      {forgotPassword
+        ? <ForgotPassword handlerForgotPassword={handlerForgotPassword} />
         : (
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => submit(values, setSubmitting)}
+            onSubmit={(values, { setSubmitting }) => submit(values.email, values.password, setSubmitting)}
             validateOnBlur={false}
             validateOnChange={false}
           >
@@ -65,19 +61,19 @@ export default function Login({ handlerUser }) {
               ? <Loading />
               : (<>
                 <Form>
-                  <div className={styles.login}>
+                  <div className={styles.container}>
                     <Input type='text' label='Email' name='email' />
                     <Input type='password' label='Password' name='password' />
                     <div className={styles.buttons}>
                       <button type='submit'>Login</button>
                       <Link to='signup'><button>Sign up</button></Link>
                     </div>
+                    {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
                   </div>
                 </Form>
-                <button onClick={() => handlerPasswordReset()} className={styles.forgotPassword}>
+                <button onClick={() => handlerForgotPassword()} className={styles.forgotPasswordLink}>
                   Forgot your password?
                 </button>
-                {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
               </>)}
           </Formik>
         )}
