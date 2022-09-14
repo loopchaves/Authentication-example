@@ -37,7 +37,7 @@ export default function ResetPassword({ actionCode }) {
       .required(lang.inputError.required)
   });
 
-  async function submit(values, setSubmitting) {
+  async function submit(values, setLoading, setSubmitting, setErrorType) {
     setLoading(true);
     setSubmitting(false);
     setErrorType(undefined);
@@ -55,7 +55,7 @@ export default function ResetPassword({ actionCode }) {
     verifyPasswordResetCode(auth, actionCode)
       .then((userEmail) => {
         setEmail(userEmail);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((error) => {
         console.log(error.code);
