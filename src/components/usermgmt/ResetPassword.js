@@ -10,6 +10,7 @@ import {
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
+import styles from './styles/ResetPassword.module.sass';
 import language from '../../lang/lang.json';
 
 
