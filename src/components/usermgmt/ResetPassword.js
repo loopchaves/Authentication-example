@@ -70,7 +70,7 @@ export default function ResetPassword({ actionCode }) {
       onSubmit={submit}
       buttonSubmit={lang.text.buttonResetPassword}
     >
-      <p>
+      <p className={styles.msg}>
         {lang.text.userEmail}
         {email}
       </p>
