@@ -10,7 +10,11 @@ import Loading from '../layout/Loading';
 import ErrorMsg from '../layout/ErrorMsg';
 
 import styles from './styles/ResetPassword.module.sass';
+import language from '../../lang/lang.json';
 
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
 
 const initialValues = {
   newPassword: '',
@@ -26,19 +30,19 @@ const validatePassword = values => {
     values.newPassword.length > 5 &&
     values.confirmNewPassword.length > 5
   ) {
-    errors.newPassword = "Passwords don't match";
-    errors.confirmNewPassword = "Passwords don't match";
+    errors.newPassword = lang.inputError.passwordDontMatch;
+    errors.confirmNewPassword = lang.inputError.passwordDontMatch;
   }
   return errors;
 }
 
+const yupPassword = Yup.string()
+  .min(6, lang.inputError.passwordMin)
+  .required(lang.inputError.required);
+
 const validationSchema = Yup.object({
-  newPassword: Yup.string()
-    .min(6, 'Min 6 characters')
-    .required('Required'),
-  confirmNewPassword: Yup.string()
-    .min(6, 'Min 6 characters')
-    .required('Required')
+  newPassword: yupPassword,
+  confirmNewPassword: yupPassword
 });
 
 
@@ -91,9 +95,9 @@ export default function ResetPassword({ actionCode }) {
           <Form>
             <div className={styles.container}>
               <p>User: {email}</p>
-              <Input type='password' label='New password' name='newPassword' />
-              <Input type='password' label='Confirm new password' name='confirmNewPassword' />
-              <button type='submit'>Reset password</button>
+              <Input type='password' label={lang.text.labelNewPassword} name='newPassword' />
+              <Input type='password' label={lang.text.labelConfirmNewPassword} name='confirmNewPassword' />
+              <button type='submit'>{lang.text.buttonResetPassword}</button>
             </div>
           </Form>
           {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}

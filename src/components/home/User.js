@@ -6,6 +6,11 @@ import Loading from '../layout/Loading';
 import ErrorMsg from '../layout/ErrorMsg';
 
 import styles from './styles/User.module.sass';
+import language from '../../lang/lang.json';
+
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
 
 
 export default function User({ handlerUser }) {
@@ -34,16 +39,33 @@ export default function User({ handlerUser }) {
         <div className={styles.container}>
           {!user.emailVerified && (
             <div className={styles.emailVerified}>
-              <p className={styles.info}>Verify your email</p>
+              <p className={styles.info}>{lang.text.msgVerifyYourEmail}</p>
             </div>
           )}
-          <p>Name: {user.displayName}</p>
-          <p>Email: {user.email}</p>
-          <p>Email verified: {user.emailVerified ? 'Yes' : 'No'}</p>
-          <p>Sign up date: {user.metadata.creationTime}</p>
-          <p>Last login: {user.metadata.lastSignInTime}</p>
+          <p>
+            {lang.text.userName}
+            {user.displayName}
+          </p>
+          <p>
+            {lang.text.userEmail}
+            {user.email}
+          </p>
+          <p>
+            {lang.text.userEmailVerified}
+            {user.emailVerified 
+            ? lang.text.yes
+            : lang.text.no}
+          </p>
+          <p>
+            {lang.text.userSignupDate}
+            {user.metadata.creationTime}
+          </p>
+          <p>
+            {lang.text.userLastLogin}
+            {user.metadata.lastSignInTime}
+          </p>
           <div className={styles.buttons}>
-            <button onClick={() => logout()}>Logout</button>
+            <button onClick={() => logout()}>{lang.text.buttonLogout}</button>
           </div>
           {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
         </div>

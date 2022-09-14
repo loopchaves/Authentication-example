@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
+import { auth } from '../../firebaseCfg';
 
 import styles from './styles/ErrorMsg.module.sass';
+import language from '../../lang/lang.json';
 
-const errorMsg = {
-  'auth/invalid-email': 'Invalid email',
-  'auth/wrong-password': 'Wrong password',
-  'auth/email-already-in-use': 'Email already in use',
-  'auth/network-request-failed': 'Network request failed',
-  'auth/user-not-found': 'User not found',
-  'auth/invalid-action-code': 'Invalid verification link',
-  'auth/expired-action-code': 'Link expired'
-}
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
+
+const errorMsg = lang.authError;
+
 
 export default function ErrorMsg({ errorType, handlerError }) {
   useEffect(() => {

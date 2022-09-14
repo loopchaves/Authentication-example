@@ -7,6 +7,11 @@ import Loading from '../layout/Loading';
 import ErrorMsg from '../layout/ErrorMsg';
 
 import styles from './styles/VerifyEmail.module.sass';
+import language from '../../lang/lang.json';
+
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
 
 
 export default function VerifyEmail({ actionCode }) {
@@ -39,11 +44,11 @@ export default function VerifyEmail({ actionCode }) {
           <div className={styles.container}>
             {onError
               ? (<>
-                <h2 className={styles.error}>Fail verify!</h2>
-                <button onClick={() => navigate('/')}>Home</button>
+                <h2 className={styles.error}>{lang.text.emailFailVerify}</h2>
+                <button onClick={() => navigate('/')}>{lang.text.buttonHome}</button>
                 {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
               </>)
-              : <h2>Verified email!</h2>}
+              : <h2>{lang.text.emailVerified}</h2>}
           </div>
         )}
     </>

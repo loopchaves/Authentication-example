@@ -11,7 +11,11 @@ import ErrorMsg from '../layout/ErrorMsg';
 import ForgotPassword from '../home/ForgotPassword';
 
 import styles from './styles/Login.module.sass';
+import language from '../../lang/lang.json';
 
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
 
 const initialValues = {
   email: '',
@@ -19,8 +23,10 @@ const initialValues = {
 }
 
 const validationSchema = Yup.object({
-  email: Yup.string().required('Required'),
-  password: Yup.string().required('Required')
+  email: Yup.string()
+    .required(lang.inputError.required),
+  password: Yup.string()
+    .required(lang.inputError.required)
 })
 
 
@@ -62,17 +68,17 @@ export default function Login({ handlerUser }) {
               : (<>
                 <Form>
                   <div className={styles.container}>
-                    <Input type='text' label='Email' name='email' />
-                    <Input type='password' label='Password' name='password' />
+                    <Input type='text' label={lang.text.labelEmail} name='email' />
+                    <Input type='password' label={lang.text.labelPassword} name='password' />
                     <div className={styles.buttons}>
-                      <button type='submit'>Login</button>
-                      <Link to='signup'><button>Sign up</button></Link>
+                      <button type='submit'>{lang.text.buttonLogin}</button>
+                      <Link to='signup'><button>{lang.text.buttonSignup}</button></Link>
                     </div>
                     {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
                   </div>
                 </Form>
                 <button onClick={() => handlerForgotPassword()} className={styles.forgotPasswordLink}>
-                  Forgot your password?
+                  {lang.text.buttonForgotPassword}
                 </button>
               </>)}
           </Formik>

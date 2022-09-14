@@ -9,6 +9,17 @@ import ErrorMsg from '../layout/ErrorMsg';
 import Loading from '../layout/Loading';
 
 import styles from './styles/ForgotPassword.module.sass';
+import language from '../../lang/lang.json';
+
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
+
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email(lang.inputError.invalidEmail)
+    .required(lang.inputError.required)
+})
 
 
 export default function ForgotPassword({ handlerForgotPassword }) {
@@ -36,13 +47,13 @@ export default function ForgotPassword({ handlerForgotPassword }) {
       {emailSend
         ? (
           <div className={styles.container}>
-            <h2>Verify your email!</h2>
-            <button onClick={() => handlerForgotPassword()}>Continue</button>
+            <h2>{lang.text.msgVerifyYourEmail}</h2>
+            <button onClick={() => handlerForgotPassword()}>{lang.text.buttonContinue}</button>
           </div>
         ) : (
           <Formik
             initialValues={{ email: '' }}
-            validationSchema={Yup.object({ email: Yup.string().email('Invalid email').required('Required') })}
+            validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => submit(values.email, setSubmitting)}
             validateOnBlur={false}
             validateOnChange={false}
@@ -52,11 +63,11 @@ export default function ForgotPassword({ handlerForgotPassword }) {
               : (
                 <Form>
                   <div className={styles.container}>
-                    <h2>Reset your password</h2>
-                    <Input type='text' label='Email' name='email' />
+                    <h2>{lang.text.titleForgotPassword}</h2>
+                    <Input type='text' label={lang.text.labelEmail} name='email' />
                     <div className={styles.buttons}>
-                      <button type='submit'>Send email</button>
-                      <button onClick={() => handlerForgotPassword()}>Cancel</button>
+                      <button type='submit'>{lang.text.buttonSendEmail}</button>
+                      <button onClick={() => handlerForgotPassword()}>{lang.text.buttonCancel}</button>
                     </div>
                   </div>
                 </Form>

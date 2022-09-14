@@ -1,0 +1,110 @@
+{
+    "en": {
+        "text": {
+            "labelName": "Name",
+            "labelFunction": "Function",
+            "labelEmail": "Email",
+            "labelPassword": "Password",
+            "labelConfirmPassword": "Confirm password",
+            "labelNewPassword": "New password",
+            "labelConfirmNewPassword": "Confirm new password",
+            "functionOptions": [
+                "Select a function",
+                "Admin",
+                "Editor",
+                "Reader"
+            ],
+            "buttonForgotPassword": "Forgot your password?",
+            "buttonSendEmail": "Send email",
+            "buttonLogin": "Login",
+            "buttonLogout": "Logout",
+            "buttonSignup": "Sign up",
+            "buttonRegister": "Register",
+            "buttonCancel": "Cancel",
+            "buttonContinue": "Continue",
+            "buttonResetPassword": "Reset password",
+            "buttonHome": "Home",
+            "msgVerifyYourEmail": "Verify your email!",
+            "titleForgotPassword": "Reset your password",
+            "userName": "Name: ",
+            "userEmail": "Email: ",
+            "userEmailVerified": "Email verified: ",
+            "yes": "Yes",
+            "no": "No",
+            "userSignupDate": "Sign up date: ",
+            "userLastLogin": "Last login: ",
+            "emailFailVerify": "Fail veritfy",
+            "emailVerified": "Email verified"
+        },
+        "inputError": {
+            "required": "Required",
+            "invalidEmail": "Invalid email",
+            "passwordDontMatch": "Passwords don't match",
+            "passwordMin": "Min 6 characters",
+            "invalidFunction": "Invalid function"
+        },
+        "authError": {
+            "auth/invalid-email": "Invalid email",
+            "auth/wrong-password": "Wrong password",
+            "auth/email-already-in-use": "Email already in use",
+            "auth/network-request-failed": "Network request failed",
+            "auth/user-not-found": "User not found",
+            "auth/invalid-action-code": "Invalid verification link",
+            "auth/expired-action-code": "Link expired"
+        }
+    },
+    "pt": {
+        "text": {
+            "labelName": "Nome",
+            "labelFunction": "Função",
+            "labelEmail": "Email",
+            "labelPassword": "Senha",
+            "labelConfirmPassword": "Confirme a senha",
+            "labelNewPassword": "Nova senha",
+            "labelConfirmNewPassword": "Confirme a nova senha",
+            "functionOptions": [
+                "Selecione uma função",
+                "Administrador",
+                "Editor",
+                "Leitor"
+            ],
+            "buttonForgotPassword": "Esqueceu sua senha?",
+            "buttonSendEmail": "Enviar email",
+            "buttonLogin": "Entrar",
+            "buttonLogout": "Sair",
+            "buttonSignup": "Cadastrar",
+            "buttonRegister": "Registrar",
+            "buttonCancel": "Cancelar",
+            "buttonContinue": "Continue",
+            "buttonResetPassword": "resetar senha",
+            "buttonHome": "Início",
+            "msgVerifyYourEmail": "Verifique seu email!",
+            "titleForgotPassword": "Redefinir a senha",
+            "userName": "Nome: ",
+            "userEmail": "Email: ",
+            "userEmailVerified": "Email verificado: ",
+            "yes": "Sim",
+            "no": "Não",
+            "userSignupDate": "Data de cadastro: ",
+            "userLastLogin": "Último login: ",
+            "emailFailVerify": "A verificação falhou",
+            "emailVerified": "Email verificado"
+        },
+        "inputError": {
+            "required": "Obrigatório",
+            "invalidEmail": "Email invalido",
+            "passwordDontMatch": "As senhas são diferentes",
+            "passwordMin": "Mínimo de 6 caracteres",
+            "invalidFunction": "Função inválida"
+        },
+        "authError": {
+            "auth/invalid-email": "Email inválido",
+            "auth/wrong-password": "Senha errada",
+            "auth/email-already-in-use": "Esse email já está em uso",
+            "auth/network-request-failed": "Falha na conexão",
+            "auth/user-not-found": "Usuário não encontrado",
+            "auth/invalid-action-code": "Link de verificação inválido",
+            "auth/expired-action-code": "Link expirado"
+        }
+    }
+}

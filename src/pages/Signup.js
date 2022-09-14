@@ -10,7 +10,11 @@ import Loading from '../components/layout/Loading';
 import ErrorMsg from '../components/layout/ErrorMsg';
 
 import styles from './styles/Signup.module.sass';
+import language from '../lang/lang.json';
 
+
+auth.useDeviceLanguage();
+const lang = language[auth.languageCode.substring(0, 2)];
 
 const initialValues = {
   name: '',
@@ -29,26 +33,27 @@ const validatePassword = values => {
     values.password.length > 5 &&
     values.confirmPassword.length > 5
   ) {
-    errors.password = "Passwords don't match";
-    errors.confirmPassword = "Passwords don't match";
+    errors.password = lang.inputError.passwordDontMatch;
+    errors.confirmPassword = lang.inputError.passwordDontMatch;
   }
   return errors;
 }
 
+const yupPassword = Yup.string()
+  .min(6, lang.inputError.passwordMin)
+  .required(lang.inputError.required);
+
 const validationSchema = Yup.object({
-  name: Yup.string().required('Required'),
+  name: Yup.string()
+    .required(lang.inputError.required),
   function: Yup.string()
-    .oneOf(['admin', 'editor', 'reader'], 'Invalid function')
-    .required('Required'),
+    .oneOf(['admin', 'editor', 'reader'], lang.inputError.invalidFunction)
+    .required(lang.inputError.required),
   email: Yup.string()
-    .email('Invalid email')
-    .required('Required'),
-  password: Yup.string()
-    .min(6, 'Min 6 characters')
-    .required('Required'),
-  confirmPassword: Yup.string()
-    .min(6, 'Min 6 characters')
-    .required('Required')
+    .email(lang.inputError.invalidEmail)
+    .required(lang.inputError.required),
+  password: yupPassword,
+  confirmPassword: yupPassword
 });
 
 
@@ -89,19 +94,19 @@ export default function Signin() {
           : (<>
             <Form>
               <div className={styles.container}>
-                <Input type='text' label='Name' name='name' />
-                <Select label='Function' name='function'>
-                  <option value=''>Select a function</option>
-                  <option value='admin'>Admin</option>
-                  <option value='editor'>Editor</option>
-                  <option value='reader'>Reader</option>
+                <Input type='text' label={lang.text.labelName} name='name' />
+                <Select label={lang.text.labelFunction} name='function'>
+                  <option value=''>{lang.text.functionOptions[0]}</option>
+                  <option value='admin'>{lang.text.functionOptions[1]}</option>
+                  <option value='editor'>{lang.text.functionOptions[2]}</option>
+                  <option value='reader'>{lang.text.functionOptions[3]}</option>
                 </Select>
-                <Input type='text' label='Email' name='email' />
-                <Input type='password' label='Password' name='password' />
-                <Input type='password' label='Confirm password' name='confirmPassword' />
+                <Input type='text' label={lang.text.labelEmail} name='email' />
+                <Input type='password' label={lang.text.labelPassword} name='password' />
+                <Input type='password' label={lang.text.labelConfirmPassword} name='confirmPassword' />
                 <div className={styles.buttons}>
-                  <button type='submit'>Register</button>
-                  <Link to='/'><button>Cancel</button></Link>
+                  <button type='submit'>{lang.text.buttonRegister}</button>
+                  <Link to='/'><button>{lang.text.buttonCancel}</button></Link>
                 </div>
               </div>
             </Form>
