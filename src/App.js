@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { isLoading } from './app/loadingSlice';
+import { useLayoutEffect } from 'react';
+import { auth } from './firebaseCfg';
+import { useSelector, useDispatch } from 'react-redux';
+import { isLoading, setLanguage } from './app/appSlice';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
@@ -12,6 +14,14 @@ import styles from './styles/App.module.sass';
 
 export default function App() {
   const loading = useSelector(isLoading);
+  const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    auth.useDeviceLanguage();
+    if (auth.languageCode.substring(0, 2) === 'pt')
+      dispatch(setLanguage('pt'));
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Router>

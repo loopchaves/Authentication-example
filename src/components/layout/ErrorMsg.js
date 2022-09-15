@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import { auth } from '../../firebaseCfg';
+import { useSelector } from 'react-redux';
+import { getLanguage } from '../../app/appSlice';
 
 import styles from './styles/ErrorMsg.module.sass';
 import language from '../../lang/lang.json';
 
 
-auth.useDeviceLanguage();
-const lang = language[auth.languageCode.substring(0, 2)];
-const errorMsg = lang.authError;
-
-
 export default function ErrorMsg({ errorType, handlerError }) {
+  const lang = language[useSelector(getLanguage)];
+  const errorMsg = lang.authError;
+
   useEffect(() => {
     setTimeout(() => handlerError(), 10000);
   }, [handlerError]);

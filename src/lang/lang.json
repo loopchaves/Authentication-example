@@ -34,7 +34,8 @@
             "userSignupDate": "Sign up date: ",
             "userLastLogin": "Last login: ",
             "emailFailVerify": "Fail veritfy",
-            "emailVerified": "Email verified"
+            "emailVerified": "Email verified",
+            "waitRedirect": "Wait page redirect"
         },
         "inputError": {
             "required": "Required",
@@ -76,7 +77,7 @@
             "buttonRegister": "Registrar",
             "buttonCancel": "Cancelar",
             "buttonContinue": "Continue",
-            "buttonResetPassword": "resetar senha",
+            "buttonResetPassword": "Redefinir senha",
             "buttonHome": "Início",
             "msgVerifyYourEmail": "Verifique seu email!",
             "titleForgotPassword": "Redefinir a senha",
@@ -88,7 +89,8 @@
             "userSignupDate": "Data de cadastro: ",
             "userLastLogin": "Último login: ",
             "emailFailVerify": "A verificação falhou",
-            "emailVerified": "Email verificado"
+            "emailVerified": "Email verificado",
+            "waitRedirect": "Aguarde"
         },
         "inputError": {
             "required": "Obrigatório",

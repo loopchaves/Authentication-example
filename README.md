@@ -4,7 +4,7 @@
 
 ## Features
 
-- Text based in device language
+- Text based in device language (Portuguese and English)
 - Login with email and password
 - Sign up form
 - Reset password

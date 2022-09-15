@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { auth } from '../../firebaseCfg'
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/loadingSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { displayLoading, getLanguage } from '../../app/appSlice';
 
 import ErrorMsg from '../layout/ErrorMsg';
 
@@ -10,12 +10,9 @@ import styles from './styles/User.module.sass';
 import language from '../../lang/lang.json';
 
 
-auth.useDeviceLanguage();
-const lang = language[auth.languageCode.substring(0, 2)];
-
-
 export default function User({ handlerUser }) {
   const dispatch = useDispatch();
+  const lang = language[useSelector(getLanguage)];
   const [errorType, setErrorType] = useState(undefined);
   const [user, setUser] = useState({
     displayName: '',
@@ -50,7 +47,8 @@ export default function User({ handlerUser }) {
         handlerUser(false);
       }
     });
-  }, [dispatch, handlerUser]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className={styles.container}>

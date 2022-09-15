@@ -2,8 +2,8 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { auth } from '../../firebaseCfg';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/loadingSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { displayLoading, getLanguage } from '../../app/appSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -11,12 +11,9 @@ import styles from './styles/ForgotPassword.module.sass';
 import language from '../../lang/lang.json';
 
 
-auth.useDeviceLanguage();
-const lang = language[auth.languageCode.substring(0, 2)];
-
-
 export default function ForgotPassword({ handlerForgotPassword }) {
   const dispatch = useDispatch();
+  const lang = language[useSelector(getLanguage)];
   const [emailSend, setEmailSend] = useState(false);
 
   const validationSchema = Yup.object({

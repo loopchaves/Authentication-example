@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { auth } from '../../firebaseCfg';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/loadingSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { displayLoading, getLanguage } from '../../app/appSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -13,13 +13,10 @@ import styles from './styles/Login.module.sass';
 import language from '../../lang/lang.json';
 
 
-auth.useDeviceLanguage();
-const lang = language[auth.languageCode.substring(0, 2)];
-
-
 export default function Login({ handlerUser }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const lang = language[useSelector(getLanguage)];
   const handlerNavigate = () => navigate('/signup');
 
   const [forgotPassword, setForgotPassword] = useState(false);

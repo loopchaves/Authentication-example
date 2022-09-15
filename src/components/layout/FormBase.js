@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/loadingSlice';
+import { displayLoading } from '../../app/appSlice';
 
 import ErrorMsg from './ErrorMsg';
 

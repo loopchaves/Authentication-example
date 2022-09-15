@@ -7,8 +7,8 @@ import {
   confirmPasswordReset,
   signInWithEmailAndPassword
 } from "firebase/auth";
-import { useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/loadingSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { displayLoading, getLanguage } from '../../app/appSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -16,13 +16,10 @@ import styles from './styles/ResetPassword.module.sass';
 import language from '../../lang/lang.json';
 
 
-auth.useDeviceLanguage();
-const lang = language[auth.languageCode.substring(0, 2)];
-
-
 export default function ResetPassword({ actionCode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const lang = language[useSelector(getLanguage)];
   const [email, setEmail] = useState('');
 
   const initialValues = {

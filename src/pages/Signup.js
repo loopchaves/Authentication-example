@@ -6,21 +6,18 @@ import {
   updateProfile,
   sendEmailVerification
 } from "firebase/auth";
-import { useDispatch } from 'react-redux';
-import { displayLoading } from '../app/loadingSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { displayLoading, getLanguage } from '../app/appSlice';
 
 import { Input, Select } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
 import language from '../lang/lang.json';
 
 
-auth.useDeviceLanguage();
-const lang = language[auth.languageCode.substring(0, 2)];
-
-
 export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const lang = language[useSelector(getLanguage)];
   const handlerNavigate = () => navigate('/');
 
   const initialValues = {
