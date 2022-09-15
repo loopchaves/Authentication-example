@@ -7,6 +7,8 @@ import {
   confirmPasswordReset,
   signInWithEmailAndPassword
 } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { displayLoading } from '../../app/loadingSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -19,6 +21,7 @@ const lang = language[auth.languageCode.substring(0, 2)];
 
 
 export default function ResetPassword({ actionCode }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
 
@@ -38,31 +41,28 @@ export default function ResetPassword({ actionCode }) {
       .required(lang.inputError.required)
   });
 
-  async function submit(values, setLoading, setSubmitting, setErrorType) {
-    setLoading(true);
-    setSubmitting(false);
-    setErrorType(undefined);
+  async function submit(values, setErrorType) {
     try {
       await confirmPasswordReset(auth, actionCode, values.newPassword);
-      await signInWithEmailAndPassword(auth, email, values.newPassword);
-      navigate('/');
+      await signInWithEmailAndPassword(auth, email, values.newPassword)
+        .then(() => navigate('/'));
     } catch (error) {
-      setLoading(false);
       setErrorType(error.code);
     }
+    dispatch(displayLoading(false));
   }
 
   useEffect(() => {
     verifyPasswordResetCode(auth, actionCode)
       .then((userEmail) => {
         setEmail(userEmail);
-        // setLoading(false);
+        dispatch(displayLoading(false));
       })
       .catch((error) => {
         console.log(error.code);
         navigate('/');
       })
-  }, [actionCode, navigate]);
+  }, [actionCode, navigate, dispatch]);
 
   return (
     <FormBase

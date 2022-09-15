@@ -7,15 +7,13 @@ import language from '../../lang/lang.json';
 
 auth.useDeviceLanguage();
 const lang = language[auth.languageCode.substring(0, 2)];
-
 const errorMsg = lang.authError;
 
 
 export default function ErrorMsg({ errorType, handlerError }) {
   useEffect(() => {
-    const timer = setTimeout(() => handlerError(), 10000);
-    return () => clearTimeout(timer);
-  }, [handlerError])
+    setTimeout(() => handlerError(), 10000);
+  }, [handlerError]);
 
   return errorMsg[errorType] ? (
     <div className={styles.error}>

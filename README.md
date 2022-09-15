@@ -1,12 +1,25 @@
 # Authentication example
 
+[Try it](https://authentication-example-tau.vercel.app/)
+
 ## Features
 
-- Login
-- Sign up
+- Text based in device language
+- Login with email and password
+- Sign up form
+- Reset password
+- Email verification
+
+## TODO
+
+- Edit user information
+- Delete user
 
 ## Tools used
 
 - ReactJS
-- Firebase
+  - Formik
+  - Yup
+  - Redux
+- Firebase Authentication
 - Vercel hosting

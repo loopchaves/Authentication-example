@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseCfg';
 import { applyActionCode } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { displayLoading } from '../../app/loadingSlice';
 
-import Loading from '../layout/Loading';
 import ErrorMsg from '../layout/ErrorMsg';
 
 import styles from './styles/VerifyEmail.module.sass';
@@ -15,8 +16,8 @@ const lang = language[auth.languageCode.substring(0, 2)];
 
 
 export default function VerifyEmail({ actionCode }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [onError, setOnError] = useState(false);
   const [errorType, setErrorType] = useState(undefined);
 
@@ -25,32 +26,28 @@ export default function VerifyEmail({ actionCode }) {
   useEffect(() => {
     applyActionCode(auth, actionCode)
       .then(() => {
-        auth.currentUser.reload();
-        setLoading(false);
-        setTimeout(() => navigate('/'), 3000);
+        auth.currentUser.reload()
+          .then(() => {
+            dispatch(displayLoading(false));
+            setTimeout(() => navigate('/'), 3000);
+          });
       })
       .catch((error) => {
         setErrorType(error.code);
         setOnError(true);
-        setLoading(false);
+        dispatch(displayLoading(false));
       })
-  }, [actionCode, navigate]);
+  }, [actionCode, navigate, dispatch]);
 
   return (
-    <>
-      {loading
-        ? <Loading />
-        : (
-          <div className={styles.container}>
-            {onError
-              ? (<>
-                <h2 className={styles.error}>{lang.text.emailFailVerify}</h2>
-                <button onClick={() => navigate('/')}>{lang.text.buttonHome}</button>
-                {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
-              </>)
-              : <h2>{lang.text.emailVerified}</h2>}
-          </div>
-        )}
-    </>
+    <div className={styles.container}>
+      {onError
+        ? (<>
+          <h2 className={styles.error}>{lang.text.emailFailVerify}</h2>
+          <button onClick={() => navigate('/')}>{lang.text.buttonHome}</button>
+          {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
+        </>)
+        : <h2>{lang.text.emailVerified}</h2>}
+    </div>
   );
 }

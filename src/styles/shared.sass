@@ -2,6 +2,8 @@ $width-desktop: 350px
 $width-mobile: 90%
 
 $text-color: #ccc
+$bg-color1: #ccc
+$bg-color2: #033
 
 @mixin container()
     width: 100%
@@ -36,11 +38,24 @@ $text-color: #ccc
             transform: translateY(0)
 
 @mixin loading()
-    background: url('../img/loading.svg') no-repeat
-    background-position: center
-    background-size: 50px 50px
+    @include container()
+    background-color: $bg-color2
+    border-radius: 10px
     width: 100%
-    height: 150px
+    height: 100%
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    z-index: 1
+
+    div
+        background: url('../img/loading.svg') no-repeat
+        background-position: center
+        background-size: 50px 50px
+        width: 50px
+        height: 50px
 
 @mixin buttons()
     width: 100%
@@ -72,12 +87,9 @@ $text-color: #ccc
     width: 100%
 
 @mixin forgotPasswordLink()
-    background-color: transparent
-    border: none
     color: #3ff
     font-size: 0.9rem
     font-weight: 500
-    // margin-bottom: 1rem
     cursor: pointer
     transition: 0.2s
 

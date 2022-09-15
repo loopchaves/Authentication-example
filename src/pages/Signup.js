@@ -1,7 +1,13 @@
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseCfg';
-import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification
+} from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { displayLoading } from '../app/loadingSlice';
 
 import { Input, Select } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
@@ -13,6 +19,7 @@ const lang = language[auth.languageCode.substring(0, 2)];
 
 
 export default function Signin() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handlerNavigate = () => navigate('/');
 
@@ -23,7 +30,7 @@ export default function Signin() {
     password: '',
     confirmPassword: ''
   }
-  
+
   const validationSchema = Yup.object({
     name: Yup.string()
       .required(lang.inputError.required),
@@ -48,17 +55,13 @@ export default function Signin() {
     label: lang.text.buttonCancel
   }
 
-  async function submit(values, setLoading, setSubmitting, setErrorType) {
-    setLoading(true);
-    setSubmitting(false);
-    setErrorType(undefined);
+  async function submit(values, setErrorType) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       await updateProfile(userCredential.user, { displayName: values.name });
-      await sendEmailVerification(userCredential.user);
-      navigate('/');
+      await sendEmailVerification(userCredential.user).then(() => navigate('/'));
     } catch (error) {
-      setLoading(false);
+      dispatch(displayLoading(false));
       setErrorType(error.code);
     }
   }
