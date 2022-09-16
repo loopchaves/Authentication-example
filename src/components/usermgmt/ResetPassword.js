@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setErrorType } from '../../app/appSlice';
+import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -41,10 +41,11 @@ export default function ResetPassword({ actionCode }) {
   async function submit(values) {
     try {
       await confirmPasswordReset(auth, actionCode, values.newPassword);
-      await signInWithEmailAndPassword(auth, email, values.newPassword)
-        .then(() => navigate('/'));
+      await signInWithEmailAndPassword(auth, email, values.newPassword);
+      dispatch(setAlert({ msg: 'updatePassword', type: 'notice' }));
+      setTimeout(() => navigate('/'), 1000);
     } catch (error) {
-      dispatch(setErrorType(error.code));
+      dispatch(setAlert({ msg: error.code, type: 'error' }));
     }
     dispatch(displayLoading(false));
   }
@@ -56,7 +57,7 @@ export default function ResetPassword({ actionCode }) {
         setEmail(userEmail);
         dispatch(displayLoading(false));
       } catch (error) {
-        dispatch(setErrorType(error.code));
+        dispatch(setAlert({ msg: error.code, type: 'error' }));
         setTimeout(() => navigate('/'), 1000);
       }
     }

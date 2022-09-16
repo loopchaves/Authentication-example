@@ -1,6 +1,6 @@
 import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
-import { displayLoading, setErrorType } from '../../app/appSlice';
+import { displayLoading, setAlert } from '../../app/appSlice';
 
 import styles from './styles/FormBase.module.sass';
 
@@ -16,7 +16,7 @@ export default function FormBase({
 
   function submit(values, setSubmitting) {
     dispatch(displayLoading(true));
-    dispatch(setErrorType(undefined));
+    dispatch(setAlert({ msg: undefined, type: '' }));
     setSubmitting(false);
     onSubmit(values);
   }

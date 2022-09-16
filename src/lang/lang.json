@@ -33,9 +33,10 @@
             "no": "No",
             "userSignupDate": "Sign up date: ",
             "userLastLogin": "Last login: ",
+            "waitRedirect": "Wait page redirect",
+            "__obs__": "Remover esses texts",
             "emailFailVerify": "Fail veritfy",
-            "emailVerified": "Email verified",
-            "waitRedirect": "Wait page redirect"
+            "emailVerified": "Email verified"
         },
         "inputError": {
             "required": "Required",
@@ -44,14 +45,16 @@
             "passwordMin": "Min 6 characters",
             "invalidFunction": "Invalid function"
         },
-        "authError": {
+        "alertMsg": {
             "auth/invalid-email": "Invalid email",
             "auth/wrong-password": "Wrong password",
             "auth/email-already-in-use": "Email already in use",
             "auth/network-request-failed": "Network request failed",
             "auth/user-not-found": "User not found",
             "auth/invalid-action-code": "Invalid verification link",
-            "auth/expired-action-code": "Link expired"
+            "auth/expired-action-code": "Link expired",
+            "emailVerified": "Email verified",
+            "updatePassword": "Changed password!"
         }
     },
     "pt": {
@@ -88,9 +91,10 @@
             "no": "Não",
             "userSignupDate": "Data de cadastro: ",
             "userLastLogin": "Último login: ",
+            "waitRedirect": "Aguarde",
+            "__obs__": "Remover esses texts",
             "emailFailVerify": "A verificação falhou",
-            "emailVerified": "Email verificado",
-            "waitRedirect": "Aguarde"
+            "emailVerified": "Email verificado"
         },
         "inputError": {
             "required": "Obrigatório",
@@ -99,14 +103,16 @@
             "passwordMin": "Mínimo de 6 caracteres",
             "invalidFunction": "Função inválida"
         },
-        "authError": {
+        "alert": {
             "auth/invalid-email": "Email inválido",
             "auth/wrong-password": "Senha errada",
             "auth/email-already-in-use": "Esse email já está em uso",
             "auth/network-request-failed": "Falha na conexão",
             "auth/user-not-found": "Usuário não encontrado",
             "auth/invalid-action-code": "Link de verificação inválido",
-            "auth/expired-action-code": "Link expirado"
+            "auth/expired-action-code": "Link expirado",
+            "emailVerified": "Email verificado",
+            "updatePassword": "Senha alterada!"
         }
     }
 }

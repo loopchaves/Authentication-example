@@ -1,48 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseCfg';
 import { applyActionCode } from 'firebase/auth';
-import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setErrorType } from '../../app/appSlice';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '../../app/appSlice';
 
 import styles from './styles/VerifyEmail.module.sass';
-import language from '../../lang/lang.json';
 
 
 export default function VerifyEmail({ actionCode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const lang = language[useSelector(getLanguage)];
-  const [onError, setOnError] = useState(false);
 
   useEffect(() => {
     async function checkActionCode() {
       try {
         await applyActionCode(auth, actionCode);
         await auth.currentUser.reload()
-          .then(() => {
-            dispatch(displayLoading(false));
-            setTimeout(() => navigate('/'), 3000);
-          });
+        dispatch(setAlert({ msg: 'emailVerified', type: 'notice' }));
       } catch (error) {
-        setOnError(true);
-        dispatch(setErrorType(error.code));
-        dispatch(displayLoading(false));
+        dispatch(setAlert({ msg: error.code, type: 'error' }));
       }
+      setTimeout(() => navigate('/'), 1000);
     }
     checkActionCode();
   }, [actionCode, dispatch, navigate]);
 
-  return (
-    <div className={styles.container}>
-      {onError
-        ? (<>
-          <h2 className={styles.error}>{lang.text.emailFailVerify}</h2>
-          <button onClick={() => navigate('/')}>{lang.text.buttonHome}</button>
-        </>) : (<>
-          <h2>{lang.text.emailVerified}</h2>
-          <p className={styles.waitRedirect}>{lang.text.waitRedirect}</p>
-        </>)}
-    </div>
-  );
+  return <div className={styles.blank}></div>;
 }

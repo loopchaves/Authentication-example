@@ -7,7 +7,7 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setErrorType } from '../app/appSlice';
+import { displayLoading, getLanguage, setAlert } from '../app/appSlice';
 
 import { Input, Select } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
@@ -18,7 +18,11 @@ export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const lang = language[useSelector(getLanguage)];
-  const handlerNavigate = () => navigate('/');
+
+  const handlerNavigate = () => {
+    dispatch(setAlert({ msg: undefined, type: '' }));
+    navigate('/');
+  }
 
   const initialValues = {
     name: '',
@@ -59,7 +63,7 @@ export default function Signin() {
       await sendEmailVerification(userCredential.user).then(() => navigate('/'));
     } catch (error) {
       dispatch(displayLoading(false));
-      dispatch(setErrorType(error.code));
+      dispatch(setAlert({ msg: error.code, type: 'error' }));
     }
   }
 

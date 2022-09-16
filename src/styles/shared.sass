@@ -98,14 +98,12 @@ $bg-color2: #033
 
 @mixin alert()
     width: 100%
-    background-color: #faa
-    border: 1px solid #f11
     border-radius: 10px
     padding: 1rem
     position: absolute
     font-weight: 700
 
-    .info
+    .msg
         width: 100%
         font-size: 1rem
         color: #000
@@ -113,14 +111,28 @@ $bg-color2: #033
 
 @mixin emailVerified()
     @include alert()
+    background-color: #faa
+    border: 1px solid #f11
     top: -5rem
 
 @mixin error()
     @include alert()
+    @include slideAlert()
     bottom: -5rem
-    animation: showError 0.5s
+    background-color: #faa
+    border: 1px solid #f11
+    animation: showAlert 0.5s
 
-    @keyframes showError
+@mixin notice()
+    @include alert()
+    @include slideAlert()
+    bottom: -5rem
+    background-color: #afa
+    border: 1px solid #1f1
+    animation: showAlert 0.5s
+    
+@mixin slideAlert()
+    @keyframes showAlert
         0%
             opacity: 0
             transform: translateY(-30px)

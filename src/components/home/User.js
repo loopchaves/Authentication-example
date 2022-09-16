@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { auth } from '../../firebaseCfg'
 import { signOut } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setErrorType } from '../../app/appSlice';
+import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 
 import styles from './styles/User.module.sass';
 import language from '../../lang/lang.json';
@@ -23,12 +23,12 @@ export default function User({ handlerUser }) {
 
   async function logout() {
     dispatch(displayLoading(true));
-    dispatch(setErrorType(undefined));
+    dispatch(setAlert({ msg: undefined, type: '' }));
     try {
       await signOut(auth);
       handlerUser(false);
     } catch (error) {
-      dispatch(setErrorType(error.code));
+      dispatch(setAlert({ msg: error.code, type: 'error' }));
     }
     dispatch(displayLoading(false));
   }
@@ -55,7 +55,7 @@ export default function User({ handlerUser }) {
     <div className={styles.container}>
       {!user.emailVerified && (
         <div className={styles.emailVerified}>
-          <p className={styles.info}>{lang.text.msgVerifyYourEmail}</p>
+          <p className={styles.msg}>{lang.text.msgVerifyYourEmail}</p>
         </div>
       )}
       <p>

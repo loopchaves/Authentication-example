@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { auth } from '../../firebaseCfg';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setErrorType } from '../../app/appSlice';
+import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -20,7 +20,10 @@ export default function Login({ handlerUser }) {
   const handlerNavigate = () => navigate('/signup');
 
   const [forgotPassword, setForgotPassword] = useState(false);
-  const handlerForgotPassword = () => setForgotPassword(!forgotPassword);
+  const handlerForgotPassword = () => {
+    dispatch(setAlert({ msg: undefined, type: '' }));
+    setForgotPassword(!forgotPassword);
+  }
 
   const initialValues = {
     email: '',
@@ -45,7 +48,7 @@ export default function Login({ handlerUser }) {
       handlerUser(true);
     } catch (error) {
       dispatch(displayLoading(false));
-      dispatch(setErrorType(error.code));
+      dispatch(setAlert({ msg: error.code, type: 'error' }));
     }
   }
 

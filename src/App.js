@@ -2,20 +2,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useLayoutEffect, useCallback } from 'react';
 import { auth } from './firebaseCfg';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoading, setLanguage, getErrorType } from './app/appSlice';
+import { isLoading, setLanguage, getAlert } from './app/appSlice';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import UserMgmt from './pages/UserMgmt';
 import Loading from './components/layout/Loading';
-import ErrorMsg from './components/layout/ErrorMsg';
+import AlertMsg from './components/layout/AlertMsg';
 
 import styles from './styles/App.module.sass';
 
 
 export default function App() {
   const loading = useSelector(isLoading);
-  const errorType = useSelector(getErrorType);
+  const alert = useSelector(getAlert);
   const dispatch = useDispatch();
 
   const checkLangague = useCallback(() => {
@@ -35,7 +35,7 @@ export default function App() {
           <Route path='/usermgmt' element={<UserMgmt />} />
         </Routes>
         {loading && <Loading />}
-        {errorType && <ErrorMsg />}
+        {alert.msg && <AlertMsg />}
       </main>
     </Router>
   );
