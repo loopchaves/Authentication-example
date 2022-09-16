@@ -40,11 +40,10 @@ export default function ResetPassword({ actionCode }) {
 
   async function submit(values) {
     try {
-      await confirmPasswordReset(auth, actionCode, values.newPassword)
-        .then(() => dispatch(setAlert({ msg: 'updatePassword', type: 'notice' })));
-      await signInWithEmailAndPassword(auth, email, values.newPassword)
-        .then(() => setTimeout(() => navigate('/'), 1000));
-      ;
+      await confirmPasswordReset(auth, actionCode, values.newPassword);
+      await signInWithEmailAndPassword(auth, email, values.newPassword);
+      dispatch(setAlert({ msg: 'updatePassword', type: 'notice' }));
+      navigate('/');
     } catch (error) {
       dispatch(setAlert({ msg: error.code, type: 'error' }));
     }
