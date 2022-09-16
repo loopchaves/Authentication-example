@@ -34,6 +34,7 @@ export default function User({ handlerUser }) {
   }
 
   const getUser = useCallback(() => {
+    console.log('Callback');
     if (auth.currentUser) {
       const metadata = auth.currentUser.metadata;
       const creationTime = Date.parse(metadata.creationTime);
