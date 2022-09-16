@@ -39,8 +39,19 @@ export default function User({ handlerUser }) {
   }
 
   const getUser = useCallback(() => {
-    setUser({ ...auth.currentUser });
-    dispatch(displayLoading(false));
+    if (auth.currentUser) {
+      const metadata = auth.currentUser.metadata;
+      const creationTime = Date.parse(metadata.creationTime);
+      const lastSignInTime = Date.parse(metadata.lastSignInTime);
+      setUser({
+        ...auth.currentUser,
+        metadata: {
+          creationTime: new Date(creationTime).toLocaleString(),
+          lastSignInTime: new Date(lastSignInTime).toLocaleString()
+        }
+      });
+      dispatch(displayLoading(false));
+    }
   }, [dispatch]);
 
   useEffect(() => getUser(), [getUser]);
