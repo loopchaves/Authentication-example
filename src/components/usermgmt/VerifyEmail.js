@@ -21,20 +21,22 @@ export default function VerifyEmail({ actionCode }) {
   const handlerError = () => setErrorType(undefined);
 
   useEffect(() => {
-    applyActionCode(auth, actionCode)
-      .then(() => {
-        auth.currentUser.reload()
+    async function checkActionCode() {
+      try {
+        await applyActionCode(auth, actionCode);
+        await auth.currentUser.reload()
           .then(() => {
             dispatch(displayLoading(false));
             setTimeout(() => navigate('/'), 3000);
           });
-      })
-      .catch((error) => {
+      } catch (error) {
         setErrorType(error.code);
         setOnError(true);
         dispatch(displayLoading(false));
-      })
-  }, [actionCode, navigate, dispatch]);
+      }
+    }
+    checkActionCode();
+  }, [actionCode, dispatch, navigate]);
 
   return (
     <div className={styles.container}>

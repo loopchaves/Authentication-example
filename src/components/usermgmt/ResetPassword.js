@@ -50,16 +50,18 @@ export default function ResetPassword({ actionCode }) {
   }
 
   useEffect(() => {
-    verifyPasswordResetCode(auth, actionCode)
-      .then((userEmail) => {
+    async function checkActionCode() {
+      try {
+        const userEmail = await verifyPasswordResetCode(auth, actionCode);
         setEmail(userEmail);
         dispatch(displayLoading(false));
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error.code);
         navigate('/');
-      })
-  }, [actionCode, navigate, dispatch]);
+      }
+    }
+    checkActionCode();
+  }, [actionCode, dispatch, navigate]);
 
   return (
     <FormBase

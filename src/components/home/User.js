@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { auth } from '../../firebaseCfg'
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage } from '../../app/appSlice';
 
@@ -38,17 +38,12 @@ export default function User({ handlerUser }) {
     dispatch(displayLoading(false));
   }
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser({ ...currentUser });
-        dispatch(displayLoading(false));
-      } else {
-        handlerUser(false);
-      }
-    });
-    // eslint-disable-next-line
-  }, []);
+  const getUser = useCallback(() => {
+    setUser({ ...auth.currentUser });
+    dispatch(displayLoading(false));
+  }, [dispatch]);
+
+  useEffect(() => getUser(), [getUser]);
 
   return (
     <div className={styles.container}>

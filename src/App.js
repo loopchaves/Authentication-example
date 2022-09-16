@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useCallback } from 'react';
 import { auth } from './firebaseCfg';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoading, setLanguage } from './app/appSlice';
@@ -16,12 +16,13 @@ export default function App() {
   const loading = useSelector(isLoading);
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  const checkLangague = useCallback(() => {
     auth.useDeviceLanguage();
     if (auth.languageCode.substring(0, 2) === 'pt')
       dispatch(setLanguage('pt'));
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
+
+  useLayoutEffect(() => checkLangague(), [checkLangague]);
 
   return (
     <Router>

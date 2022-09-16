@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { auth } from '../firebaseCfg';
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux';
@@ -14,12 +14,13 @@ export default function Home() {
 
   const handlerUser = (user) => setUser(user);
 
-  useEffect(() => {
+  const checkUser = useCallback(() => {
     onAuthStateChanged(auth, (user) => {
       user ? setUser(true) : dispatch(displayLoading(false));
     });
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatch])
+
+  useEffect(() => checkUser(), [checkUser]);
 
   return (
     <>
