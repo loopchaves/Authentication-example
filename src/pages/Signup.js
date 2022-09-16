@@ -7,7 +7,7 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage } from '../app/appSlice';
+import { displayLoading, getLanguage, setErrorType } from '../app/appSlice';
 
 import { Input, Select } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
@@ -52,14 +52,14 @@ export default function Signin() {
     label: lang.text.buttonCancel
   }
 
-  async function submit(values, setErrorType) {
+  async function submit(values) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       await updateProfile(userCredential.user, { displayName: values.name });
       await sendEmailVerification(userCredential.user).then(() => navigate('/'));
     } catch (error) {
       dispatch(displayLoading(false));
-      setErrorType(error.code);
+      dispatch(setErrorType(error.code));
     }
   }
 

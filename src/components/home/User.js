@@ -2,9 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { auth } from '../../firebaseCfg'
 import { signOut } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage } from '../../app/appSlice';
-
-import ErrorMsg from '../layout/ErrorMsg';
+import { displayLoading, getLanguage, setErrorType } from '../../app/appSlice';
 
 import styles from './styles/User.module.sass';
 import language from '../../lang/lang.json';
@@ -13,7 +11,6 @@ import language from '../../lang/lang.json';
 export default function User({ handlerUser }) {
   const dispatch = useDispatch();
   const lang = language[useSelector(getLanguage)];
-  const [errorType, setErrorType] = useState(undefined);
   const [user, setUser] = useState({
     displayName: '',
     email: '',
@@ -24,16 +21,14 @@ export default function User({ handlerUser }) {
     }
   });
 
-  const handlerError = () => setErrorType(undefined);
-
   async function logout() {
     dispatch(displayLoading(true));
-    setErrorType(undefined);
+    dispatch(setErrorType(undefined));
     try {
       await signOut(auth);
       handlerUser(false);
     } catch (error) {
-      setErrorType(error.code);
+      dispatch(setErrorType(error.code));
     }
     dispatch(displayLoading(false));
   }
@@ -88,7 +83,6 @@ export default function User({ handlerUser }) {
       <div className={styles.buttons}>
         <button onClick={() => logout()}>{lang.text.buttonLogout}</button>
       </div>
-      {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
     </div>
   );
 }

@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/appSlice';
-
-import ErrorMsg from './ErrorMsg';
+import { displayLoading, setErrorType } from '../../app/appSlice';
 
 import styles from './styles/FormBase.module.sass';
 
@@ -16,15 +13,12 @@ export default function FormBase({
   buttonAction
 }) {
   const dispatch = useDispatch();
-  const [errorType, setErrorType] = useState(undefined);
-
-  const handlerError = () => setErrorType(undefined);
 
   function submit(values, setSubmitting) {
     dispatch(displayLoading(true));
+    dispatch(setErrorType(undefined));
     setSubmitting(false);
-    setErrorType(undefined);
-    onSubmit(values, setErrorType);
+    onSubmit(values);
   }
 
   return (
@@ -44,7 +38,6 @@ export default function FormBase({
               <button onClick={() => buttonAction.action()}>{buttonAction.label}</button>
             ) : null}
           </div>
-          {errorType && <ErrorMsg errorType={errorType} handlerError={handlerError} />}
         </div>
       </Form>
     </Formik>

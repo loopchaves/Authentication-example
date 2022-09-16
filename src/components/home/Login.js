@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { auth } from '../../firebaseCfg';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage } from '../../app/appSlice';
+import { displayLoading, getLanguage, setErrorType } from '../../app/appSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -39,13 +39,13 @@ export default function Login({ handlerUser }) {
     label: lang.text.buttonSignup
   }
 
-  async function submit(values, setErrorType) {
+  async function submit(values) {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       handlerUser(true);
     } catch (error) {
       dispatch(displayLoading(false));
-      setErrorType(error.code);
+      dispatch(setErrorType(error.code));
     }
   }
 
