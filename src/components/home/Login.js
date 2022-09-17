@@ -6,7 +6,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 import { addUser } from '../../app/userSlice';
-import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -83,7 +82,6 @@ export default function Login() {
               {lang.text.buttonForgotPassword}
             </p>
           </FormBase>
-          <GoogleReCaptcha onVerify={token => setToken(token)} />
         </>)}
     </>
   );
