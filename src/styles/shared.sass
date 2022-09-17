@@ -1,9 +1,65 @@
-$width-desktop: 350px
-$width-mobile: 90%
+@mixin responsive()
+    --font-family: monospace
 
-$text-color: #ccc
-$bg-color1: #ccc
-$bg-color2: #033
+    // Sizes
+    --main-width: 350px
+    --element-gap: 1.5rem
+    --buttons-gap: 1rem
+    --element-padding-vertical: 1.5rem
+    --element-padding-horizontal: 2rem
+    --font-size-text: 1rem
+    --font-size-tittle: 1.4rem
+    --font-size-other: 0.9rem
+
+    // Colors
+    --main-bg-color: #ccc
+    --element-bg-color: #033
+    --border-color: #000
+    --text-color: #ccc
+    --text-color-msg: #000
+    --forgot-password-color: #3ff
+    --forgot-password-color-hover: #3aa
+    --error-color: #f11
+    --error-bg-color: #faa
+    --notice-color: #1f1
+    --notice-bg-color: #afa
+    --tab-unselected-color: #888
+    --tab-unselected-bg-color: #055
+
+    @media screen and ( max-width: 375px )
+        // Sizes
+        --main-width: 90%
+        --element-padding-vertical: 1rem
+        --element-padding-horizontal: 1.5rem
+
+@mixin root()
+    @include responsive()
+    font-family: var(--font-family)
+    background-color: var(--main-bg-color)
+    width: 100vw
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+
+@mixin main()
+    width: var(--main-width)
+    background-color: var(--element-bg-color)
+    border-radius: 10px
+    border: 1px solid var(--border-color)
+    padding: var(--element-padding-vertical) var(--element-padding-horizontal)
+    position: relative
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: stretch
+    animation: grow 1s
+
+    @keyframes grow
+        0%
+            transform: scale(0)
+        100%
+            transform: scale(1)
 
 @mixin container()
     width: 100%
@@ -11,10 +67,10 @@ $bg-color2: #033
     flex-direction: column
     justify-content: center
     align-items: center
-    gap: 1.5rem
+    gap: var(--element-gap)
 
 @mixin input()
-    border: 1px solid #000
+    border: 1px solid var(--border-color)
     border-radius: 5px
     padding: 0.5rem
     margin: 0.3rem 0
@@ -22,10 +78,10 @@ $bg-color2: #033
 
 @mixin errorInput()
     text-align: center
-    font-size: 0.8rem
+    font-size: var(--font-size-other)
     font-weight: 600
     font-style: italic
-    color: #f11
+    color: var(--error-color)
     margin-top: 0.3rem
     animation: showErrorInput 0.3s
 
@@ -39,7 +95,7 @@ $bg-color2: #033
 
 @mixin loading()
     @include container()
-    background-color: $bg-color2
+    background-color: var(--element-bg-color)
     border-radius: 10px
     width: 100%
     height: 100%
@@ -63,7 +119,7 @@ $bg-color2: #033
     display: flex
     justify-content: center
     align-items: center
-    gap: 1rem
+    gap: var(--buttons-gap)
 
 @mixin button()
     width: 130px
@@ -76,25 +132,25 @@ $bg-color2: #033
 @mixin title()
     width: 100%
     text-align: center
-    font-size: 1.4rem
+    font-size: var(--font-size-tittle)
     font-weight: 600
-    color: $text-color
+    color: var(--text-color)
 
 @mixin text()
     width: 100%
-    font-size: 1rem
+    font-size: var(--font-size-text)
     font-weight: 600
-    color: $text-color
+    color: var(--text-color)
 
 @mixin forgotPasswordLink()
-    color: #3ff
-    font-size: 0.9rem
+    color: var(--forgot-password-color)
+    font-size: var(--font-size-other)
     font-weight: 500
     cursor: pointer
     transition: 0.2s
 
     &:hover
-        color: #3aa
+        color: var(--forgot-password-color-hover)
 
 @mixin alert()
     width: 100%
@@ -105,32 +161,32 @@ $bg-color2: #033
 
     .msg
         width: 100%
-        font-size: 1rem
-        color: #000
+        font-size: var(--font-size-text)
+        color: var(--text-color-msg)
         text-align: center
 
 @mixin emailVerified()
     @include alert()
-    background-color: #faa
-    border: 1px solid #f11
+    background-color: var(--error-bg-color)
+    border: 1px solid var(--error-color)
     top: -5rem
 
 @mixin error()
     @include alert()
     @include slideAlert()
     bottom: -5rem
-    background-color: #faa
-    border: 1px solid #f11
+    background-color: var(--error-bg-color)
+    border: 1px solid var(--error-color)
     animation: showAlert 0.5s
 
 @mixin notice()
     @include alert()
     @include slideAlert()
     bottom: -5rem
-    background-color: #afa
-    border: 1px solid #1f1
+    background-color: var(--notice-bg-color)
+    border: 1px solid var(--notice-color)
     animation: showAlert 0.5s
-    
+
 @mixin slideAlert()
     @keyframes showAlert
         0%
@@ -142,10 +198,10 @@ $bg-color2: #033
 
 @mixin userTabBar()
     display: flex
-    margin: 0 -2rem
-    margin-top: -1.5rem
-    border-radius: 8px 8px 0 0
-    margin-bottom: 1.5rem
+    margin: 0 calc( var(--element-padding-horizontal) * (-1) )
+    margin-top: calc( var(--element-padding-vertical) * (-1) )
+    border-radius: 10px 10px 0 0
+    margin-bottom: var(--element-padding-vertical)
 
 @mixin userTab()
     flex-grow: 1
@@ -153,11 +209,11 @@ $bg-color2: #033
     margin: -1px
     padding: 0.5rem
     border-radius: 10px 10px 0 0
-    border: 1px solid #000
+    border: 1px solid var(--border-color)
     font-size: 1rem
     text-align: center
-    color: #888
-    background-color: #055
+    color: var(--tab-unselected-color)
+    background-color: var(--tab-unselected-bg-color)
     transition: background-color 0.5s
     transition: color 0.5s
 
@@ -165,9 +221,9 @@ $bg-color2: #033
         cursor: pointer
 
         &:hover
-            color: #ccc
+            color: var(--text-color)
 
 @mixin tabSelected()
-    background-color: #033
-    color: #ccc
+    background-color: var(--element-bg-color)
+    color: var(--text-color)
     border-bottom: none

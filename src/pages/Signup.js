@@ -9,7 +9,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../app/appSlice';
 
-import { Input, Select } from '../components/layout/Input';
+import { Input } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
 import language from '../lang/lang.json';
 
@@ -26,7 +26,6 @@ export default function Signin() {
 
   const initialValues = {
     name: '',
-    function: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -34,9 +33,6 @@ export default function Signin() {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .required(lang.inputError.required),
-    function: Yup.string()
-      .oneOf(['admin', 'editor', 'reader'], lang.inputError.invalidFunction)
       .required(lang.inputError.required),
     email: Yup.string()
       .email(lang.inputError.invalidEmail)
@@ -77,12 +73,6 @@ export default function Signin() {
       buttonAction={buttonAction}
     >
       <Input type='text' label={lang.text.labelName} name='name' />
-      <Select label={lang.text.labelFunction} name='function'>
-        <option value=''>{lang.text.functionOptions[0]}</option>
-        <option value='admin'>{lang.text.functionOptions[1]}</option>
-        <option value='editor'>{lang.text.functionOptions[2]}</option>
-        <option value='reader'>{lang.text.functionOptions[3]}</option>
-      </Select>
       <Input type='text' label={lang.text.labelEmail} name='email' />
       <Input type='password' label={lang.text.labelPassword} name='password' />
       <Input type='password' label={lang.text.labelConfirmPassword} name='confirmPassword' />

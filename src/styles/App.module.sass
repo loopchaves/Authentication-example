@@ -1,11 +1,4 @@
+@use 'shared'
+    
 .main
-    width: 350px
-    background-color: #033
-    border-radius: 10px
-    border: 1px solid #000
-    padding: 1.5rem 2rem
-    position: relative
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: stretch
+    @include shared.main()

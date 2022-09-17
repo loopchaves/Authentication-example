@@ -2,18 +2,11 @@
     "en": {
         "text": {
             "labelName": "Name",
-            "labelFunction": "Function",
             "labelEmail": "Email",
             "labelPassword": "Password",
             "labelConfirmPassword": "Confirm password",
             "labelNewPassword": "New password",
             "labelConfirmNewPassword": "Confirm new password",
-            "functionOptions": [
-                "Select a function",
-                "Admin",
-                "Editor",
-                "Reader"
-            ],
             "buttonForgotPassword": "Forgot your password?",
             "buttonSendEmail": "Send email",
             "buttonLogin": "Login",
@@ -37,10 +30,7 @@
             "tabData": "Data",
             "tabEdit": "Edit",
             "tabConfig": "Config",
-            "tabFeedback": "Feedback",
-            "__obs__": "Remover esses texts",
-            "emailFailVerify": "Fail veritfy",
-            "emailVerified": "Email verified"
+            "tabFeedback": "Feedback"
         },
         "inputError": {
             "required": "Required",
@@ -64,18 +54,11 @@
     "pt": {
         "text": {
             "labelName": "Nome",
-            "labelFunction": "Função",
             "labelEmail": "Email",
             "labelPassword": "Senha",
             "labelConfirmPassword": "Confirme a senha",
             "labelNewPassword": "Nova senha",
             "labelConfirmNewPassword": "Confirme a nova senha",
-            "functionOptions": [
-                "Selecione uma função",
-                "Administrador",
-                "Editor",
-                "Leitor"
-            ],
             "buttonForgotPassword": "Esqueceu sua senha?",
             "buttonSendEmail": "Enviar email",
             "buttonLogin": "Entrar",
@@ -99,10 +82,7 @@
             "tabData": "Dados",
             "tabEdit": "Editar",
             "tabConfig": "Configurar",
-            "tabFeedback": "Feedback",
-            "__obs__": "Remover esses texts",
-            "emailFailVerify": "A verificação falhou",
-            "emailVerified": "Email verificado"
+            "tabFeedback": "Feedback"
         },
         "inputError": {
             "required": "Obrigatório",
