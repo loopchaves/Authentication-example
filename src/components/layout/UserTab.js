@@ -1,9 +1,12 @@
-import styles from './styles/Tab.module.sass';
+import styles from './styles/UserTab.module.sass';
 
-export default function Tab({ name }) {
+export default function Tab({ handlerClick, tab, name, selected }) {
   return (
-    <p className={styles.tab}>
+    <button
+      onClick={() => handlerClick(tab)}
+      className={`${styles.tab} ${tab === selected ? styles.selected : null}`}
+    >
       {name}
-    </p>
+    </button>
   );
 }

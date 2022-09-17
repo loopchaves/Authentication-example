@@ -34,6 +34,10 @@
             "userSignupDate": "Sign up date: ",
             "userLastLogin": "Last login: ",
             "waitRedirect": "Wait page redirect",
+            "tabData": "Data",
+            "tabEdit": "Edit",
+            "tabConfig": "Config",
+            "tabFeedback": "Feedback",
             "__obs__": "Remover esses texts",
             "emailFailVerify": "Fail veritfy",
             "emailVerified": "Email verified"
@@ -92,6 +96,10 @@
             "userSignupDate": "Data de cadastro: ",
             "userLastLogin": "Último login: ",
             "waitRedirect": "Aguarde",
+            "tabData": "Dados",
+            "tabEdit": "Editar",
+            "tabConfig": "Configurar",
+            "tabFeedback": "Feedback",
             "__obs__": "Remover esses texts",
             "emailFailVerify": "A verificação falhou",
             "emailVerified": "Email verificado"
