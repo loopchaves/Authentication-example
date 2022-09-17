@@ -5,6 +5,7 @@ import { auth } from '../../firebaseCfg';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
+import { addUser } from '../../app/userSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -13,13 +14,14 @@ import styles from './styles/Login.module.sass';
 import language from '../../lang/lang.json';
 
 
-export default function Login({ handlerUser }) {
+export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const lang = language[useSelector(getLanguage)];
+  const [forgotPassword, setForgotPassword] = useState(false);
+
   const handlerNavigate = () => navigate('/signup');
 
-  const [forgotPassword, setForgotPassword] = useState(false);
   const handlerForgotPassword = () => {
     dispatch(setAlert({ msg: undefined, type: '' }));
     setForgotPassword(!forgotPassword);
@@ -44,8 +46,16 @@ export default function Login({ handlerUser }) {
 
   async function submit(values) {
     try {
-      await signInWithEmailAndPassword(auth, values.email, values.password);
-      handlerUser(true);
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      const payload = {
+        uid: userCredential.user.uid,
+        name: userCredential.user.displayName,
+        email: userCredential.user.email,
+        emailVerified: userCredential.user.emailVerified,
+        creationDate: new Date(parseInt(userCredential.user.metadata.createdAt)).toLocaleString(),
+        lastLogin: new Date(parseInt(userCredential.user.metadata.lastLoginAt)).toLocaleString()
+      }
+      dispatch(addUser(payload));
     } catch (error) {
       dispatch(displayLoading(false));
       dispatch(setAlert({ msg: error.code, type: 'error' }));

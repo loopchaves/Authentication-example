@@ -51,7 +51,7 @@
             "auth/email-already-in-use": "Email already in use",
             "auth/network-request-failed": "Network request failed",
             "auth/user-not-found": "User not found",
-            "auth/invalid-action-code": "Invalid verification link",
+            "auth/invalid-action-code": "Invalid link",
             "auth/expired-action-code": "Link expired",
             "emailVerified": "Email verified",
             "updatePassword": "Changed password!"
@@ -109,7 +109,7 @@
             "auth/email-already-in-use": "Esse email já está em uso",
             "auth/network-request-failed": "Falha na conexão",
             "auth/user-not-found": "Usuário não encontrado",
-            "auth/invalid-action-code": "Link de verificação inválido",
+            "auth/invalid-action-code": "Link inválido",
             "auth/expired-action-code": "Link expirado",
             "emailVerified": "Email verificado",
             "updatePassword": "Senha alterada!"

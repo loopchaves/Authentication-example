@@ -60,7 +60,8 @@ export default function Signin() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       await updateProfile(userCredential.user, { displayName: values.name });
-      await sendEmailVerification(userCredential.user).then(() => navigate('/'));
+      await sendEmailVerification(userCredential.user);
+      navigate('/');
     } catch (error) {
       dispatch(displayLoading(false));
       dispatch(setAlert({ msg: error.code, type: 'error' }));

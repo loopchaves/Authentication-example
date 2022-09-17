@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { auth } from '../firebaseCfg';
 import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading } from '../app/appSlice';
+import { addUser, getUid } from '../app/userSlice';
 
 import User from '../components/home/User';
 import Login from '../components/home/Login';
@@ -10,13 +11,23 @@ import Login from '../components/home/Login';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const [user, setUser] = useState(false);
-
-  const handlerUser = (user) => setUser(user);
+  const logged = useSelector(getUid);
 
   const checkUser = useCallback(() => {
     onAuthStateChanged(auth, (user) => {
-      user ? setUser(true) : dispatch(displayLoading(false));
+      if (user) {
+        const payload = {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          creationDate: new Date(parseInt(user.metadata.createdAt)).toLocaleString(),
+          lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toLocaleString()
+        }
+        dispatch(addUser(payload));
+      } else {
+        dispatch(displayLoading(false));
+      }
     });
   }, [dispatch])
 
@@ -24,9 +35,7 @@ export default function Home() {
 
   return (
     <>
-      {user
-        ? <User handlerUser={handlerUser} />
-        : <Login handlerUser={handlerUser} />}
+      {logged ? <User /> : <Login />}
     </>
   );
 }

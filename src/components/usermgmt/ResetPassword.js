@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
+import { addUser } from '../../app/userSlice';
 
 import { Input } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -41,7 +42,16 @@ export default function ResetPassword({ actionCode }) {
   async function submit(values) {
     try {
       await confirmPasswordReset(auth, actionCode, values.newPassword);
-      await signInWithEmailAndPassword(auth, email, values.newPassword);
+      const userCredential = await signInWithEmailAndPassword(auth, email, values.newPassword);
+      const payload = {
+        uid: userCredential.user.uid,
+        name: userCredential.user.displayName,
+        email: userCredential.user.email,
+        emailVerified: userCredential.user.emailVerified,
+        creationDate: new Date(parseInt(userCredential.user.metadata.createdAt)).toLocaleString(),
+        lastLogin: new Date(parseInt(userCredential.user.metadata.lastLoginAt)).toLocaleString()
+      }
+      dispatch(addUser(payload));
       dispatch(setAlert({ msg: 'updatePassword', type: 'notice' }));
       navigate('/');
     } catch (error) {

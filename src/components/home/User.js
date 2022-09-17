@@ -1,58 +1,41 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { auth } from '../../firebaseCfg'
 import { signOut } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
+import { getUser, removeUser } from '../../app/userSlice';
+
+import UserTabBar from '../layout/UserTabBar';
 
 import styles from './styles/User.module.sass';
 import language from '../../lang/lang.json';
 
 
-export default function User({ handlerUser }) {
+export default function User() {
   const dispatch = useDispatch();
+  const user = useSelector(getUser);
   const lang = language[useSelector(getLanguage)];
-  const [user, setUser] = useState({
-    displayName: '',
-    email: '',
-    emailVerified: true,
-    metadata: {
-      creationTime: '',
-      lastSignInTime: ''
-    }
-  });
 
   async function logout() {
     dispatch(displayLoading(true));
     dispatch(setAlert({ msg: undefined, type: '' }));
     try {
       await signOut(auth);
-      handlerUser(false);
+      dispatch(removeUser());
     } catch (error) {
       dispatch(setAlert({ msg: error.code, type: 'error' }));
-    }
-    dispatch(displayLoading(false));
-  }
-
-  const getUser = useCallback(() => {
-    console.log('Callback');
-    if (auth.currentUser) {
-      const metadata = auth.currentUser.metadata;
-      const creationTime = Date.parse(metadata.creationTime);
-      const lastSignInTime = Date.parse(metadata.lastSignInTime);
-      setUser({
-        ...auth.currentUser,
-        metadata: {
-          creationTime: new Date(creationTime).toLocaleString(),
-          lastSignInTime: new Date(lastSignInTime).toLocaleString()
-        }
-      });
       dispatch(displayLoading(false));
     }
+  }
+
+  const loadingOff = useCallback(() => {
+    dispatch(displayLoading(false))
   }, [dispatch]);
 
-  useEffect(() => getUser(), [getUser]);
+  useEffect(() => loadingOff(), [loadingOff]);
 
-  return (
+  return (<>
+    <UserTabBar />
     <div className={styles.container}>
       {!user.emailVerified && (
         <div className={styles.emailVerified}>
@@ -61,7 +44,7 @@ export default function User({ handlerUser }) {
       )}
       <p>
         {lang.text.userName}
-        {user.displayName}
+        {user.name}
       </p>
       <p>
         {lang.text.userEmail}
@@ -75,15 +58,15 @@ export default function User({ handlerUser }) {
       </p>
       <p>
         {lang.text.userSignupDate}
-        {user.metadata.creationTime}
+        {user.creationDate}
       </p>
       <p>
         {lang.text.userLastLogin}
-        {user.metadata.lastSignInTime}
+        {user.lastLogin}
       </p>
       <div className={styles.buttons}>
         <button onClick={() => logout()}>{lang.text.buttonLogout}</button>
       </div>
     </div>
-  );
+  </>);
 }
