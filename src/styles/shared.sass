@@ -1,5 +1,7 @@
 @mixin responsive()
     --font-family: monospace
+    --main-position: center
+    --main-margin-top: 0
 
     // Sizes
     --main-width: 350px
@@ -27,6 +29,9 @@
     --tab-unselected-bg-color: #055
 
     @media screen and ( max-width: 375px )
+        --main-position: flex-start
+        --main-margin-top: 6rem
+
         // Sizes
         --main-width: 90%
         --element-padding-vertical: 1rem
@@ -40,7 +45,7 @@
     height: 100vh
     display: flex
     justify-content: center
-    align-items: center
+    align-items: var(--main-position)
 
 @mixin main()
     width: var(--main-width)
@@ -53,6 +58,7 @@
     flex-direction: column
     justify-content: center
     align-items: stretch
+    margin-top: var(--main-margin-top)
     animation: grow 1s
 
     @keyframes grow

@@ -19,7 +19,6 @@ export default function Login() {
   const navigate = useNavigate();
   const lang = language[useSelector(getLanguage)];
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [token, setToken] = useState();
 
   const handlerNavigate = () => navigate('/signup');
 
@@ -46,7 +45,6 @@ export default function Login() {
   }
 
   async function submit(values) {
-    console.log(token);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       const payload = {
