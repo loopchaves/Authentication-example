@@ -28,15 +28,15 @@ export default function App() {
 
   return (
     <Router>
-      <main className={styles.main}>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/usermgmt' element={<UserMgmt />} />
-        </Routes>
-        {loading && <Loading />}
-        {alert.msg && <AlertMsg />}
-      </main>
+        <main className={styles.main}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/usermgmt' element={<UserMgmt />} />
+          </Routes>
+          {loading && <Loading />}
+          {alert.msg && <AlertMsg />}
+        </main>
     </Router>
   );
 }

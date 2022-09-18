@@ -26,11 +26,6 @@ export default function UserData() {
 
   return (
     <div className={styles.container}>
-      {!user.emailVerified && (
-        <div className={styles.emailVerified}>
-          <p className={styles.msg}>{lang.text.msgVerifyYourEmail}</p>
-        </div>
-      )}
       <p>
         {lang.text.userName}
         {user.name}

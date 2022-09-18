@@ -66,7 +66,7 @@ export default function Login() {
     <>
       {forgotPassword
         ? <ForgotPassword handlerForgotPassword={handlerForgotPassword} />
-        : (<>
+        : (
           <FormBase
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -80,7 +80,7 @@ export default function Login() {
               {lang.text.buttonForgotPassword}
             </p>
           </FormBase>
-        </>)}
+        )}
     </>
   );
 }

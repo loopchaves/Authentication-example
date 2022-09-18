@@ -1,9 +1,9 @@
 @mixin responsive()
     --font-family: monospace
-    --main-position: center
-    --main-margin-top: 0
 
     // Sizes
+    --root-height: 100vh
+    --main-margin-top: 10rem
     --main-width: 350px
     --element-gap: 1.5rem
     --buttons-gap: 1rem
@@ -14,7 +14,7 @@
     --font-size-other: 0.9rem
 
     // Colors
-    --main-bg-color: #ccc
+    --root-bg-color: #ccc
     --element-bg-color: #033
     --border-color: #000
     --text-color: #ccc
@@ -29,10 +29,9 @@
     --tab-unselected-bg-color: #055
 
     @media screen and ( max-width: 375px )
-        --main-position: flex-start
-        --main-margin-top: 6rem
-
         // Sizes
+        --root-height: auto
+        --main-margin-top: 6rem
         --main-width: 90%
         --element-padding-vertical: 1rem
         --element-padding-horizontal: 1.5rem
@@ -40,12 +39,12 @@
 @mixin root()
     @include responsive()
     font-family: var(--font-family)
-    background-color: var(--main-bg-color)
+    background-color: var(--root-bg-color)
     width: 100vw
-    height: 100vh
+    height: var(--root-height)
     display: flex
     justify-content: center
-    align-items: var(--main-position)
+    align-items: flex-start
 
 @mixin main()
     width: var(--main-width)
@@ -74,8 +73,16 @@
     justify-content: center
     align-items: center
     gap: var(--element-gap)
+    animation: show 1s
+
+    @keyframes show
+        0%
+            opacity: 0
+        100%
+            opacity: 1
 
 @mixin input()
+    width: 100%
     border: 1px solid var(--border-color)
     border-radius: 5px
     padding: 0.5rem
@@ -83,6 +90,7 @@
     outline: none
 
 @mixin errorInput()
+    width: 100%
     text-align: center
     font-size: var(--font-size-other)
     font-weight: 600
@@ -101,10 +109,10 @@
 
 @mixin loading()
     @include container()
-    background-color: var(--element-bg-color)
-    border-radius: 10px
     width: 100%
     height: 100%
+    background-color: var(--element-bg-color)
+    border-radius: 10px
     position: absolute
     top: 0
     left: 0
@@ -183,7 +191,6 @@
     bottom: -5rem
     background-color: var(--error-bg-color)
     border: 1px solid var(--error-color)
-    animation: showAlert 0.5s
 
 @mixin notice()
     @include alert()
@@ -191,9 +198,10 @@
     bottom: -5rem
     background-color: var(--notice-bg-color)
     border: 1px solid var(--notice-color)
-    animation: showAlert 0.5s
 
 @mixin slideAlert()
+    animation: showAlert 0.5s
+
     @keyframes showAlert
         0%
             opacity: 0

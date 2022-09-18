@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseCfg';
 import {
@@ -7,7 +8,7 @@ import {
   sendEmailVerification
 } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setAlert } from '../app/appSlice';
+import { displayLoading, isLoading, getLanguage, setAlert } from '../app/appSlice';
 
 import { Input } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
@@ -17,6 +18,7 @@ import language from '../lang/lang.json';
 export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loading = useSelector(isLoading);
   const lang = language[useSelector(getLanguage)];
 
   const handlerNavigate = () => {
@@ -63,6 +65,12 @@ export default function Signin() {
       dispatch(setAlert({ msg: error.code, type: 'error' }));
     }
   }
+
+  const checkLoading = useCallback(() => {
+    if (loading) dispatch(displayLoading(false));
+  }, [loading, dispatch]);
+
+  useEffect(() => checkLoading(), [checkLoading]);
 
   return (
     <FormBase
