@@ -14,7 +14,7 @@ export default function ErrorMsg() {
   const msg = messages[alert.msg];
 
   useEffect(() => {
-    setTimeout(() => dispatch(setAlert({ msg: undefined, type: '' })), 10000);
+    setTimeout(() => dispatch(setAlert(undefined)), 10000);
   }, [dispatch]);
 
   return msg ? (

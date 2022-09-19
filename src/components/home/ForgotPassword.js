@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { auth } from '../../firebaseCfg';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
+import { setLoading, getLanguage, setAlert } from '../../app/appSlice';
 
 import { Email } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -29,12 +29,14 @@ export default function ForgotPassword({ handlerForgotPassword }) {
 
   async function submit(values) {
     try {
+      dispatch(setLoading(true));
       await sendPasswordResetEmail(auth, values.email);
       setEmailSend(true);
+      dispatch(setLoading(false));
     } catch (error) {
       dispatch(setAlert({ msg: error.code, type: 'error' }));
+      dispatch(setLoading(false));
     }
-    dispatch(displayLoading(false));
   }
 
   return (

@@ -1,6 +1,6 @@
 import { useField } from 'formik';
 import { useSelector } from 'react-redux';
-import { isLoading } from '../../app/appSlice';
+import { getLoading } from '../../app/appSlice';
 
 import styles from './styles/Input.module.sass';
 
@@ -25,7 +25,7 @@ export function Select({ label, ...props }) {
 }
 
 export function Name({ label, ...props }) {
-  const hideKeyboard = useSelector(isLoading) ? { inputMode: 'none' } : null;
+  const hideKeyboard = useSelector(getLoading) ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -49,7 +49,7 @@ export function Name({ label, ...props }) {
 }
 
 export function Email({ label, ...props }) {
-  const hideKeyboard = useSelector(isLoading) ? { inputMode: 'none' } : null;
+  const hideKeyboard = useSelector(getLoading) ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -75,7 +75,7 @@ export function Email({ label, ...props }) {
 }
 
 export function Password({ label, ...props }) {
-  const hideKeyboard = useSelector(isLoading) ? { inputMode: 'none' } : null;
+  const hideKeyboard = useSelector(getLoading) ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (

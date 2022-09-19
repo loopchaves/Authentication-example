@@ -1,8 +1,8 @@
 import { auth } from '../../firebaseCfg'
 import { signOut } from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
-import { getUser, removeUser } from '../../app/userSlice';
+import { getLanguage, setAlert } from '../../app/appSlice';
+import { getUser, setUser } from '../../app/appSlice';
 
 import styles from './styles/UserData.module.sass';
 import language from '../../lang/lang.json';
@@ -13,14 +13,12 @@ export default function UserData() {
   const lang = language[useSelector(getLanguage)];
 
   async function logout() {
-    dispatch(displayLoading(true));
-    dispatch(setAlert({ msg: undefined, type: '' }));
+    dispatch(setAlert(undefined));
     try {
       await signOut(auth);
-      dispatch(removeUser());
+      dispatch(setUser(undefined));
     } catch (error) {
       dispatch(setAlert({ msg: error.code, type: 'error' }));
-      dispatch(displayLoading(false));
     }
   }
 

@@ -1,15 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { auth } from '../../firebaseCfg';
-import {
-  verifyPasswordResetCode,
-  confirmPasswordReset,
-  signInWithEmailAndPassword
-} from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
-import { addUser } from '../../app/userSlice';
+import { verifyPasswordCode, tryPasswordReset, getLanguage } from '../../app/appSlice';
 
 import { Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -39,40 +32,19 @@ export default function ResetPassword({ actionCode }) {
       .required(lang.inputError.required)
   });
 
-  async function submit(values) {
-    try {
-      await confirmPasswordReset(auth, actionCode, values.newPassword);
-      const userCredential = await signInWithEmailAndPassword(auth, email, values.newPassword);
-      const payload = {
-        uid: userCredential.user.uid,
-        name: userCredential.user.displayName,
-        email: userCredential.user.email,
-        emailVerified: userCredential.user.emailVerified,
-        creationDate: new Date(parseInt(userCredential.user.metadata.createdAt)).toLocaleString(),
-        lastLogin: new Date(parseInt(userCredential.user.metadata.lastLoginAt)).toLocaleString()
-      }
-      dispatch(addUser(payload));
-      dispatch(setAlert({ msg: 'updatePassword', type: 'notice' }));
-      navigate('/');
-    } catch (error) {
-      dispatch(setAlert({ msg: error.code, type: 'error' }));
-    }
-    dispatch(displayLoading(false));
+  function submit(values) {
+    dispatch(tryPasswordReset({ ...values, 'actionCode': actionCode, 'email': email }))
+    .then((action) => {
+      if (action.payload) navigate('/');
+    });
   }
 
   useEffect(() => {
-    async function checkActionCode() {
-      try {
-        const userEmail = await verifyPasswordResetCode(auth, actionCode);
-        setEmail(userEmail);
-        dispatch(displayLoading(false));
-      } catch (error) {
-        dispatch(setAlert({ msg: error.code, type: 'error' }));
-        setTimeout(() => navigate('/'), 1000);
-      }
-    }
-    checkActionCode();
-  }, [actionCode, dispatch, navigate]);
+    dispatch(verifyPasswordCode(actionCode))
+      .then((action) => {
+        action.error ? navigate('/') : setEmail(action.payload);
+      });
+  }, [dispatch, actionCode, navigate]);
 
   return (
     <FormBase

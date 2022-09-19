@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading } from '../../app/appSlice';
-import { getEmailVerified } from '../../app/userSlice';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getEmailVerified } from '../../app/appSlice';
 
 import UserTabBar from '../layout/UserTabBar';
 import UserData from '../user/UserData';
@@ -12,19 +11,12 @@ import EmailVerifiedAlert from '../layout/EmailVerifiedAlert';
 
 
 export default function User() {
-  const dispatch = useDispatch();
   const emailVerified = useSelector(getEmailVerified);
   const [selected, setSelected] = useState('data');
 
   function handlerClick(tab) {
     setSelected(tab);
   }
-
-  const loadingOff = useCallback(() => {
-    dispatch(displayLoading(false))
-  }, [dispatch]);
-
-  useEffect(() => loadingOff(), [loadingOff]);
 
   return (<>
     {!emailVerified && <EmailVerifiedAlert />}

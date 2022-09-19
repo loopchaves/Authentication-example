@@ -1,14 +1,8 @@
 import * as Yup from 'yup';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebaseCfg';
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-  sendEmailVerification
-} from "firebase/auth";
 import { useSelector, useDispatch } from 'react-redux';
-import { displayLoading, isLoading, getLanguage, setAlert } from '../app/appSlice';
+import { trySignup, setLoading, getLanguage, setAlert } from '../app/appSlice';
 
 import { Name, Email, Password } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
@@ -18,11 +12,10 @@ import language from '../lang/lang.json';
 export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loading = useSelector(isLoading);
   const lang = language[useSelector(getLanguage)];
 
   const handlerNavigate = () => {
-    dispatch(setAlert({ msg: undefined, type: '' }));
+    dispatch(setAlert(undefined));
     navigate('/');
   }
 
@@ -54,22 +47,15 @@ export default function Signin() {
     label: lang.text.buttonCancel
   }
 
-  async function submit(values) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await updateProfile(userCredential.user, { displayName: values.name });
-      await sendEmailVerification(userCredential.user);
-      navigate('/');
-    } catch (error) {
-      dispatch(displayLoading(false));
-      dispatch(setAlert({ msg: error.code, type: 'error' }));
-    }
+  function submit(values) {
+    dispatch(trySignup(values)).then((action) => {
+      if (action.payload) navigate('/');
+    });
   }
 
   useEffect(() => {
-    if (loading) dispatch(displayLoading(false));
-    // eslint-disable-next-line
-  }, []);
+    dispatch(setLoading(false));
+  }, [dispatch])
 
   return (
     <FormBase
