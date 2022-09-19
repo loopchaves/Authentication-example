@@ -12,7 +12,7 @@ export default function VerifyEmail({ actionCode }) {
 
   useEffect(() => {
     dispatch(verifyEmailCode(actionCode)).then(() => navigate('/'));
-  }, [dispatch, actionCode]);
+  }, [dispatch, actionCode, navigate]);
 
   return <div className={styles.blank}></div>;
 }

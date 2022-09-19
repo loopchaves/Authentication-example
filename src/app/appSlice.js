@@ -81,6 +81,7 @@ export const verifyEmailCode = createAsyncThunk(
   async (actionCode) => {
     await applyActionCode(auth, actionCode);
     await auth.currentUser.reload();
+    return true;
   }
 );
 
