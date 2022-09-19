@@ -48,17 +48,17 @@ export default function App() {
 
   return (
     <Router>
-      {loaded && (
-        <main className={styles.main}>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/usermgmt' element={<UserMgmt />} />
-          </Routes>
-          {loading && <Loading />}
-          {alert.msg && <AlertMsg />}
-        </main>
-      )}
+      <main className={styles.main}>
+        <Routes>
+          <Route path='/' element={loaded
+            ? <Home />
+            : <div className={styles.blank}></div>} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/usermgmt' element={<UserMgmt />} />
+        </Routes>
+        {loading && <Loading />}
+        {alert.msg && <AlertMsg />}
+      </main>
     </Router>
   );
 }
