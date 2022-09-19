@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseCfg';
 import {
@@ -66,11 +66,10 @@ export default function Signin() {
     }
   }
 
-  const checkLoading = useCallback(() => {
+  useEffect(() => {
     if (loading) dispatch(displayLoading(false));
-  }, [loading, dispatch]);
-
-  useEffect(() => checkLoading(), [checkLoading]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <FormBase
@@ -80,8 +79,8 @@ export default function Signin() {
       buttonSubmit={lang.text.buttonRegister}
       buttonAction={buttonAction}
     >
-      <Input type='text' label={lang.text.labelName} name='name' />
-      <Input type='text' label={lang.text.labelEmail} name='email' />
+      <Input type='text' label={lang.text.labelName} name='name' autoCapitalize='words' autoFocus />
+      <Input type='text' label={lang.text.labelEmail} name='email' autoCapitalize='none' inputMode='email' />
       <Input type='password' label={lang.text.labelPassword} name='password' />
       <Input type='password' label={lang.text.labelConfirmPassword} name='confirmPassword' />
     </FormBase>

@@ -1,4 +1,6 @@
 import { useField } from 'formik';
+import { useSelector } from 'react-redux';
+import { isLoading } from '../../app/appSlice';
 
 import styles from './styles/Input.module.sass';
 
@@ -23,6 +25,7 @@ export function Select({ label, ...props }) {
 }
 
 export function Input({ label, ...props }) {
+  const hideKeyboard = useSelector(isLoading) ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -31,8 +34,8 @@ export function Input({ label, ...props }) {
       <input
         onClick={() => setError(undefined)}
         className={styles.input}
-        autoComplete='off'
         maxLength='40'
+        {...hideKeyboard}
         {...field}
         {...props}
       />

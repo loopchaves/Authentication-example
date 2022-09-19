@@ -74,7 +74,7 @@ export default function Login() {
             buttonSubmit={lang.text.buttonLogin}
             buttonAction={buttonAction}
           >
-            <Input type='text' label={lang.text.labelEmail} name='email' />
+            <Input type='text' label={lang.text.labelEmail} name='email' autoCapitalize='none' inputMode='email' autoFocus />
             <Input type='password' label={lang.text.labelPassword} name='password' />
             <p onClick={() => handlerForgotPassword()} className={styles.forgotPasswordLink}>
               {lang.text.buttonForgotPassword}
