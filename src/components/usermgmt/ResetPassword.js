@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 import { addUser } from '../../app/userSlice';
 
-import { Input } from '../layout/Input';
+import { Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
 import styles from './styles/ResetPassword.module.sass';
 import language from '../../lang/lang.json';
@@ -85,8 +85,8 @@ export default function ResetPassword({ actionCode }) {
         {lang.text.userEmail}
         {email}
       </p>
-      <Input type='password' label={lang.text.labelNewPassword} name='newPassword' />
-      <Input type='password' label={lang.text.labelConfirmNewPassword} name='confirmNewPassword' />
+      <Password label={lang.text.labelNewPassword} name='newPassword' autoComplete='new-password' autoFocus />
+      <Password label={lang.text.labelConfirmNewPassword} name='confirmNewPassword' autoComplete='new-password' />
     </FormBase>
   );
 }

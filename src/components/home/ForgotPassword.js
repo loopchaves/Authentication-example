@@ -5,7 +5,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 
-import { Input } from '../layout/Input';
+import { Email } from '../layout/Input';
 import FormBase from '../layout/FormBase';
 import styles from './styles/ForgotPassword.module.sass';
 import language from '../../lang/lang.json';
@@ -54,7 +54,7 @@ export default function ForgotPassword({ handlerForgotPassword }) {
             buttonAction={buttonAction}
           >
             <h2 className={styles.msg}>{lang.text.titleForgotPassword}</h2>
-            <Input type='text' label={lang.text.labelEmail} name='email' />
+            <Email label={lang.text.labelEmail} name='email' autoComplete='email' autoFocus />
           </FormBase>
         )}
     </>

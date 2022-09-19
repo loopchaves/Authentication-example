@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, isLoading, getLanguage, setAlert } from '../app/appSlice';
 
-import { Input } from '../components/layout/Input';
+import { Name, Email, Password } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
 import language from '../lang/lang.json';
 
@@ -79,10 +79,10 @@ export default function Signin() {
       buttonSubmit={lang.text.buttonRegister}
       buttonAction={buttonAction}
     >
-      <Input type='text' label={lang.text.labelName} name='name' autoCapitalize='words' autoFocus />
-      <Input type='text' label={lang.text.labelEmail} name='email' autoCapitalize='none' inputMode='email' />
-      <Input type='password' label={lang.text.labelPassword} name='password' />
-      <Input type='password' label={lang.text.labelConfirmPassword} name='confirmPassword' />
+      <Name label={lang.text.labelName} name='name' autoComplete='name' autoFocus />
+      <Email label={lang.text.labelEmail} name='email' autoComplete='email' />
+      <Password label={lang.text.labelPassword} name='password' autoComplete='new-password' />
+      <Password label={lang.text.labelConfirmPassword} name='confirmPassword' autoComplete='new-password' />
     </FormBase>
   );
 }

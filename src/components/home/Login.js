@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { displayLoading, getLanguage, setAlert } from '../../app/appSlice';
 import { addUser } from '../../app/userSlice';
 
-import { Input } from '../layout/Input';
+import { Email, Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
 import ForgotPassword from '../home/ForgotPassword';
 import styles from './styles/Login.module.sass';
@@ -74,8 +74,8 @@ export default function Login() {
             buttonSubmit={lang.text.buttonLogin}
             buttonAction={buttonAction}
           >
-            <Input type='text' label={lang.text.labelEmail} name='email' autoCapitalize='none' inputMode='email' autoFocus />
-            <Input type='password' label={lang.text.labelPassword} name='password' />
+            <Email label={lang.text.labelEmail} name='email' autoComplete='username' autoFocus />
+            <Password label={lang.text.labelPassword} name='password' autoComplete='current-password' />
             <p onClick={() => handlerForgotPassword()} className={styles.forgotPasswordLink}>
               {lang.text.buttonForgotPassword}
             </p>
