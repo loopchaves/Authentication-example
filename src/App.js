@@ -37,8 +37,9 @@ export default function App() {
           lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toLocaleString()
         }
         dispatch(addUser(payload));
+      } else {
+        dispatch(displayLoading(false));
       }
-      dispatch(displayLoading(false));
       setLoaded(true);
     });
   }, [dispatch]);
