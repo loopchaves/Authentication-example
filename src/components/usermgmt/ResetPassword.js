@@ -33,7 +33,7 @@ export default function ResetPassword({ actionCode }) {
   });
 
   function submit(values) {
-    dispatch(tryPasswordReset({ ...values, 'actionCode': actionCode, 'email': email }))
+    dispatch(tryPasswordReset({ ...values, actionCode: actionCode, email: email }))
     .then((action) => {
       if (action.payload) navigate('/');
     });

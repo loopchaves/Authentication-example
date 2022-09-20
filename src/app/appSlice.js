@@ -29,6 +29,21 @@ const userPattern = (currentUser) => {
   }
 }
 
+const showError = (state, action) => {
+  state.loading = false;
+  state.alert = { msg: action.error.code, type: 'error' }
+}
+
+const showNotice = (state, notice) => {
+  state.loading = false;
+  if (notice) state.alert = { msg: notice, type: 'notice' }
+}
+
+const changeUser = (state, action, notice) => {
+  if (action.payload) state.user = action.payload;
+  showNotice(state, notice);
+}
+
 export const checkUser = createAsyncThunk(
   'app/checkUser',
   async () => {
@@ -97,64 +112,30 @@ export const appSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(checkUser.pending, (state) => { state.loading = true })
-      .addCase(checkUser.fulfilled, (state, action) => {
-        if (action.payload) state.user = action.payload;
-        state.loading = false;
-      });
+      .addCase(checkUser.fulfilled, (state, action) => { changeUser(state, action, null) });
 
     builder
       .addCase(tryLogin.pending, (state) => { state.loading = true })
-      .addCase(tryLogin.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.loading = false;
-      })
-      .addCase(tryLogin.rejected, (state, action) => {
-        state.loading = false;
-        state.alert = { msg: action.error.code, type: 'error' }
-      });
+      .addCase(tryLogin.fulfilled, (state, action) => { changeUser(state, action, null) })
+      .addCase(tryLogin.rejected, (state, action) => { showError(state, action) });
 
     builder
       .addCase(trySignup.pending, (state) => { state.loading = true })
-      .addCase(trySignup.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.loading = false;
-      })
-      .addCase(trySignup.rejected, (state, action) => {
-        state.loading = false;
-        state.alert = { msg: action.error.code, type: 'error' }
-      });
+      .addCase(trySignup.fulfilled, (state, action) => { changeUser(state, action, null) })
+      .addCase(trySignup.rejected, (state, action) => { showError(state, action) });
 
     builder
-      .addCase(verifyPasswordCode.pending, (state) => { state.loading = true })
       .addCase(verifyPasswordCode.fulfilled, (state) => { state.loading = false })
-      .addCase(verifyPasswordCode.rejected, (state, action) => {
-        state.loading = false;
-        state.alert = { msg: action.error.code, type: 'error' }
-      });
+      .addCase(verifyPasswordCode.rejected, (state, action) => { showError(state, action) });
 
     builder
       .addCase(tryPasswordReset.pending, (state) => { state.loading = true })
-      .addCase(tryPasswordReset.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.loading = false;
-        state.alert = { msg: 'updatePassword', type: 'notice' }
-      })
-      .addCase(tryPasswordReset.rejected, (state, action) => {
-        state.loading = false;
-        state.alert = { msg: action.error.code, type: 'error' }
-      })
+      .addCase(tryPasswordReset.fulfilled, (state, action) => { changeUser(state, action, 'updatePassword') })
+      .addCase(tryPasswordReset.rejected, (state, action) => { showError(state, action) })
 
     builder
-      .addCase(verifyEmailCode.pending, (state) => { state.loading = true })
-      .addCase(verifyEmailCode.fulfilled, (state) => {
-        state.loading = false;
-        state.alert = { msg: 'emailVerified', type: 'notice' }
-      })
-      .addCase(verifyEmailCode.rejected, (state, action) => {
-        state.loading = false;
-        state.alert = { msg: action.error.code, type: 'error' }
-      });
+      .addCase(verifyEmailCode.fulfilled, (state) => { showNotice(state, 'emailVerified') })
+      .addCase(verifyEmailCode.rejected, (state, action) => { showError(state, action) });
   }
 });
 
