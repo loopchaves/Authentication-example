@@ -107,7 +107,10 @@ export const appSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(checkUser.fulfilled, (state, action) => { changeUser(state, action, null) });
+      .addCase(checkUser.fulfilled, (state, action) => { 
+        if (!action.payload) state.loading = false;
+        changeUser(state, action, null);
+      });
 
     builder
       .addCase(tryLogin.pending, (state) => { state.loading = true })

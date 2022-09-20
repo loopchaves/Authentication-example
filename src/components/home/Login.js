@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import { tryLogin, setLoading, getLanguage, setAlert } from '../../app/appSlice';
+import { tryLogin, getLanguage, setAlert } from '../../app/appSlice';
 
 import { Email, Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -44,10 +44,6 @@ export default function Login() {
   function submit(values) {
     dispatch(tryLogin(values));
   }
-
-  useEffect(() => {
-    dispatch(setLoading(false));
-  }, [dispatch]);
 
   return (
     <>
