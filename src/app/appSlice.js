@@ -34,14 +34,9 @@ const showError = (state, action) => {
   state.alert = { msg: action.error.code, type: 'error' }
 }
 
-const showNotice = (state, notice) => {
-  state.loading = false;
-  if (notice) state.alert = { msg: notice, type: 'notice' }
-}
-
 const changeUser = (state, action, notice) => {
   if (action.payload) state.user = action.payload;
-  showNotice(state, notice);
+  if (notice) state.alert = { msg: notice, type: 'notice' }
 }
 
 export const checkUser = createAsyncThunk(
@@ -134,7 +129,7 @@ export const appSlice = createSlice({
       .addCase(tryPasswordReset.rejected, (state, action) => { showError(state, action) })
 
     builder
-      .addCase(verifyEmailCode.fulfilled, (state) => { showNotice(state, 'emailVerified') })
+      .addCase(verifyEmailCode.fulfilled, (state) => { state.alert = { msg: 'emailVerified', type: 'notice' } })
       .addCase(verifyEmailCode.rejected, (state, action) => { showError(state, action) });
   }
 });

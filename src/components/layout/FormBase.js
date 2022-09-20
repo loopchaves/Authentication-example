@@ -35,7 +35,7 @@ export default function FormBase({
           <div className={styles.buttons}>
             <button type='submit' disabled={loading}>{buttonSubmit}</button>
             {buttonAction ? (
-              <button onClick={() => buttonAction.action()}>{buttonAction.label}</button>
+              <button onClick={() => buttonAction.action()} disabled={loading}>{buttonAction.label}</button>
             ) : null}
           </div>
         </div>

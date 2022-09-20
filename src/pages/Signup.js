@@ -65,7 +65,7 @@ export default function Signin() {
       buttonSubmit={lang.text.buttonRegister}
       buttonAction={buttonAction}
     >
-      <Name label={lang.text.labelName} name='name' autoComplete='name' autoFocus />
+      <Name label={lang.text.labelName} name='name' autoComplete='name' />
       <Email label={lang.text.labelEmail} name='email' autoComplete='email' />
       <Password label={lang.text.labelPassword} name='password' autoComplete='new-password' />
       <Password label={lang.text.labelConfirmPassword} name='confirmPassword' autoComplete='new-password' />

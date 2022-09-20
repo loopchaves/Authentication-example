@@ -56,7 +56,7 @@ export default function ForgotPassword({ handlerForgotPassword }) {
             buttonAction={buttonAction}
           >
             <h2 className={styles.msg}>{lang.text.titleForgotPassword}</h2>
-            <Email label={lang.text.labelEmail} name='email' autoComplete='email' autoFocus />
+            <Email label={lang.text.labelEmail} name='email' autoComplete='email' />
           </FormBase>
         )}
     </>

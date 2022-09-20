@@ -6,6 +6,7 @@ import styles from './styles/Input.module.sass';
 
 
 export function Select({ label, ...props }) {
+  const loading = useSelector(getLoading);
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -14,6 +15,7 @@ export function Select({ label, ...props }) {
       <select
         onClick={() => setError(undefined)}
         className={styles.input}
+        disabled={loading}
         {...field}
         {...props}
       />
@@ -25,7 +27,8 @@ export function Select({ label, ...props }) {
 }
 
 export function Name({ label, ...props }) {
-  const hideKeyboard = useSelector(getLoading) ? { inputMode: 'none' } : null;
+  const loading = useSelector(getLoading);
+  const hideKeyboard = loading ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -37,6 +40,7 @@ export function Name({ label, ...props }) {
         maxLength='40'
         type='text'
         autoCapitalize='words'
+        disabled={loading}
         {...hideKeyboard}
         {...field}
         {...props}
@@ -49,7 +53,8 @@ export function Name({ label, ...props }) {
 }
 
 export function Email({ label, ...props }) {
-  const hideKeyboard = useSelector(getLoading) ? { inputMode: 'none' } : null;
+  const loading = useSelector(getLoading);
+  const hideKeyboard = loading ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -63,6 +68,7 @@ export function Email({ label, ...props }) {
         autoCapitalize='none'
         spellCheck={false}
         inputMode='email'
+        disabled={loading}
         {...hideKeyboard}
         {...field}
         {...props}
@@ -75,7 +81,8 @@ export function Email({ label, ...props }) {
 }
 
 export function Password({ label, ...props }) {
-  const hideKeyboard = useSelector(getLoading) ? { inputMode: 'none' } : null;
+  const loading = useSelector(getLoading);
+  const hideKeyboard = loading ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
   return (
@@ -88,6 +95,7 @@ export function Password({ label, ...props }) {
         type='password'
         autoCapitalize='none'
         spellCheck={false}
+        disabled={loading}
         {...hideKeyboard}
         {...field}
         {...props}

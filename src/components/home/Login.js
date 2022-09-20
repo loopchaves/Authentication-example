@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import { tryLogin, getLanguage, setAlert } from '../../app/appSlice';
+import { tryLogin, setLoading, getLanguage, setAlert } from '../../app/appSlice';
 
 import { Email, Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -45,6 +45,10 @@ export default function Login() {
     dispatch(tryLogin(values));
   }
 
+  useEffect(() => {
+    dispatch(setLoading(false));
+  }, [dispatch]);
+
   return (
     <>
       {forgotPassword
@@ -57,7 +61,7 @@ export default function Login() {
             buttonSubmit={lang.text.buttonLogin}
             buttonAction={buttonAction}
           >
-            <Email label={lang.text.labelEmail} name='email' autoComplete='username' autoFocus />
+            <Email label={lang.text.labelEmail} name='email' autoComplete='username' />
             <Password label={lang.text.labelPassword} name='password' autoComplete='current-password' />
             <p onClick={() => handlerForgotPassword()} className={styles.forgotPasswordLink}>
               {lang.text.buttonForgotPassword}
