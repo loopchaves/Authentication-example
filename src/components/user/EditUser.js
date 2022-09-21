@@ -54,6 +54,7 @@ const EditUser = ({ lang, user, tryEditUser, setLoading, setAlert }) => {
         validationSchema={validationSchema}
         onSubmit={submit}
         buttonSubmit={lang.text.buttonSave}
+        recaptcha={true}
       >
         <Name label={lang.text.labelName} name='name' autoComplete='name' />
         <Email label={lang.text.labelEmail} name='email' autoComplete='email' />

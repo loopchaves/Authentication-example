@@ -14,6 +14,8 @@ const EmailVerifiedAlert = ({ verifyYourEmail }) => {
   );
 }
 
-const mapState = (state) => ({ verifyYourEmail: language[state.app.language].alert.verifyYourEmail })
+const mapState = (state) => ({
+  verifyYourEmail: language[state.app.language].alert.verifyYourEmail
+})
 
 export default connect(mapState, null)(EmailVerifiedAlert);

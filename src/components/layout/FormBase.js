@@ -1,20 +1,36 @@
+import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
+import { setAlert } from '../../app/appSlice';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import styles from './styles/FormBase.module.sass';
 
 const FormBase = ({
+  hl,
   loading,
+  setAlert,
   children,
   initialValues,
   validationSchema,
   onSubmit,
   buttonSubmit,
-  buttonAction
+  buttonAction,
+  recaptcha
 }) => {
+  const [token, setToken] = useState(!recaptcha);
+
   const submit = (values, setSubmitting, resetForm) => {
     setSubmitting(false);
-    onSubmit(values, resetForm);
+    if (token) {
+      onSubmit(values, resetForm);
+    } else {
+      setAlert({ msg: 'recaptcha', type: 'error' })
+    }
+  }
+
+  const onChange = (value) => {
+    if (value) setToken(true);
   }
 
   return (
@@ -34,12 +50,24 @@ const FormBase = ({
               <button onClick={() => buttonAction.action()} disabled={loading}>{buttonAction.label}</button>
             ) : null}
           </div>
+          {recaptcha &&
+            <ReCAPTCHA
+              sitekey={process.env.REACT_APP_RECAPTCHA}
+              onChange={onChange}
+              hl={hl}
+            />
+          }
         </div>
       </Form>
     </Formik>
   );
 }
 
-const mapState = (state) => ({ loading: state.app.loading })
+const mapState = (state) => ({
+  hl: state.app.language,
+  loading: state.app.loading
+})
 
-export default connect(mapState, null)(FormBase);
+const mapDispatch = { setAlert }
+
+export default connect(mapState, mapDispatch)(FormBase);

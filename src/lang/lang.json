@@ -52,7 +52,8 @@
             "updatePassword": "Password changed!",
             "verifyYourEmail": "Verify your email",
             "profileEdited": "Profile edited!",
-            "noDataChanged": "No data changed"
+            "noDataChanged": "No data changed",
+            "recaptcha": "solve the reCAPTCHA"
         }
     },
     "pt": {
@@ -108,7 +109,8 @@
             "updatePassword": "Senha alterada!",
             "verifyYourEmail": "Verifique seu email",
             "profileEdited": "Perfil editado!",
-            "noDataChanged": "Nenhum dado alterado"
+            "noDataChanged": "Nenhum dado alterado",
+            "recaptcha": "Resolva o reCAPTCHA"
         }
     }
 }
