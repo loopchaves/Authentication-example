@@ -9,10 +9,10 @@
 - Sign up form
 - Reset password
 - Email verification
+- Edit user information
 
 ## TODO
 
-- Edit user information
 - Delete user
 
 ## Tools used

@@ -186,19 +186,19 @@
     @include alert()
     background-color: var(--error-bg-color)
     border: 1px solid var(--error-color)
-    top: -5rem
+    bottom: -5rem
 
 @mixin error()
     @include alert()
     @include slideAlert()
-    bottom: -5rem
+    top: -5rem
     background-color: var(--error-bg-color)
     border: 1px solid var(--error-color)
 
 @mixin notice()
     @include alert()
     @include slideAlert()
-    bottom: -5rem
+    top: -5rem
     background-color: var(--notice-bg-color)
     border: 1px solid var(--notice-color)
 
