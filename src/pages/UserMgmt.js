@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { verifyEmailCode } from '../app/appSlice';
 
 import ResetPassword from '../components/usermgmt/ResetPassword';
+import VerifyEmail from '../components/usermgmt/VerifyEmail';
 
-import styles from './styles/UserMgmt.module.sass';
-
-const UserMgmt = ({ verifyEmailCode }) => {
+const UserMgmt = () => {
   const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
   const mode = params.get('mode');
@@ -17,8 +14,7 @@ const UserMgmt = ({ verifyEmailCode }) => {
       return <ResetPassword actionCode={actionCode} />;
 
     case 'verifyEmail':
-      verifyEmailCode(actionCode).then(() => navigate('/'));
-      return <div className={styles.blank}></div>
+      return <VerifyEmail actionCode={actionCode} />;
 
     default:
       navigate('/');
@@ -26,6 +22,4 @@ const UserMgmt = ({ verifyEmailCode }) => {
   }
 }
 
-const mapDispatch = { verifyEmailCode }
-
-export default connect(null, mapDispatch)(UserMgmt);
+export default UserMgmt;
