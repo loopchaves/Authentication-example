@@ -1,21 +1,18 @@
 import * as Yup from 'yup';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { trySignup, setLoading, getLanguage, setAlert } from '../app/appSlice';
+import { connect } from 'react-redux';
+import { trySignup, setLoading, setAlert } from '../app/appSlice';
 
 import { Name, Email, Password } from '../components/layout/Input';
 import FormBase from '../components/layout/FormBase';
 import language from '../lang/lang.json';
 
 
-export default function Signin() {
-  const dispatch = useDispatch();
+const Signup = ({ lang, trySignup, setLoading, setAlert }) => {
   const navigate = useNavigate();
-  const lang = language[useSelector(getLanguage)];
-
   const handlerNavigate = () => {
-    dispatch(setAlert(undefined));
+    setAlert(null);
     navigate('/');
   }
 
@@ -47,15 +44,15 @@ export default function Signin() {
     label: lang.text.buttonCancel
   }
 
-  function submit(values) {
-    dispatch(trySignup(values)).then((action) => {
+  const submit = (values) => {
+    trySignup(values).then((action) => {
       if (action.payload) navigate('/');
     });
   }
 
   useEffect(() => {
-    dispatch(setLoading(false));
-  }, [dispatch])
+    setLoading(false);
+  }, [setLoading])
 
   return (
     <FormBase
@@ -72,3 +69,8 @@ export default function Signin() {
     </FormBase>
   );
 }
+
+const mapState = (state) => ({ lang: language[state.app.language] })
+const mapDispatch = { trySignup, setLoading, setAlert }
+
+export default connect(mapState, mapDispatch)(Signup);

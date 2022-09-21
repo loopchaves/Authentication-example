@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
-import { auth } from './firebaseCfg';
-import { useSelector, useDispatch } from 'react-redux';
-import { getLoading, setLanguage, getAlert } from './app/appSlice';
+import { auth } from './app/firebaseCfg';
+import { connect } from 'react-redux';
+import { setLanguage } from './app/appSlice';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
@@ -13,16 +13,12 @@ import AlertMsg from './components/layout/AlertMsg';
 import styles from './styles/App.module.sass';
 
 
-export default function App() {
-  const loading = useSelector(getLoading);
-  const alert = useSelector(getAlert);
-  const dispatch = useDispatch();
-
+const App = ({ loading, alert, setLanguage }) => {
   useLayoutEffect(() => {
     auth.useDeviceLanguage();
     if (auth.languageCode.substring(0, 2) === 'pt')
-      dispatch(setLanguage('pt'));
-  }, [dispatch]);
+      setLanguage('pt');
+  }, [setLanguage]);
 
   return (
     <Router>
@@ -38,3 +34,12 @@ export default function App() {
     </Router>
   );
 }
+
+const mapState = (state) => ({
+  loading: state.app.loading,
+  alert: state.app.alert
+})
+
+const mapDispatch = { setLanguage }
+
+export default connect(mapState, mapDispatch)(App);

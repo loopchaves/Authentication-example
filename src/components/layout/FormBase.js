@@ -1,22 +1,18 @@
 import { Formik, Form } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { getLoading, setAlert } from '../../app/appSlice';
+import { connect } from 'react-redux';
 
 import styles from './styles/FormBase.module.sass';
 
-export default function FormBase({
+const FormBase = ({
+  loading,
   children,
   initialValues,
   validationSchema,
   onSubmit,
   buttonSubmit,
   buttonAction
-}) {
-  const dispatch = useDispatch();
-  const loading = useSelector(getLoading);
-
-  function submit(values, setSubmitting) {
-    dispatch(setAlert(undefined));
+}) => {
+  const submit = (values, setSubmitting) => {
     setSubmitting(false);
     onSubmit(values);
   }
@@ -43,3 +39,7 @@ export default function FormBase({
     </Formik>
   );
 }
+
+const mapState = (state) => ({ loading: state.app.loading })
+
+export default connect(mapState, null)(FormBase);

@@ -5,7 +5,7 @@ import { getLoading } from '../../app/appSlice';
 import styles from './styles/Input.module.sass';
 
 
-export function Select({ label, ...props }) {
+export const Select = ({ label, ...props }) => {
   const loading = useSelector(getLoading);
   const [field, meta, helpers] = useField(props);
   const { setError } = helpers;
@@ -26,7 +26,7 @@ export function Select({ label, ...props }) {
   );
 }
 
-export function Name({ label, ...props }) {
+export const Name = ({ label, ...props }) => {
   const loading = useSelector(getLoading);
   const hideKeyboard = loading ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
@@ -52,7 +52,7 @@ export function Name({ label, ...props }) {
   );
 }
 
-export function Email({ label, ...props }) {
+export const Email = ({ label, ...props }) => {
   const loading = useSelector(getLoading);
   const hideKeyboard = loading ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);
@@ -80,7 +80,7 @@ export function Email({ label, ...props }) {
   );
 }
 
-export function Password({ label, ...props }) {
+export const Password = ({ label, ...props }) => {
   const loading = useSelector(getLoading);
   const hideKeyboard = loading ? { inputMode: 'none' } : null;
   const [field, meta, helpers] = useField(props);

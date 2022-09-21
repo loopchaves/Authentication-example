@@ -17,7 +17,6 @@
             "buttonContinue": "Continue",
             "buttonResetPassword": "Reset password",
             "buttonHome": "Home",
-            "msgVerifyYourEmail": "Verify your email!",
             "titleForgotPassword": "Reset your password",
             "userName": "Name: ",
             "userEmail": "Email: ",
@@ -48,7 +47,8 @@
             "auth/invalid-action-code": "Invalid link",
             "auth/expired-action-code": "Link expired",
             "emailVerified": "Email verified",
-            "updatePassword": "Password changed!"
+            "updatePassword": "Password changed!",
+            "verifyYourEmail": "Verify your email!"
         }
     },
     "pt": {
@@ -69,7 +69,6 @@
             "buttonContinue": "Continue",
             "buttonResetPassword": "Redefinir senha",
             "buttonHome": "Início",
-            "msgVerifyYourEmail": "Verifique seu email!",
             "titleForgotPassword": "Redefinir a senha",
             "userName": "Nome: ",
             "userEmail": "Email: ",
@@ -100,7 +99,8 @@
             "auth/invalid-action-code": "Link inválido",
             "auth/expired-action-code": "Link expirado",
             "emailVerified": "Email verificado",
-            "updatePassword": "Senha alterada!"
+            "updatePassword": "Senha alterada!",
+            "verifyYourEmail": "Verifique seu email!"
         }
     }
 }

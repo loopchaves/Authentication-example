@@ -1,22 +1,24 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { checkUser, getUser } from '../app/appSlice';
+import { connect } from 'react-redux';
+import { verifyUser } from '../app/appSlice';
 
 import User from '../components/home/User';
 import Login from '../components/home/Login';
 
 
-export default function Home() {
-  const dispatch = useDispatch();
-  const logged = useSelector(getUser);
-
+const Home = ({ user, verifyUser }) => {
   useEffect(() => {
-    dispatch(checkUser());
-  }, [dispatch]);
+    verifyUser();
+  }, [verifyUser]);
 
   return (
     <>
-      {logged ? <User /> : <Login />}
+      {user ? <User /> : <Login />}
     </>
   );
 }
+
+const mapState = (state) => ({ user: state.app.user })
+const mapDispatch = { verifyUser }
+
+export default connect(mapState, mapDispatch)(Home);

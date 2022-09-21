@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useSelector, useDispatch } from 'react-redux';
-import { verifyPasswordCode, tryPasswordReset, getLanguage } from '../../app/appSlice';
+import { connect } from 'react-redux';
+import { verifyPasswordCode, tryPasswordReset } from '../../app/appSlice';
 
 import { Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
@@ -10,10 +10,8 @@ import styles from './styles/ResetPassword.module.sass';
 import language from '../../lang/lang.json';
 
 
-export default function ResetPassword({ actionCode }) {
-  const dispatch = useDispatch();
+const ResetPassword = ({ lang, verifyPasswordCode, tryPasswordReset, actionCode }) => {
   const navigate = useNavigate();
-  const lang = language[useSelector(getLanguage)];
   const [email, setEmail] = useState('');
 
   const initialValues = {
@@ -32,19 +30,19 @@ export default function ResetPassword({ actionCode }) {
       .required(lang.inputError.required)
   });
 
-  function submit(values) {
-    dispatch(tryPasswordReset({ ...values, actionCode: actionCode, email: email }))
-    .then((action) => {
-      if (action.payload) navigate('/');
-    });
+  const submit = (values) => {
+    tryPasswordReset({ ...values, actionCode: actionCode, email: email })
+      .then((action) => {
+        if (action.payload) navigate('/');
+      });
   }
 
   useEffect(() => {
-    dispatch(verifyPasswordCode(actionCode))
+    verifyPasswordCode(actionCode)
       .then((action) => {
         action.error ? navigate('/') : setEmail(action.payload);
       });
-  }, [dispatch, actionCode, navigate]);
+  }, [verifyPasswordCode, actionCode, navigate]);
 
   return (
     <FormBase
@@ -62,3 +60,8 @@ export default function ResetPassword({ actionCode }) {
     </FormBase>
   );
 }
+
+const mapState = (state) => ({ lang: language[state.app.language] })
+const mapDispatch = { verifyPasswordCode, tryPasswordReset }
+
+export default connect(mapState, mapDispatch)(ResetPassword);

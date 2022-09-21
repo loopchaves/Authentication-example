@@ -1,18 +1,19 @@
-import { useSelector } from 'react-redux';
-import { getLanguage } from '../../app/appSlice';
+import { connect } from 'react-redux';
 
 import styles from './styles/EmailVerifiedAlert.module.sass';
 import language from '../../lang/lang.json';
 
 
-export default function EmailVerifiedAlert() {
-  const lang = language[useSelector(getLanguage)];
-
+const EmailVerifiedAlert = ({ verifyYourEmail }) => {
   return (
     <div className={styles.container}>
       <div className={styles.emailVerified}>
-        <p className={styles.msg}>{lang.text.msgVerifyYourEmail}</p>
+        <p className={styles.msg}>{verifyYourEmail}</p>
       </div>
     </div>
   );
 }
+
+const mapState = (state) => ({ verifyYourEmail: language[state.app.language].alert.verifyYourEmail })
+
+export default connect(mapState, null)(EmailVerifiedAlert);

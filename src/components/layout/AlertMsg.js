@@ -1,27 +1,34 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getLanguage, getAlert, setAlert } from '../../app/appSlice';
+import { connect } from 'react-redux';
+import { setAlert } from '../../app/appSlice';
 
 import styles from './styles/AlertMsg.module.sass';
 import language from '../../lang/lang.json';
 
 
-export default function ErrorMsg() {
-  const dispatch = useDispatch();
-  const alert = useSelector(getAlert);
-  const lang = useSelector(getLanguage);
-  const messages = language[lang].alert;
-  const msg = messages[alert.msg];
-
+const AlertMsg = ({ message, type, setAlert }) => {
   useEffect(() => {
-    setTimeout(() => dispatch(setAlert(undefined)), 10000);
-  }, [dispatch]);
+    setTimeout(() => setAlert(null), 10000);
+  }, [setAlert]);
 
-  return msg ? (
+  return (
     <div className={styles.container}>
-      <div className={styles[alert.type]}>
-        <p className={styles.msg}>{msg}</p>
+      <div className={styles[type]}>
+        <p className={styles.msg}>{message}</p>
       </div>
     </div>
-  ) : console.log(alert);
+  );
 }
+
+const mapState = (state) => {
+  const lang = state.app.language;
+  const msg = state.app.alert.msg;
+  return {
+    message: language[lang].alert[msg],
+    type: state.app.alert.type
+  }
+}
+
+const mapDispatch = { setAlert }
+
+export default connect(mapState, mapDispatch)(AlertMsg);

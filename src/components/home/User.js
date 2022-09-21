@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getEmailVerified, setLoading } from '../../app/appSlice';
+import { connect } from 'react-redux';
+import { setLoading } from '../../app/appSlice';
 
 import UserTabBar from '../layout/UserTabBar';
 import UserData from '../user/UserData';
@@ -10,18 +10,16 @@ import UserFeedback from '../user/UserFeedback';
 import EmailVerifiedAlert from '../layout/EmailVerifiedAlert';
 
 
-export default function User() {
-  const dispatch = useDispatch();
-  const emailVerified = useSelector(getEmailVerified);
+const User = ({ emailVerified, setLoading }) => {
   const [selected, setSelected] = useState('data');
 
-  function handlerClick(tab) {
+  const handlerClick = (tab) => {
     setSelected(tab);
   }
 
   useEffect(() => {
-    dispatch(setLoading(false));
-  }, [dispatch]);
+    setLoading(false);
+  }, [setLoading]);
 
   return (<>
     {!emailVerified && <EmailVerifiedAlert />}
@@ -32,3 +30,8 @@ export default function User() {
     {selected === 'feedback' && <UserFeedback />}
   </>);
 }
+
+const mapState = (state) => ({ emailVerified: state.app.user.emailVerified })
+const mapDispatch = { setLoading }
+
+export default connect(mapState, mapDispatch)(User);
