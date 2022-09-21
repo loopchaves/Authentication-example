@@ -1,9 +1,10 @@
 @mixin responsive()
     --font-family: monospace
+    --root-position: center
 
     // Sizes
     --root-height: 100vh
-    --main-margin: 10rem
+    --main-margin: 0
     --main-width: 350px
     --element-gap: 1.5rem
     --buttons-gap: 1rem
@@ -29,6 +30,8 @@
     --tab-unselected-bg-color: #055
 
     @media screen and ( max-width: 375px )
+        --root-position: flex-start
+
         // Sizes
         --root-height: auto
         --main-margin: 6rem
@@ -44,7 +47,7 @@
     height: var(--root-height)
     display: flex
     justify-content: center
-    align-items: flex-start
+    align-items: var(--root-position)
 
 @mixin main()
     width: var(--main-width)
@@ -170,10 +173,10 @@
         color: var(--forgot-password-color-hover)
 
 @mixin alert()
-    width: 100%
+    width: var(--main-width)
     border-radius: 10px
     padding: 1rem
-    position: absolute
+    position: fixed
     font-weight: 700
 
     .msg
@@ -184,6 +187,8 @@
 
 @mixin emailVerified()
     @include alert()
+    position: absolute
+    width: 100%
     background-color: var(--error-bg-color)
     border: 1px solid var(--error-color)
     bottom: -5rem
@@ -191,14 +196,14 @@
 @mixin error()
     @include alert()
     @include slideAlert()
-    top: -5rem
+    top: 1rem
     background-color: var(--error-bg-color)
     border: 1px solid var(--error-color)
 
 @mixin notice()
     @include alert()
     @include slideAlert()
-    top: -5rem
+    top: 1rem
     background-color: var(--notice-bg-color)
     border: 1px solid var(--notice-color)
 
