@@ -3,7 +3,7 @@
 
     // Sizes
     --root-height: 100vh
-    --main-margin-top: 10rem
+    --main-margin: 10rem
     --main-width: 350px
     --element-gap: 1.5rem
     --buttons-gap: 1rem
@@ -31,7 +31,7 @@
     @media screen and ( max-width: 375px )
         // Sizes
         --root-height: auto
-        --main-margin-top: 6rem
+        --main-margin: 6rem
         --main-width: 90%
         --element-padding-vertical: 1rem
         --element-padding-horizontal: 1.5rem
@@ -57,7 +57,7 @@
     flex-direction: column
     justify-content: center
     align-items: stretch
-    margin-top: var(--main-margin-top)
+    margin: var(--main-margin) 0
     animation: grow 0.5s
 
     @keyframes grow

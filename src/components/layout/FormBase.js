@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, createRef } from 'react';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import { setAlert } from '../../app/appSlice';
@@ -18,11 +18,13 @@ const FormBase = ({
   buttonAction,
   recaptcha
 }) => {
+  const recaptchaRef = createRef();
   const [token, setToken] = useState(!recaptcha);
 
   const submit = (values, setSubmitting, resetForm) => {
     setSubmitting(false);
     if (token) {
+      recaptchaRef.current.reset();
       onSubmit(values, resetForm);
     } else {
       setAlert({ msg: 'recaptcha', type: 'error' })
@@ -51,11 +53,14 @@ const FormBase = ({
             ) : null}
           </div>
           {recaptcha &&
-            <ReCAPTCHA
-              sitekey={process.env.REACT_APP_RECAPTCHA}
-              onChange={onChange}
-              hl={hl}
-            />
+            <div className={styles.recaptcha}>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.REACT_APP_RECAPTCHA}
+                onChange={onChange}
+                hl={hl}
+              />
+            </div>
           }
         </div>
       </Form>
