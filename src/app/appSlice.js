@@ -7,7 +7,8 @@ import {
   handlerTryLogout,
   handlerTrySignup,
   handlerTryPasswordReset,
-  handlerTrySendPasswordResetEmail
+  handlerTrySendPasswordResetEmail,
+  handlerTryEditUser
 } from "./appModel";
 
 const initialState = {
@@ -44,10 +45,7 @@ export const appSlice = createSlice({
   reducers: {
     setLoading: (state, action) => { state.loading = action.payload },
     setLanguage: (state, action) => { state.language = action.payload },
-    setAlert: (state, action) => { state.alert = action.payload },
-    setUserName: (state, action) => { state.user.name = action.payload },
-    setUserEmail: (state, action) => { state.user.email = action.payload },
-    // setUser: (state, action) => { state.user = action.payload }
+    setAlert: (state, action) => { state.alert = action.payload }
   },
   extraReducers: (builder) => {
     builder
@@ -81,6 +79,10 @@ export const appSlice = createSlice({
       .addCase(trySendPasswordResetEmail.pending, (state) => { submitForm(state) })
       .addCase(trySendPasswordResetEmail.fulfilled, (state) => { showNotice(state, 'verifyYourEmail'); })
       .addCase(trySendPasswordResetEmail.rejected, (state, action) => { showError(state, action) })
+
+      .addCase(tryEditUser.pending, (state) => { submitForm(state) })
+      .addCase(tryEditUser.fulfilled, (state, action) => { changeUser(state, action, 'profileEdited') })
+      .addCase(tryEditUser.rejected, (state, action) => { showError(state, action) })
   }
 });
 
@@ -102,11 +104,8 @@ export const tryLogout = createAsyncThunk('app/tryLogout', () => handlerTryLogou
 export const trySignup = createAsyncThunk('app/trySignup', (values) => handlerTrySignup(values));
 export const tryPasswordReset = createAsyncThunk('app/tryPasswordReset', (values) => handlerTryPasswordReset(values));
 export const trySendPasswordResetEmail = createAsyncThunk('app/trySendPasswordResetEmail', (values) => handlerTrySendPasswordResetEmail(values));
+export const tryEditUser = createAsyncThunk('app/tryEditUser', (values, initialValues) => handlerTryEditUser(values, initialValues));
 
 export const getLoading = (state) => state.app.loading;
-// export const getLanguage = (state) => state.app.language;
-// export const getAlert = (state) => state.app.alert;
-// export const getUser = (state) => state.app.user;
-// export const getEmailVerified = (state) => state.app.user.emailVerified;
 
 export default appSlice.reducer;

@@ -9,7 +9,11 @@ import {
   verifyPasswordResetCode,
   confirmPasswordReset,
   applyActionCode,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  EmailAuthProvider,
+  signInWithCredential,
+  updateEmail,
+  updatePassword
 } from "firebase/auth";
 
 const userPattern = (currentUser) => {
@@ -67,4 +71,28 @@ export const handlerTryPasswordReset = async (values) => {
 
 export const handlerTrySendPasswordResetEmail = async (values) => {
   await sendPasswordResetEmail(auth, values.email);
+}
+
+export const handlerTryEditUser = async (values) => {
+  const credential = EmailAuthProvider.credential(values.initial.email, values.form.password);
+  const userCredential = await signInWithCredential(auth, credential);
+  const user = userCredential.user;
+
+  if (values.form.name !== values.initial.name) {
+    await updateProfile(user, { displayName: values.form.name });
+  }
+
+  if (values.form.email !== values.initial.email) {
+    await updateEmail(user, values.form.email);
+    await sendEmailVerification(user);
+  }
+
+  if (values.form.newPassword) {
+    await updatePassword(user, values.form.newPassword);
+    const credential = EmailAuthProvider.credential(values.initial.email, values.form.newPassword);
+    await signInWithCredential(auth, credential);
+  }
+
+  await auth.currentUser?.reload();
+  return userPattern(auth.currentUser ? auth.currentUser : user);
 }

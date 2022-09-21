@@ -12,16 +12,16 @@ const FormBase = ({
   buttonSubmit,
   buttonAction
 }) => {
-  const submit = (values, setSubmitting) => {
+  const submit = (values, setSubmitting, resetForm) => {
     setSubmitting(false);
-    onSubmit(values);
+    onSubmit(values, resetForm);
   }
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => submit(values, setSubmitting)}
+      onSubmit={(values, { setSubmitting, resetForm }) => submit(values, setSubmitting, resetForm)}
       validateOnBlur={false}
       validateOnChange={false}
     >

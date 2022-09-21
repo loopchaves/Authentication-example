@@ -7,6 +7,7 @@
             "labelConfirmPassword": "Confirm password",
             "labelNewPassword": "New password",
             "labelConfirmNewPassword": "Confirm new password",
+            "labelCurrentPassword": "Current password",
             "buttonForgotPassword": "Forgot your password?",
             "buttonSendEmail": "Send email",
             "buttonLogin": "Login",
@@ -17,6 +18,7 @@
             "buttonContinue": "Continue",
             "buttonResetPassword": "Reset password",
             "buttonHome": "Home",
+            "buttonSave": "Save",
             "titleForgotPassword": "Reset your password",
             "userName": "Name: ",
             "userEmail": "Email: ",
@@ -48,7 +50,9 @@
             "auth/expired-action-code": "Link expired",
             "emailVerified": "Email verified",
             "updatePassword": "Password changed!",
-            "verifyYourEmail": "Verify your email!"
+            "verifyYourEmail": "Verify your email",
+            "profileEdited": "Profile edited!",
+            "noDataChanged": "No data changed"
         }
     },
     "pt": {
@@ -59,6 +63,7 @@
             "labelConfirmPassword": "Confirme a senha",
             "labelNewPassword": "Nova senha",
             "labelConfirmNewPassword": "Confirme a nova senha",
+            "labelCurrentPassword": "Senha atual",
             "buttonForgotPassword": "Esqueceu sua senha?",
             "buttonSendEmail": "Enviar email",
             "buttonLogin": "Entrar",
@@ -69,6 +74,7 @@
             "buttonContinue": "Continue",
             "buttonResetPassword": "Redefinir senha",
             "buttonHome": "Início",
+            "buttonSave": "Salvar",
             "titleForgotPassword": "Redefinir a senha",
             "userName": "Nome: ",
             "userEmail": "Email: ",
@@ -100,7 +106,9 @@
             "auth/expired-action-code": "Link expirado",
             "emailVerified": "Email verificado",
             "updatePassword": "Senha alterada!",
-            "verifyYourEmail": "Verifique seu email!"
+            "verifyYourEmail": "Verifique seu email",
+            "profileEdited": "Perfil editado!",
+            "noDataChanged": "Nenhum dado alterado"
         }
     }
 }
