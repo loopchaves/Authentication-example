@@ -9,6 +9,7 @@ import styles from './styles/FormBase.module.sass';
 const FormBase = ({
   hl,
   loading,
+  theme,
   setAlert,
   children,
   initialValues,
@@ -59,6 +60,7 @@ const FormBase = ({
                 sitekey={process.env.REACT_APP_RECAPTCHA}
                 onChange={onChange}
                 hl={hl}
+                theme={theme}
               />
             </div>
           }
@@ -70,7 +72,8 @@ const FormBase = ({
 
 const mapState = (state) => ({
   hl: state.app.language,
-  loading: state.app.loading
+  loading: state.app.loading,
+  theme: state.app.style.color === 'dark' ? 'dark' : 'light'
 })
 
 const mapDispatch = { setAlert }

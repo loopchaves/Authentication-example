@@ -1,6 +1,12 @@
 {
     "en": {
         "text": {
+            "labelThemeColor": "Theme color",
+            "themeColor": ["Default", "Light", "Dark", "Crazy"],
+            "labelFontType": "Font type",
+            "fontType": ["Default", "Nabla", "Quicksand", "Inconsolata", "Josefin Sans", "Source Code Pro"],
+            "labelFontSize": "Font size",
+            "fontSize": ["Default", "Small", "Large"],
             "labelName": "Name",
             "labelEmail": "Email",
             "labelPassword": "Password",
@@ -53,11 +59,18 @@
             "verifyYourEmail": "Verify your email",
             "profileEdited": "Profile edited!",
             "noDataChanged": "No data changed",
-            "recaptcha": "Solve the reCAPTCHA"
+            "recaptcha": "Solve the reCAPTCHA",
+            "styleSaved": "Changes saved"
         }
     },
     "pt": {
         "text": {
+            "labelThemeColor": "Tema",
+            "themeColor": ["Valor padrão", "Claro", "Escuro", "Loukura"],
+            "labelFontType": "Tipo de fonte",
+            "fontType": ["Valor padrão", "Nabla", "Quicksand", "Inconsolata", "Josefin Sans", "Source Code Pro"],
+            "labelFontSize": "Tamanho da fonte",
+            "fontSize": ["Valor padrão", "Pequeno", "Grande"],
             "labelName": "Nome",
             "labelEmail": "Email",
             "labelPassword": "Senha",
@@ -110,7 +123,8 @@
             "verifyYourEmail": "Verifique seu email",
             "profileEdited": "Perfil editado!",
             "noDataChanged": "Nenhum dado alterado",
-            "recaptcha": "Resolva o reCAPTCHA"
+            "recaptcha": "Resolva o reCAPTCHA",
+            "styleSaved": "Alterações salvas"
         }
     }
 }

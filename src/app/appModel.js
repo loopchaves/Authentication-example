@@ -1,4 +1,5 @@
-import { auth } from "./firebaseCfg";
+import { auth, db } from "./firebaseCfg";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -95,4 +96,17 @@ export const handlerTryEditUser = async (values) => {
 
   await auth.currentUser?.reload();
   return userPattern(auth.currentUser ? auth.currentUser : user);
+}
+
+export const handlerSaveStyle = async (values) => {
+  if (values.style.color || values.style.ftype || values.style.fsize) {
+    await setDoc(doc(db, 'users', values.uid), values.style);
+  } else {
+    await deleteDoc(doc(db, 'users', values.uid));
+  }
+}
+
+export const handlerGetStyle = async (uid) => {
+  const style = await getDoc(doc(db, 'users', uid));
+  return style.exists() ? style.data() : null;
 }

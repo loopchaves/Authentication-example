@@ -1,15 +1,24 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { verifyUser } from '../app/appSlice';
+import { verifyUser, getStyle } from '../app/appSlice';
 
 import User from '../components/home/User';
 import Login from '../components/home/Login';
+import changeStyle from '../app/themeStyles';
 
 
-const Home = ({ user, verifyUser }) => {
+const Home = ({ user, verifyUser, getStyle }) => {
   useEffect(() => {
-    verifyUser();
-  }, [verifyUser]);
+    if (user) {
+      getStyle(user.uid).then((action) => {
+        if (action.payload) changeStyle(action.payload);
+      });
+    } else {
+      verifyUser().then((action) => {
+        if (!action.payload) changeStyle();
+      });
+    }
+  }, [user, verifyUser, getStyle]);
 
   return (
     <>
@@ -19,6 +28,6 @@ const Home = ({ user, verifyUser }) => {
 }
 
 const mapState = (state) => ({ user: state.app.user })
-const mapDispatch = { verifyUser }
+const mapDispatch = { verifyUser, getStyle }
 
 export default connect(mapState, mapDispatch)(Home);

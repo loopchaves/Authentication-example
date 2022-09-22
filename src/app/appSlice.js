@@ -8,13 +8,20 @@ import {
   handlerTrySignup,
   handlerTryPasswordReset,
   handlerTrySendPasswordResetEmail,
-  handlerTryEditUser
+  handlerTryEditUser,
+  handlerSaveStyle,
+  handlerGetStyle
 } from "./appModel";
 
 const initialState = {
   loading: true,
   language: 'en',
   alert: null,
+  style: {
+    color: null,
+    ftype: null,
+    fsize: null
+  },
   user: null
 }
 
@@ -45,7 +52,8 @@ export const appSlice = createSlice({
   reducers: {
     setLoading: (state, action) => { state.loading = action.payload },
     setLanguage: (state, action) => { state.language = action.payload },
-    setAlert: (state, action) => { state.alert = action.payload }
+    setAlert: (state, action) => { state.alert = action.payload },
+    setStyle: (state, action) => { state.style = action.payload }
   },
   extraReducers: (builder) => {
     builder
@@ -83,17 +91,20 @@ export const appSlice = createSlice({
       .addCase(tryEditUser.pending, (state) => { submitForm(state) })
       .addCase(tryEditUser.fulfilled, (state, action) => { changeUser(state, action, 'profileEdited') })
       .addCase(tryEditUser.rejected, (state, action) => { showError(state, action) })
+
+      .addCase(saveStyle.pending, (state) => { state.loading = true })
+      .addCase(saveStyle.fulfilled, (state) => { showNotice(state, 'styleSaved') })
+      .addCase(saveStyle.rejected, (state, action) => { showError(state, action) })
+
+      .addCase(getStyle.pending, (state) => { state.loading = true })
+      .addCase(getStyle.fulfilled, (state, action) => {
+        if (action.payload) state.style = action.payload;
+        state.loading = false;
+      })
   }
 });
 
-export const {
-  setLoading,
-  setLanguage,
-  setAlert,
-  setUserName,
-  setUserEmail,
-  setUser
-} = appSlice.actions;
+export const { setLoading, setLanguage, setAlert, setStyle } = appSlice.actions;
 
 export const verifyUser = createAsyncThunk('app/verifyUser', () => handlerVerifyUser());
 export const verifyPasswordCode = createAsyncThunk('app/verifyPasswordCode', (actionCode) => handlerVerifyPasswordCode(actionCode));
@@ -104,7 +115,10 @@ export const tryLogout = createAsyncThunk('app/tryLogout', () => handlerTryLogou
 export const trySignup = createAsyncThunk('app/trySignup', (values) => handlerTrySignup(values));
 export const tryPasswordReset = createAsyncThunk('app/tryPasswordReset', (values) => handlerTryPasswordReset(values));
 export const trySendPasswordResetEmail = createAsyncThunk('app/trySendPasswordResetEmail', (values) => handlerTrySendPasswordResetEmail(values));
-export const tryEditUser = createAsyncThunk('app/tryEditUser', (values, initialValues) => handlerTryEditUser(values, initialValues));
+export const tryEditUser = createAsyncThunk('app/tryEditUser', (values) => handlerTryEditUser(values));
+
+export const saveStyle = createAsyncThunk('app/saveStyle', (values) => handlerSaveStyle(values));
+export const getStyle = createAsyncThunk('app/getStyle', (uid) => handlerGetStyle(uid));
 
 export const getLoading = (state) => state.app.loading;
 

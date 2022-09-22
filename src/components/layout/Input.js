@@ -6,22 +6,10 @@ import styles from './styles/Input.module.sass';
 
 
 export const Select = ({ label, ...props }) => {
-  const loading = useSelector(getLoading);
-  const [field, meta, helpers] = useField(props);
-  const { setError } = helpers;
   return (
     <div className={styles.inputContainer}>
       <label htmlFor={props.name} className={styles.label}>{label}</label>
-      <select
-        onClick={() => setError(undefined)}
-        className={styles.input}
-        disabled={loading}
-        {...field}
-        {...props}
-      />
-      {meta.touched && meta.error ? (
-        <div className={styles.errorInput}>{meta.error}</div>
-      ) : null}
+      <select className={styles.input} {...props} />
     </div>
   );
 }
