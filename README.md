@@ -9,7 +9,9 @@
 - Sign up form
 - Reset password
 - Email verification
-- Edit user information
+- Edit user data
+- Edit theme (color, font type and font size)
+- reCAPTCHA v2
 
 ## TODO
 
@@ -21,5 +23,7 @@
   - Formik
   - Yup
   - Redux
+  - Sass
 - Firebase Authentication
+- Firestore Database
 - Vercel hosting

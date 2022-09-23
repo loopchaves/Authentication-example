@@ -30,12 +30,10 @@ const UserConfig = ({ lang, uid, style, saveStyle }) => {
   const memoSaved = useMemo(() => saved, [saved]);
   const memoStyle = useMemo(() => style, [style]);
   const unmount = useCallback(() => {
-    console.log('useCallback', memoSaved);
     if (!memoSaved) changeStyle(memoStyle);
   }, [memoSaved, memoStyle]);
 
   useEffect(() => {
-    console.log('useEffect');
     return () => unmount();
   }, [unmount]);
 
