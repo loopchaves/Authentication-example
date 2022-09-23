@@ -1,5 +1,6 @@
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { setStyle, saveStyle } from '../../app/appSlice';
+import { saveStyle } from '../../app/appSlice';
 
 import { Select } from '../layout/Input';
 
@@ -8,21 +9,40 @@ import language from '../../lang/lang.json';
 import changeStyle from '../../app/themeStyles';
 
 
-const UserConfig = ({ lang, uid, style, setStyle, saveStyle }) => {
-  const onChange = (select) => {
+const UserConfig = ({ lang, uid, style, saveStyle }) => {
+  const [temp, setTemp] = useState(style);
+  const [saved, setSaved] = useState(false);
+
+  const changeSelect = (select) => {
     const [cat, value] = select.split('/');
-    setStyle({ ...style, [cat]: value === 'default' ? null : value });
+    if (saved) setSaved(false);
+    setTemp({ ...style, [cat]: value === 'default' ? null : value });
     changeStyle({ ...style, [cat]: value === 'default' ? null : value });
   }
 
-  const onClick = () => saveStyle({uid: uid, style: style});
+  const save = () => {
+    if (!saved)
+      saveStyle({ uid: uid, style: temp }).then((action) => {
+        if (!action.error) setSaved(true);
+      });
+  }
+
+  const memoSaved = useMemo(() => saved, [saved]);
+  const memoStyle = useMemo(() => style, [style]);
+  const unmount = useCallback(() => {
+    if (!memoSaved) changeStyle(memoStyle);
+  }, [memoSaved, memoStyle]);
+
+  useEffect(() => {
+    return () => unmount();
+  }, [unmount]);
 
   return (
     <div className={styles.container}>
       <Select
         label={lang.labelThemeColor}
-        onChange={(e) => onChange(e.target.value)}
-        value={style.color ? `color/${style.color}` : 'color/default'}
+        onChange={(e) => changeSelect(e.target.value)}
+        value={temp.color ? `color/${temp.color}` : 'color/default'}
       >
         <option value='color/default'>{lang.themeColor[0]}</option>
         <option value='color/light'>{lang.themeColor[1]}</option>
@@ -31,8 +51,8 @@ const UserConfig = ({ lang, uid, style, setStyle, saveStyle }) => {
       </Select>
       <Select
         label={lang.labelFontType}
-        onChange={(e) => onChange(e.target.value)}
-        value={style.ftype ? `ftype/${style.ftype}` : 'ftype/default'}
+        onChange={(e) => changeSelect(e.target.value)}
+        value={temp.ftype ? `ftype/${temp.ftype}` : 'ftype/default'}
       >
         <option value='ftype/default'>{lang.fontType[0]}</option>
         <option value='ftype/Nabla'>{lang.fontType[1]}</option>
@@ -43,15 +63,15 @@ const UserConfig = ({ lang, uid, style, setStyle, saveStyle }) => {
       </Select>
       <Select
         label={lang.labelFontSize}
-        onChange={(e) => onChange(e.target.value)}
-        value={style.fsize ? `fsize/${style.fsize}` : 'fsize/default'}
+        onChange={(e) => changeSelect(e.target.value)}
+        value={temp.fsize ? `fsize/${temp.fsize}` : 'fsize/default'}
       >
         <option value='fsize/default'>{lang.fontSize[0]}</option>
         <option value='fsize/small'>{lang.fontSize[1]}</option>
         <option value='fsize/large'>{lang.fontSize[2]}</option>
       </Select>
       <div className={styles.buttons}>
-        <button onClick={() => onClick()}>{lang.buttonSave}</button>
+        <button onClick={() => save()}>{lang.buttonSave}</button>
       </div>
     </div>
   );
@@ -63,6 +83,6 @@ const mapState = (state) => ({
   style: state.app.style
 })
 
-const mapDispatch = { setStyle, saveStyle }
+const mapDispatch = { saveStyle }
 
 export default connect(mapState, mapDispatch)(UserConfig);

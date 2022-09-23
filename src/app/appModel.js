@@ -16,6 +16,7 @@ import {
   updateEmail,
   updatePassword
 } from "firebase/auth";
+import { isEqual } from "lodash";
 
 const userPattern = (currentUser) => {
   return {
@@ -104,6 +105,7 @@ export const handlerSaveStyle = async (values) => {
   } else {
     await deleteDoc(doc(db, 'users', values.uid));
   }
+  return values.style;
 }
 
 export const handlerGetStyle = async (uid) => {

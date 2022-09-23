@@ -12,6 +12,7 @@ import {
   handlerSaveStyle,
   handlerGetStyle
 } from "./appModel";
+import changeStyle from "./themeStyles";
 
 const initialState = {
   loading: true,
@@ -42,7 +43,11 @@ const submitForm = (state) => {
 
 const changeUser = (state, action, notice) => {
   state.user = action.payload;
-  if (!action.payload) state.loading = false;
+  if (!action.payload) {
+    state.style = { color: null, ftype: null, fsize: null }
+    changeStyle();
+    state.loading = false;
+  }
   if (notice) state.alert = { msg: notice, type: 'notice' }
 }
 
@@ -93,14 +98,21 @@ export const appSlice = createSlice({
       .addCase(tryEditUser.rejected, (state, action) => { showError(state, action) })
 
       .addCase(saveStyle.pending, (state) => { state.loading = true })
-      .addCase(saveStyle.fulfilled, (state) => { showNotice(state, 'styleSaved') })
+      .addCase(saveStyle.fulfilled, (state, action) => {
+        state.style = action.payload;
+        showNotice(state, 'styleSaved')
+      })
       .addCase(saveStyle.rejected, (state, action) => { showError(state, action) })
 
       .addCase(getStyle.pending, (state) => { state.loading = true })
       .addCase(getStyle.fulfilled, (state, action) => {
-        if (action.payload) state.style = action.payload;
+        if (action.payload) {
+          state.style = action.payload;
+          changeStyle(action.payload);
+        }
         state.loading = false;
       })
+      .addCase(getStyle.rejected, (state, action) => { showError(state, action) })
   }
 });
 
