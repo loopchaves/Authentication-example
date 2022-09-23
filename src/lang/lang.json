@@ -1,6 +1,7 @@
 {
     "en": {
         "text": {
+            "labelWriteFeedback": "Write a feedback",
             "labelThemeColor": "Theme color",
             "themeColor": ["Default", "Light", "Dark", "Crazy"],
             "labelFontType": "Font type",
@@ -16,6 +17,7 @@
             "labelCurrentPassword": "Current password",
             "buttonForgotPassword": "Forgot your password?",
             "buttonSendEmail": "Send email",
+            "buttonSendFeedback": "Send feedback",
             "buttonLogin": "Login",
             "buttonLogout": "Logout",
             "buttonSignup": "Sign up",
@@ -65,6 +67,7 @@
     },
     "pt": {
         "text": {
+            "labelWriteFeedback": "Escreva um feedback",
             "labelThemeColor": "Tema",
             "themeColor": ["Valor padrão", "Claro", "Escuro", "Loukura"],
             "labelFontType": "Tipo de fonte",
@@ -80,6 +83,7 @@
             "labelCurrentPassword": "Senha atual",
             "buttonForgotPassword": "Esqueceu sua senha?",
             "buttonSendEmail": "Enviar email",
+            "buttonSendFeedback": "Enviar feedback",
             "buttonLogin": "Entrar",
             "buttonLogout": "Sair",
             "buttonSignup": "Cadastrar",

@@ -25,7 +25,7 @@ const App = ({ loading, alert, setLanguage }) => {
       <main className={styles.main}>
         <Routes>
           <Route path='/' element={<Home />} />
-          < Route path='/signup' element={<Signup />} />
+          <Route path='/signup' element={<Signup />} />
           <Route path='/usermgmt' element={<UserMgmt />} />
         </Routes>
         {loading && <Loading />}

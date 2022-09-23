@@ -98,6 +98,7 @@
     padding: 0.5rem
     margin: 0.3rem 0
     outline: none
+    resize: none
 
 @mixin errorInput()
     width: 100%
@@ -256,3 +257,25 @@
     background-color: var(--element-bg-color)
     color: var(--text-color)
     border-bottom: none
+
+@mixin feedback()
+    @include container()
+    border: 1px solid var(--border-color)
+    border-radius: 10px
+    margin-bottom: 1rem
+    gap: 0
+    color: var(--text-color)
+
+    .header
+        border-bottom: 1px solid var(--border-color)
+        width: 100%
+        display: flex
+        justify-content: space-between
+        padding: 1rem
+        font-size: var(--font-size-other)
+        font-weight: 600
+    
+    .content
+        width: 100%
+        padding: 1rem
+        font-size: var(--font-size-text)

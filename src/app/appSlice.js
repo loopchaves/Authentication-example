@@ -10,7 +10,9 @@ import {
   handlerTrySendPasswordResetEmail,
   handlerTryEditUser,
   handlerSaveStyle,
-  handlerGetStyle
+  handlerGetStyle,
+  handlerSendFeedback,
+  handlerGetFeedbacks
 } from "./appModel";
 import changeStyle from "./themeStyles";
 
@@ -113,6 +115,20 @@ export const appSlice = createSlice({
         state.loading = false;
       })
       .addCase(getStyle.rejected, (state, action) => { showError(state, action) })
+
+      .addCase(sendFeedback.pending, (state) => { state.loading = true })    // Mostrar um notice quando concluir
+      .addCase(sendFeedback.fulfilled, (state) => { state.loading = false }) // Isso vai sair pq quando tiver a função de carregar os feedbacks o loading vai ser fechado nela
+      .addCase(sendFeedback.rejected, (state, action) => {
+        console.log(action.error);
+        showError(state, action);
+      })
+
+      .addCase(getFeedbacks.pending, (state) => { state.loading = true })
+      .addCase(getFeedbacks.fulfilled, (state) => { state.loading = false })
+      .addCase(getFeedbacks.rejected, (state, action) => {
+        console.log(action.error);
+        showError(state, action);
+      })
   }
 });
 
@@ -131,6 +147,9 @@ export const tryEditUser = createAsyncThunk('app/tryEditUser', (values) => handl
 
 export const saveStyle = createAsyncThunk('app/saveStyle', (values) => handlerSaveStyle(values));
 export const getStyle = createAsyncThunk('app/getStyle', (uid) => handlerGetStyle(uid));
+
+export const sendFeedback = createAsyncThunk('app/sendFeedback', (values) => handlerSendFeedback(values));
+export const getFeedbacks = createAsyncThunk('app/getFeedback', () => handlerGetFeedbacks());
 
 export const getLoading = (state) => state.app.loading;
 

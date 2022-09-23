@@ -1,5 +1,15 @@
 import { auth, db } from "./firebaseCfg";
-import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  collection,
+  addDoc,
+  setDoc,
+  // deleteDoc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  deleteField
+} from "firebase/firestore";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -16,7 +26,8 @@ import {
   updateEmail,
   updatePassword
 } from "firebase/auth";
-import { isEqual } from "lodash";
+
+import Feedback from "../components/layout/Feedback";
 
 const userPattern = (currentUser) => {
   return {
@@ -61,6 +72,7 @@ export const handlerTryLogout = async () => {
 export const handlerTrySignup = async (values) => {
   const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
   await updateProfile(userCredential.user, { displayName: values.name });
+  await setDoc(doc(db, 'users', userCredential.user.uid), { name: values.name });
   await sendEmailVerification(userCredential.user);
   return userPattern(userCredential.user);
 }
@@ -82,6 +94,7 @@ export const handlerTryEditUser = async (values) => {
 
   if (values.form.name !== values.initial.name) {
     await updateProfile(user, { displayName: values.form.name });
+    await updateDoc(doc(db, 'users', user.uid), { name: values.form.name });
   }
 
   if (values.form.email !== values.initial.email) {
@@ -101,14 +114,57 @@ export const handlerTryEditUser = async (values) => {
 
 export const handlerSaveStyle = async (values) => {
   if (values.style.color || values.style.ftype || values.style.fsize) {
-    await setDoc(doc(db, 'users', values.uid), values.style);
+    await updateDoc(doc(db, 'users', values.uid), { style: values.style });
   } else {
-    await deleteDoc(doc(db, 'users', values.uid));
+    await updateDoc(doc(db, 'users', values.uid), { style: deleteField() });
   }
   return values.style;
 }
 
 export const handlerGetStyle = async (uid) => {
-  const style = await getDoc(doc(db, 'users', uid));
-  return style.exists() ? style.data() : null;
+  const user = await getDoc(doc(db, 'users', uid));
+  return user.data().style;
+}
+
+export const handlerSendFeedback = async (values) => {
+  const feedback = {
+    user: values.uid,
+    date: new Date().getTime(),
+    feedback: values.feedback
+  }
+  await addDoc(collection(db, 'feedbacks'), feedback);
+  return <Feedback
+    name={values.name}
+    date={feedback.date}
+    feedback={feedback.feedback}
+  />
+}
+
+export const handlerGetFeedbacks = async () => {
+  const feedbacks = await getDocs(collection(db, 'feedbacks'));
+  const users = await getDocs(collection(db, 'users'));
+  if (!feedbacks.empty) {
+    let uids = {}, arrObj = [];
+    users.forEach((user) => uids = { ...uids, [user.id]: user.data().name });
+    feedbacks.forEach((feedback) => {
+      arrObj.push({
+        name: uids[feedback.data().user],
+        date: feedback.data().date,
+        feedback: feedback.data().feedback
+      });
+    });
+    console.log(uids);
+    console.log(arrObj.sort((a, b) => a.date - b.date));
+    return arrObj
+      .sort((a, b) => a.date - b.date)
+      .map((obj, i) => {
+        return <Feedback
+          key={i}
+          name={obj.name}
+          date={obj.date}
+          feedback={obj.feedback}
+        />
+      })
+      .reverse();
+  }
 }

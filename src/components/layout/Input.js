@@ -14,6 +14,32 @@ export const Select = ({ label, ...props }) => {
   );
 }
 
+export const TextArea = ({ label, ...props }) => {
+  const loading = useSelector(getLoading);
+  const hideKeyboard = loading ? { inputMode: 'none' } : null;
+  const [field, meta, helpers] = useField(props);
+  const { setError } = helpers;
+  return (
+    <div className={styles.inputContainer}>
+      <label htmlFor={props.name} className={styles.label}>{label}</label>
+      <textarea
+        onClick={() => setError(undefined)}
+        className={styles.input}
+        maxLength='400'
+        rows='3'
+        autoCapitalize='on'
+        disabled={loading}
+        {...hideKeyboard}
+        {...field}
+        {...props}
+      ></textarea>
+      {meta.touched && meta.error ? (
+        <div className={styles.errorInput}>{meta.error}</div>
+      ) : null}
+    </div>
+  );
+}
+
 export const Name = ({ label, ...props }) => {
   const loading = useSelector(getLoading);
   const hideKeyboard = loading ? { inputMode: 'none' } : null;

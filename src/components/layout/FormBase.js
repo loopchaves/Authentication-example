@@ -24,8 +24,8 @@ const FormBase = ({
 
   const submit = (values, setSubmitting, resetForm) => {
     setSubmitting(false);
-    if (token) {
-      recaptchaRef.current.reset();
+    if (token || !recaptcha) {
+      if (recaptcha) recaptchaRef.current.reset();
       onSubmit(values, resetForm);
     } else {
       setAlert({ msg: 'recaptcha', type: 'error' })

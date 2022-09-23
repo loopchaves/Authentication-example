@@ -5,7 +5,6 @@ import { tryEditUser, setLoading, setAlert } from '../../app/appSlice';
 import { Name, Email, Password } from '../layout/Input';
 import FormBase from '../layout/FormBase';
 
-import styles from './styles/EditUser.module.sass';
 import language from '../../lang/lang.json';
 
 const EditUser = ({ lang, user, tryEditUser, setLoading, setAlert }) => {
@@ -48,7 +47,6 @@ const EditUser = ({ lang, user, tryEditUser, setLoading, setAlert }) => {
   }
 
   return (
-    <div className={styles.container}>
       <FormBase
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -62,7 +60,6 @@ const EditUser = ({ lang, user, tryEditUser, setLoading, setAlert }) => {
         <Password label={lang.text.labelConfirmNewPassword} name='confirmNewPassword' autoComplete='new-password' />
         <Password label={lang.text.labelCurrentPassword} name='password' autoComplete='current-password' />
       </FormBase>
-    </div>
   );
 }
 

@@ -26,7 +26,7 @@ const themeStyles = {
   color: {
     light: ['#fff', '#ccc', '#ddd', '#333', null, '#255', null, null, null, null, null, null, '#aaa'],
     dark: ['#111', '#111', '#eee', '#eee', null, '#11f', null, null, null, null, null, null, '#333'],
-    crazy: ['#f11', '#1f1', '#11f', '#00d', '#f5f', '#000', '#f11', '#ff0', '#fff', '#11f', '#fff', '#dd0', '#f5f']
+    crazy: ['#c00', '#1f1', '#11f', '#00d', '#f5f', '#000', '#f11', '#ff0', '#fff', '#11f', '#fff', '#dd0', '#f5f']
   },
   fsize: {
     small: ['0.85rem', '1rem', '0.8rem'],
