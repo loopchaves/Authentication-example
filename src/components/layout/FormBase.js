@@ -36,8 +36,6 @@ const FormBase = ({
     if (value) setToken(true);
   }
 
-  console.log(theme);
-
   return (
     <Formik
       initialValues={initialValues}

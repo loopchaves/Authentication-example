@@ -16,8 +16,8 @@ const UserConfig = ({ lang, uid, style, saveStyle }) => {
   const changeSelect = (select) => {
     const [cat, value] = select.split('/');
     if (saved) setSaved(false);
-    setTemp({ ...style, [cat]: value === 'default' ? null : value });
-    changeStyle({ ...style, [cat]: value === 'default' ? null : value });
+    setTemp({ ...temp, [cat]: value === 'default' ? null : value });
+    changeStyle({ ...temp, [cat]: value === 'default' ? null : value });
   }
 
   const save = () => {
@@ -30,10 +30,12 @@ const UserConfig = ({ lang, uid, style, saveStyle }) => {
   const memoSaved = useMemo(() => saved, [saved]);
   const memoStyle = useMemo(() => style, [style]);
   const unmount = useCallback(() => {
+    console.log('useCallback', memoSaved);
     if (!memoSaved) changeStyle(memoStyle);
   }, [memoSaved, memoStyle]);
 
   useEffect(() => {
+    console.log('useEffect');
     return () => unmount();
   }, [unmount]);
 
