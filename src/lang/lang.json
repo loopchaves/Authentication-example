@@ -1,6 +1,7 @@
 {
     "en": {
         "text": {
+            "title": "Login with Firebase",
             "labelWriteFeedback": "Write a feedback",
             "labelThemeColor": "Theme color",
             "themeColor": ["Default", "Light", "Dark", "Crazy"],
@@ -39,7 +40,9 @@
             "tabData": "Data",
             "tabEdit": "Edit",
             "tabConfig": "Config",
-            "tabFeedback": "Feedback"
+            "tabFeedback": "Feedback",
+            "noFeedback": "No feedback",
+            "removeFeedback": "Remove feedback?"
         },
         "inputError": {
             "required": "Required",
@@ -62,11 +65,15 @@
             "profileEdited": "Profile edited!",
             "noDataChanged": "No data changed",
             "recaptcha": "Solve the reCAPTCHA",
-            "styleSaved": "Changes saved"
+            "styleSaved": "Changes saved",
+            "feedbackSent": "Feedback sent",
+            "errorDB": "Database connection failed",
+            "feedbackRemoved": "Feedback removed!"
         }
     },
     "pt": {
         "text": {
+            "title": "Login com Firebase",
             "labelWriteFeedback": "Escreva um feedback",
             "labelThemeColor": "Tema",
             "themeColor": ["Valor padrão", "Claro", "Escuro", "Loukura"],
@@ -105,7 +112,9 @@
             "tabData": "Dados",
             "tabEdit": "Editar",
             "tabConfig": "Configurar",
-            "tabFeedback": "Feedback"
+            "tabFeedback": "Feedback",
+            "noFeedback": "Nenhum feedback",
+            "removeFeedback": "Remover esse feedback?"
         },
         "inputError": {
             "required": "Obrigatório",
@@ -128,7 +137,10 @@
             "profileEdited": "Perfil editado!",
             "noDataChanged": "Nenhum dado alterado",
             "recaptcha": "Resolva o reCAPTCHA",
-            "styleSaved": "Alterações salvas"
+            "styleSaved": "Alterações salvas",
+            "feedbackSent": "Feedback enviado",
+            "errorDB": "Conexão com Banco de Dados falhou",
+            "feedbackRemoved": "Feedback removido!"
         }
     }
 }

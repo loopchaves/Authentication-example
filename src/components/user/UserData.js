@@ -4,6 +4,7 @@ import { tryLogout } from '../../app/appSlice';
 import styles from './styles/UserData.module.sass';
 import language from '../../lang/lang.json';
 
+
 const UserData = ({ user, lang, tryLogout }) => {
   const logout = () => tryLogout()
 

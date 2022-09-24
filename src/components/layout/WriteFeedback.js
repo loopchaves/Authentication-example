@@ -7,7 +7,8 @@ import FormBase from './FormBase';
 
 import language from '../../lang/lang.json';
 
-const WriteFeedback = ({ lang, uid, name, sendFeedback, handlerFeedbacks }) => {
+
+const WriteFeedback = ({ lang, uid, name, sendFeedback, handlerNewFeedback }) => {
   const validationSchema = Yup.object({
     feedback: Yup.string().required(lang.inputError.required)
   });
@@ -16,7 +17,7 @@ const WriteFeedback = ({ lang, uid, name, sendFeedback, handlerFeedbacks }) => {
     sendFeedback({ ...values, uid: uid, name: name }).then((action) => {
       if (action.payload) {
         resetForm();
-        handlerFeedbacks(action.payload);
+        handlerNewFeedback(action.payload);
       }
     });
   }

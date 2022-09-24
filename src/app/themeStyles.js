@@ -5,6 +5,7 @@ const tags = {
     '--border-color',
     '--text-color',
     '--text-color-msg',
+    '--text-color-button',
     '--forgot-password-color',
     '--forgot-password-color-hover',
     '--error-color',
@@ -12,7 +13,10 @@ const tags = {
     '--notice-color',
     '--notice-bg-color',
     '--tab-unselected-color',
-    '--tab-unselected-bg-color'
+    '--tab-unselected-bg-color',
+    '--button-submit-color',
+    '--button-action-color',
+    '--button-shadow'
   ],
   ftype: '--font-family',
   fsize: [
@@ -24,9 +28,9 @@ const tags = {
 
 const themeStyles = {
   color: {
-    light: ['#fff', '#ccc', '#ddd', '#333', null, '#255', null, null, null, null, null, null, '#aaa'],
-    dark: ['#111', '#111', '#eee', '#eee', null, '#11f', null, null, null, null, null, null, '#333'],
-    crazy: ['#c00', '#1f1', '#11f', '#00d', '#f5f', '#000', '#f11', '#ff0', '#fff', '#11f', '#fff', '#dd0', '#f5f']
+    light: ['#fff', '#ccc', '#ddd', '#333', null, '#333', '#255', null, null, null, null, null, null, '#aaa', '#aaf', '#faa', null],
+    dark: ['#111', '#111', '#eee', '#eee', null, null, '#11f', null, null, null, null, null, null, '#333', '#22f', '#f62', '#ddd'],
+    crazy: ['#c00', '#1f1', '#11f', '#00d', '#f5f', '#fa6', '#000', '#f11', '#ff0', '#fff', '#11f', '#fff', '#dd0', '#f5f', '#f3f', '#ff0', '#f00']
   },
   fsize: {
     small: ['0.85rem', '1rem', '0.8rem'],

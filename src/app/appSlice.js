@@ -10,9 +10,9 @@ import {
   handlerTrySendPasswordResetEmail,
   handlerTryEditUser,
   handlerSaveStyle,
-  handlerGetStyle,
   handlerSendFeedback,
-  handlerGetFeedbacks
+  handlerGetFeedbacks,
+  handlerDeleteFeedback
 } from "./appModel";
 import changeStyle from "./themeStyles";
 
@@ -43,9 +43,9 @@ const submitForm = (state) => {
   state.loading = true;
 }
 
-const changeUser = (state, action, notice) => {
-  state.user = action.payload;
-  if (!action.payload) {
+const changeUser = (state, user, notice) => {
+  state.user = user;
+  if (!user) {
     state.style = { color: null, ftype: null, fsize: null }
     changeStyle();
     state.loading = false;
@@ -66,69 +66,58 @@ export const appSlice = createSlice({
     builder
       .addCase(verifyUser.fulfilled, (state, action) => {
         if (!action.payload) state.loading = false;
-        changeUser(state, action, null);
+        if (action.payload?.style) {
+          state.style = action.payload.style;
+          changeStyle(action.payload.style);
+        }
+        changeUser(state, action.payload?.user, null);
       })
 
       .addCase(verifyPasswordCode.fulfilled, (state) => { state.loading = false })
-      .addCase(verifyPasswordCode.rejected, (state, action) => { showError(state, action) })
+      .addCase(verifyPasswordCode.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(verifyEmailCode.fulfilled, (state) => { state.alert = { msg: 'emailVerified', type: 'notice' } })
-      .addCase(verifyEmailCode.rejected, (state, action) => { showError(state, action) })
+      .addCase(verifyEmailCode.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(tryLogin.pending, (state) => { submitForm(state) })
-      .addCase(tryLogin.fulfilled, (state, action) => { changeUser(state, action, null) })
-      .addCase(tryLogin.rejected, (state, action) => { showError(state, action) })
+      .addCase(tryLogin.fulfilled, (state, action) => { changeUser(state, action.payload, null) })
+      .addCase(tryLogin.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(tryLogout.pending, (state) => { submitForm(state) })
-      .addCase(tryLogout.fulfilled, (state, action) => { changeUser(state, action, null) })
-      .addCase(tryLogout.rejected, (state, action) => { showError(state, action) })
+      .addCase(tryLogout.fulfilled, (state, action) => { changeUser(state, action.payload, null) })
+      .addCase(tryLogout.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(trySignup.pending, (state) => { submitForm(state) })
-      .addCase(trySignup.fulfilled, (state, action) => { changeUser(state, action, null) })
-      .addCase(trySignup.rejected, (state, action) => { showError(state, action) })
+      .addCase(trySignup.fulfilled, (state, action) => { changeUser(state, action.payload, null) })
+      .addCase(trySignup.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(tryPasswordReset.pending, (state) => { submitForm(state) })
-      .addCase(tryPasswordReset.fulfilled, (state, action) => { changeUser(state, action, 'updatePassword') })
-      .addCase(tryPasswordReset.rejected, (state, action) => { showError(state, action) })
+      .addCase(tryPasswordReset.fulfilled, (state, action) => { changeUser(state, action.payload, 'updatePassword') })
+      .addCase(tryPasswordReset.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(trySendPasswordResetEmail.pending, (state) => { submitForm(state) })
       .addCase(trySendPasswordResetEmail.fulfilled, (state) => { showNotice(state, 'verifyYourEmail'); })
-      .addCase(trySendPasswordResetEmail.rejected, (state, action) => { showError(state, action) })
+      .addCase(trySendPasswordResetEmail.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(tryEditUser.pending, (state) => { submitForm(state) })
-      .addCase(tryEditUser.fulfilled, (state, action) => { changeUser(state, action, 'profileEdited') })
-      .addCase(tryEditUser.rejected, (state, action) => { showError(state, action) })
+      .addCase(tryEditUser.fulfilled, (state, action) => { changeUser(state, action.payload, 'profileEdited') })
+      .addCase(tryEditUser.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(saveStyle.pending, (state) => { state.loading = true })
-      .addCase(saveStyle.fulfilled, (state, action) => {
-        state.style = action.payload;
-        showNotice(state, 'styleSaved')
-      })
-      .addCase(saveStyle.rejected, (state, action) => { showError(state, action) })
+      .addCase(saveStyle.fulfilled, (state) => { showNotice(state, 'styleSaved') })
+      .addCase(saveStyle.rejected, (state) => { showError(state, 'errorDB') })
 
-      .addCase(getStyle.pending, (state) => { state.loading = true })
-      .addCase(getStyle.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.style = action.payload;
-          changeStyle(action.payload);
-        }
-        state.loading = false;
-      })
-      .addCase(getStyle.rejected, (state, action) => { showError(state, action) })
-
-      .addCase(sendFeedback.pending, (state) => { state.loading = true })    // Mostrar um notice quando concluir
-      .addCase(sendFeedback.fulfilled, (state) => { state.loading = false }) // Isso vai sair pq quando tiver a função de carregar os feedbacks o loading vai ser fechado nela
-      .addCase(sendFeedback.rejected, (state, action) => {
-        console.log(action.error);
-        showError(state, action);
-      })
+      .addCase(sendFeedback.pending, (state) => { state.loading = true })
+      .addCase(sendFeedback.fulfilled, (state) => { showNotice(state, 'feedbackSent') })
+      .addCase(sendFeedback.rejected, (state) => { showError(state, 'errorDB') })
 
       .addCase(getFeedbacks.pending, (state) => { state.loading = true })
       .addCase(getFeedbacks.fulfilled, (state) => { state.loading = false })
-      .addCase(getFeedbacks.rejected, (state, action) => {
-        console.log(action.error);
-        showError(state, action);
-      })
+      .addCase(getFeedbacks.rejected, (state) => { showError(state, 'errorDB') })
+
+      .addCase(deleteFeedback.pending, (state) => { state.loading = true })
+      .addCase(deleteFeedback.fulfilled, (state, action) => {showNotice(state, 'feedbackRemoved')})
+      .addCase(deleteFeedback.rejected, (state) => {showError(state, 'errorDB')})
   }
 });
 
@@ -146,10 +135,10 @@ export const trySendPasswordResetEmail = createAsyncThunk('app/trySendPasswordRe
 export const tryEditUser = createAsyncThunk('app/tryEditUser', (values) => handlerTryEditUser(values));
 
 export const saveStyle = createAsyncThunk('app/saveStyle', (values) => handlerSaveStyle(values));
-export const getStyle = createAsyncThunk('app/getStyle', (uid) => handlerGetStyle(uid));
 
 export const sendFeedback = createAsyncThunk('app/sendFeedback', (values) => handlerSendFeedback(values));
 export const getFeedbacks = createAsyncThunk('app/getFeedback', () => handlerGetFeedbacks());
+export const deleteFeedback = createAsyncThunk('app/deleteFeedback', (id) => handlerDeleteFeedback(id));
 
 export const getLoading = (state) => state.app.loading;
 

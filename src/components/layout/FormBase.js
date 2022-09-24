@@ -6,6 +6,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 import styles from './styles/FormBase.module.sass';
 
+
 const FormBase = ({
   hl,
   loading,
@@ -48,10 +49,22 @@ const FormBase = ({
         <div className={styles.container}>
           {children}
           <div className={styles.buttons}>
-            <button type='submit' disabled={loading}>{buttonSubmit}</button>
             {buttonAction ? (
-              <button onClick={() => buttonAction.action()} disabled={loading}>{buttonAction.label}</button>
+              <button
+                onClick={() => buttonAction.action()}
+                disabled={loading}
+                className={styles.action}
+              >
+                {buttonAction.label}
+              </button>
             ) : null}
+            <button
+              type='submit'
+              disabled={loading}
+              className={styles.submit}
+            >
+              {buttonSubmit}
+            </button>
           </div>
           {recaptcha &&
             <div className={styles.recaptcha}>

@@ -4,11 +4,11 @@ import {
   collection,
   addDoc,
   setDoc,
-  // deleteDoc,
   getDoc,
   getDocs,
   updateDoc,
-  deleteField
+  deleteField,
+  deleteDoc
 } from "firebase/firestore";
 import {
   onAuthStateChanged,
@@ -27,8 +27,6 @@ import {
   updatePassword
 } from "firebase/auth";
 
-import Feedback from "../components/layout/Feedback";
-
 const userPattern = (currentUser) => {
   return {
     uid: currentUser.uid,
@@ -41,12 +39,19 @@ const userPattern = (currentUser) => {
 }
 
 export const handlerVerifyUser = async () => {
-  const user = await new Promise((resolve) => {
-    onAuthStateChanged(auth, (currentUser) => {
-      currentUser ? resolve(userPattern(currentUser)) : resolve(null);
+  return await new Promise((resolve) => {
+    onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const style = await getDoc(doc(db, 'users', currentUser.uid));
+        resolve({
+          user: userPattern(currentUser),
+          style: style.data().style
+        })
+      } else {
+        resolve(null);
+      }
     });
   });
-  return user;
 }
 
 export const handlerVerifyPasswordCode = async (actionCode) => {
@@ -121,23 +126,18 @@ export const handlerSaveStyle = async (values) => {
   return values.style;
 }
 
-export const handlerGetStyle = async (uid) => {
-  const user = await getDoc(doc(db, 'users', uid));
-  return user.data().style;
-}
-
 export const handlerSendFeedback = async (values) => {
   const feedback = {
     user: values.uid,
     date: new Date().getTime(),
     feedback: values.feedback
   }
-  await addDoc(collection(db, 'feedbacks'), feedback);
-  return <Feedback
-    name={values.name}
-    date={feedback.date}
-    feedback={feedback.feedback}
-  />
+  const docRef = await addDoc(collection(db, 'feedbacks'), feedback);
+  return {
+    ...feedback,
+    name: values.name,
+    id: docRef.id
+  }
 }
 
 export const handlerGetFeedbacks = async () => {
@@ -148,23 +148,19 @@ export const handlerGetFeedbacks = async () => {
     users.forEach((user) => uids = { ...uids, [user.id]: user.data().name });
     feedbacks.forEach((feedback) => {
       arrObj.push({
+        id: feedback.id,
+        user: feedback.data().user,
         name: uids[feedback.data().user],
         date: feedback.data().date,
         feedback: feedback.data().feedback
       });
     });
-    console.log(uids);
-    console.log(arrObj.sort((a, b) => a.date - b.date));
     return arrObj
       .sort((a, b) => a.date - b.date)
-      .map((obj, i) => {
-        return <Feedback
-          key={i}
-          name={obj.name}
-          date={obj.date}
-          feedback={obj.feedback}
-        />
-      })
       .reverse();
   }
+}
+
+export const handlerDeleteFeedback = async (id) => {
+  await deleteDoc(doc(db, 'feedbacks', id));
 }

@@ -5,6 +5,7 @@ import UserTab from './UserTab';
 import styles from './styles/UserTabBar.module.sass';
 import language from '../../lang/lang.json';
 
+
 const TabBar = ({ lang, handlerClick, selected }) => {
   return (
     <div className={styles.tabBar}>

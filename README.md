@@ -1,23 +1,21 @@
-# Authentication example
+# Projeto de autenticação de usuário
 
-[Try it](https://authentication-example-tau.vercel.app/)
+Esse projeto consiste em criar um sistema para cadastro e autenticação de usuário usando e-mail e senha.
+
+### [Link para testar](https://authentication-example-tau.vercel.app/)
 
 ## Features
 
-- Text based in device language (Portuguese and English)
-- Login with email and password
-- Sign up form
-- Reset password
-- Email verification
-- Edit user data
-- Edit theme (color, font type and font size)
+- Idioma de acordo com configuração do navegador (Português ou Inglês)
+- Login usando e-mail e senha com Firebase Authentication
+- Formulário de cadastro
+- Recuperação de senha
+- Verificação de e-mail
+- Formulario para editar informções do usuário (nome, e-mail e senha)
+- Editar aparência do site (cor, tipo e tamanho da fonte)
 - reCAPTCHA v2
 
-## TODO
-
-- Delete user
-
-## Tools used
+## Ferramentas usadas no projeto
 
 - ReactJS
   - Formik
@@ -26,4 +24,4 @@
   - Sass
 - Firebase Authentication
 - Firestore Database
-- Vercel hosting
+- Hospedagem Vercel

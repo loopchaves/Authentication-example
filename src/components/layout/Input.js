@@ -54,6 +54,7 @@ export const Name = ({ label, ...props }) => {
         maxLength='40'
         type='text'
         autoCapitalize='words'
+        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
         disabled={loading}
         {...hideKeyboard}
         {...field}
@@ -82,6 +83,7 @@ export const Email = ({ label, ...props }) => {
         autoCapitalize='none'
         spellCheck={false}
         inputMode='email'
+        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
         disabled={loading}
         {...hideKeyboard}
         {...field}
@@ -109,6 +111,7 @@ export const Password = ({ label, ...props }) => {
         type='password'
         autoCapitalize='none'
         spellCheck={false}
+        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
         disabled={loading}
         {...hideKeyboard}
         {...field}

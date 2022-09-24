@@ -11,13 +11,16 @@ import Loading from './components/layout/Loading';
 import AlertMsg from './components/layout/AlertMsg';
 
 import styles from './styles/App.module.sass';
+import language from './lang/lang.json';
 
 
 const App = ({ loading, alert, setLanguage }) => {
   useLayoutEffect(() => {
     auth.useDeviceLanguage();
-    if (auth.languageCode.substring(0, 2) === 'pt')
+    if (auth.languageCode.substring(0, 2) === 'pt') {
       setLanguage('pt');
+      document.title = language.pt.text.title;
+    }
   }, [setLanguage]);
 
   return (

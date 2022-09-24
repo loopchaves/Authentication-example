@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { saveStyle } from '../../app/appSlice';
+import { saveStyle, setStyle } from '../../app/appSlice';
 
 import { Select } from '../layout/Input';
 
@@ -9,7 +9,7 @@ import language from '../../lang/lang.json';
 import changeStyle from '../../app/themeStyles';
 
 
-const UserConfig = ({ lang, uid, style, saveStyle }) => {
+const UserConfig = ({ lang, uid, style, saveStyle, setStyle }) => {
   const [temp, setTemp] = useState(style);
   const [saved, setSaved] = useState(false);
 
@@ -23,7 +23,10 @@ const UserConfig = ({ lang, uid, style, saveStyle }) => {
   const save = () => {
     if (!saved)
       saveStyle({ uid: uid, style: temp }).then((action) => {
-        if (!action.error) setSaved(true);
+        if (!action.error) {
+          setStyle(temp);
+          setSaved(true);
+        }
       });
   }
 
@@ -83,6 +86,6 @@ const mapState = (state) => ({
   style: state.app.style
 })
 
-const mapDispatch = { saveStyle }
+const mapDispatch = { saveStyle, setStyle }
 
 export default connect(mapState, mapDispatch)(UserConfig);

@@ -7,6 +7,7 @@ import FormBase from '../layout/FormBase';
 
 import language from '../../lang/lang.json';
 
+
 const EditUser = ({ lang, user, tryEditUser, setLoading, setAlert }) => {
   const initialValues = {
     name: user.name,
@@ -47,19 +48,19 @@ const EditUser = ({ lang, user, tryEditUser, setLoading, setAlert }) => {
   }
 
   return (
-      <FormBase
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={submit}
-        buttonSubmit={lang.text.buttonSave}
-        recaptcha={true}
-      >
-        <Name label={lang.text.labelName} name='name' autoComplete='name' />
-        <Email label={lang.text.labelEmail} name='email' autoComplete='email' />
-        <Password label={lang.text.labelNewPassword} name='newPassword' autoComplete='new-password' />
-        <Password label={lang.text.labelConfirmNewPassword} name='confirmNewPassword' autoComplete='new-password' />
-        <Password label={lang.text.labelCurrentPassword} name='password' autoComplete='current-password' />
-      </FormBase>
+    <FormBase
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={submit}
+      buttonSubmit={lang.text.buttonSave}
+      recaptcha={true}
+    >
+      <Name label={lang.text.labelName} name='name' autoComplete='name' />
+      <Email label={lang.text.labelEmail} name='email' autoComplete='email' />
+      <Password label={lang.text.labelNewPassword} name='newPassword' autoComplete='new-password' />
+      <Password label={lang.text.labelConfirmNewPassword} name='confirmNewPassword' autoComplete='new-password' />
+      <Password label={lang.text.labelCurrentPassword} name='password' autoComplete='current-password' />
+    </FormBase>
   );
 }
 
