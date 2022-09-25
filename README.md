@@ -13,7 +13,7 @@ Esse projeto consiste em criar um sistema para cadastro e autenticação de usu�
 - Verificação de e-mail
 - Formulario para editar informções do usuário (nome, e-mail e senha)
 - Editar aparência do site (cor, tipo e tamanho da fonte)
-- reCAPTCHA v2
+- reCAPTCHA v3
 
 ## Ferramentas usadas no projeto
 
@@ -22,6 +22,7 @@ Esse projeto consiste em criar um sistema para cadastro e autenticação de usu�
   - Yup
   - Redux
   - Sass
+- Firebase App Check
 - Firebase Authentication
 - Firestore Database
 - Hospedagem Vercel

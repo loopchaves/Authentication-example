@@ -28,9 +28,9 @@ const initialState = {
   user: null
 }
 
-const showError = (state, action) => {
+const showError = (state, error) => {
   state.loading = false;
-  state.alert = { msg: action.error.code, type: 'error' }
+  state.alert = { msg: error, type: 'error' }
 }
 
 const showNotice = (state, notice) => {
@@ -116,8 +116,8 @@ export const appSlice = createSlice({
       .addCase(getFeedbacks.rejected, (state) => { showError(state, 'errorDB') })
 
       .addCase(deleteFeedback.pending, (state) => { state.loading = true })
-      .addCase(deleteFeedback.fulfilled, (state, action) => {showNotice(state, 'feedbackRemoved')})
-      .addCase(deleteFeedback.rejected, (state) => {showError(state, 'errorDB')})
+      .addCase(deleteFeedback.fulfilled, (state) => { showNotice(state, 'feedbackRemoved') })
+      .addCase(deleteFeedback.rejected, (state) => { showError(state, 'errorDB') })
   }
 });
 

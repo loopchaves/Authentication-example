@@ -61,7 +61,6 @@ const Signup = ({ lang, trySignup, setLoading, setAlert }) => {
       onSubmit={submit}
       buttonSubmit={lang.text.buttonRegister}
       buttonAction={buttonAction}
-      recaptcha={true}
     >
       <Name label={lang.text.labelName} name='name' autoComplete='name' />
       <Email label={lang.text.labelEmail} name='email' autoComplete='email' />

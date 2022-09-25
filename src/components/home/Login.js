@@ -50,7 +50,6 @@ const Login = ({ lang, tryLogin, setAlert }) => {
           onSubmit={submit}
           buttonSubmit={lang.text.buttonLogin}
           buttonAction={buttonAction}
-          recaptcha={true}
         >
           <Email label={lang.text.labelEmail} name='email' autoComplete='username' />
           <Password label={lang.text.labelPassword} name='password' autoComplete='current-password' />

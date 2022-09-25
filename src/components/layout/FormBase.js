@@ -1,41 +1,42 @@
-import { useState, createRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { appCheck } from '../../app/firebaseCfg';
+import { getToken } from 'firebase/app-check';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import { setAlert } from '../../app/appSlice';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 import styles from './styles/FormBase.module.sass';
 
 
 const FormBase = ({
-  hl,
   loading,
-  theme,
   setAlert,
   children,
   initialValues,
   validationSchema,
   onSubmit,
   buttonSubmit,
-  buttonAction,
-  recaptcha
+  buttonAction
 }) => {
-  const recaptchaRef = createRef();
-  const [token, setToken] = useState(!recaptcha);
+  const [token, setToken] = useState('');
 
   const submit = (values, setSubmitting, resetForm) => {
     setSubmitting(false);
-    if (token || !recaptcha) {
-      if (recaptcha) recaptchaRef.current.reset();
+    if (token) {
       onSubmit(values, resetForm);
     } else {
       setAlert({ msg: 'recaptcha', type: 'error' })
     }
   }
 
-  const onChange = (value) => {
-    if (value) setToken(true);
-  }
+  const handlerToken = useCallback(async () => {
+    const result = await getToken(appCheck);
+    setToken(result?.token);
+  }, []);
+
+  useEffect(() => {
+    handlerToken();
+  }, [handlerToken]);
 
   return (
     <Formik
@@ -66,17 +67,6 @@ const FormBase = ({
               {buttonSubmit}
             </button>
           </div>
-          {recaptcha &&
-            <div className={styles.recaptcha}>
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.REACT_APP_RECAPTCHA}
-                onChange={onChange}
-                hl={hl}
-                theme={theme}
-              />
-            </div>
-          }
         </div>
       </Form>
     </Formik>
@@ -84,9 +74,7 @@ const FormBase = ({
 }
 
 const mapState = (state) => ({
-  hl: state.app.language,
-  loading: state.app.loading,
-  theme: state.app.style.color === 'dark' ? 'dark' : 'light'
+  loading: state.app.loading
 })
 
 const mapDispatch = { setAlert }

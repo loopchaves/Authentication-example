@@ -20,6 +20,7 @@ const App = ({ loading, alert, setLanguage }) => {
     if (auth.languageCode.substring(0, 2) === 'pt') {
       setLanguage('pt');
       document.title = language.pt.text.title;
+      document.getElementById('html').setAttribute('lang', 'pt');
     }
   }, [setLanguage]);
 
