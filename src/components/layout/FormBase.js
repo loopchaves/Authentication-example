@@ -34,6 +34,21 @@ const FormBase = ({
     setToken(result?.token);
   }, []);
 
+  const handlerSubmitOnEnter = async (e, validateForm, setErrors, submitForm) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const errors = await validateForm();
+      if (Object.keys(errors).length === 0) {
+        console.log('submitting');
+        setErrors(errors);
+        submitForm();
+      } else {
+        console.log(errors);
+        setErrors(errors);
+      }
+    }
+  }
+
   useEffect(() => {
     handlerToken();
   }, [handlerToken]);
@@ -46,29 +61,31 @@ const FormBase = ({
       validateOnBlur={false}
       validateOnChange={false}
     >
-      <Form>
-        <div className={styles.container}>
-          {children}
-          <div className={styles.buttons}>
-            {buttonAction ? (
+      {(formik) =>
+        <Form onKeyDown={(e) => handlerSubmitOnEnter(e, formik.validateForm, formik.setErrors, formik.submitForm)}>
+          <div className={styles.container}>
+            {children}
+            <div className={styles.buttons}>
+              {buttonAction ? (
+                <button
+                  onClick={() => buttonAction.action()}
+                  disabled={loading}
+                  className={styles.action}
+                >
+                  {buttonAction.label}
+                </button>
+              ) : null}
               <button
-                onClick={() => buttonAction.action()}
+                type='submit'
                 disabled={loading}
-                className={styles.action}
+                className={styles.submit}
               >
-                {buttonAction.label}
+                {buttonSubmit}
               </button>
-            ) : null}
-            <button
-              type='submit'
-              disabled={loading}
-              className={styles.submit}
-            >
-              {buttonSubmit}
-            </button>
+            </div>
           </div>
-        </div>
-      </Form>
+        </Form>
+      }
     </Formik>
   );
 }

@@ -33,7 +33,7 @@ export const TextArea = ({ label, ...props }) => {
         {...field}
         {...props}
       ></textarea>
-      {meta.touched && meta.error ? (
+      {meta.error ? (
         <div className={styles.errorInput}>{meta.error}</div>
       ) : null}
     </div>
@@ -54,13 +54,12 @@ export const Name = ({ label, ...props }) => {
         maxLength='40'
         type='text'
         autoCapitalize='words'
-        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
         disabled={loading}
         {...hideKeyboard}
         {...field}
         {...props}
       />
-      {meta.touched && meta.error ? (
+      {meta.error ? (
         <div className={styles.errorInput}>{meta.error}</div>
       ) : null}
     </div>
@@ -83,13 +82,12 @@ export const Email = ({ label, ...props }) => {
         autoCapitalize='none'
         spellCheck={false}
         inputMode='email'
-        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
         disabled={loading}
         {...hideKeyboard}
         {...field}
         {...props}
       />
-      {meta.touched && meta.error ? (
+      {meta.error ? (
         <div className={styles.errorInput}>{meta.error}</div>
       ) : null}
     </div>
@@ -111,13 +109,12 @@ export const Password = ({ label, ...props }) => {
         type='password'
         autoCapitalize='none'
         spellCheck={false}
-        onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
         disabled={loading}
         {...hideKeyboard}
         {...field}
         {...props}
       />
-      {meta.touched && meta.error ? (
+      {meta.error ? (
         <div className={styles.errorInput}>{meta.error}</div>
       ) : null}
     </div>
