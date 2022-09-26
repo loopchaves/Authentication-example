@@ -66,7 +66,11 @@ export const handlerVerifyEmailCode = async (actionCode) => {
 
 export const handlerTryLogin = async (values) => {
   const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
-  return userPattern(userCredential.user);
+  const style = await getDoc(doc(db, 'users', userCredential.user.uid));
+  return {
+    user: userPattern(userCredential.user),
+    style: style.exists() ? style.data().style : null
+  }
 }
 
 export const handlerTryLogout = async () => {

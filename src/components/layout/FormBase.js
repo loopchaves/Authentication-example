@@ -39,11 +39,9 @@ const FormBase = ({
       e.preventDefault();
       const errors = await validateForm();
       if (Object.keys(errors).length === 0) {
-        console.log('submitting');
         setErrors(errors);
         submitForm();
       } else {
-        console.log(errors);
         setErrors(errors);
       }
     }

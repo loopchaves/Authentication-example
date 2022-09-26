@@ -80,7 +80,13 @@ export const appSlice = createSlice({
       .addCase(verifyEmailCode.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(tryLogin.pending, (state) => { submitForm(state) })
-      .addCase(tryLogin.fulfilled, (state, action) => { changeUser(state, action.payload, null) })
+      .addCase(tryLogin.fulfilled, (state, action) => {
+        if (action.payload?.style) {
+          state.style = action.payload.style;
+          changeStyle(action.payload.style);
+        }
+        changeUser(state, action.payload.user, null);
+      })
       .addCase(tryLogin.rejected, (state, action) => { showError(state, action.error.code) })
 
       .addCase(tryLogout.pending, (state) => { submitForm(state) })
