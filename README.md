@@ -11,8 +11,8 @@ Esse projeto consiste em criar um sistema para cadastro e autenticação de usu�
 - Formulário de cadastro
 - Recuperação de senha
 - Verificação de e-mail
-- Formulario para editar informções do usuário (nome, e-mail e senha)
-- Editar aparência do site (cor, tipo e tamanho da fonte)
+- Formulário para editar informações do usuário (nome, e-mail e senha)
+- Editar aparência do site (cores, tipo e tamanho da fonte)
 - reCAPTCHA v3
 
 ## Ferramentas usadas no projeto
