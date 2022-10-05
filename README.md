@@ -2,7 +2,7 @@
 
 Esse projeto consiste em criar um sistema para cadastro e autenticação de usuário usando e-mail e senha.
 
-### [Link do projeto](https://authentication-example-tau.vercel.app/)
+### [Link do projeto](https://login-com-firebase.vercel.app/)
 
 ## Features
 
